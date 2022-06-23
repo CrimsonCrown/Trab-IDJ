@@ -4,7 +4,10 @@
 #include <iostream>
 #include <string>
 
-class State{};
+class State{
+public:
+	int data;
+};
 
 class Game{
 public:
@@ -13,8 +16,8 @@ public:
 	SDL_Renderer* GetRenderer();
 	State& GetState();
 	static Game& GetInstance();
-	Game();
 private:
+	Game(std::string title, int width, int height);
 	static Game* instance;
 	SDL_Window* window;
 	SDL_Renderer* renderer;

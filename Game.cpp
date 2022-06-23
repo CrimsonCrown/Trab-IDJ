@@ -4,22 +4,23 @@
 
 #include "Game.h"
 
+Game* Game::instance;
 
-static Game& Game::GetInstance(){
-	if(instance!=nullptr){
-		return *instance;
+Game& Game::GetInstance(){
+	if(Game::instance!=nullptr){
+		return *Game::instance;
 	}
-	instance=new Game;
-	return *instance;
+	Game::instance=new Game("hello",1920,1080);
+	return *Game::instance;
 }
 
-Game::Game(string title, int width, int height){
-	if(instance!=nullptr){
-		return 0;
+Game::Game(std::string title, int width, int height){
+	if(Game::instance!=nullptr){
+		return;
 	}
-	instance = this;
+	Game::instance = this;
 	int error=SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_TIMER);
 	if(error!=0){
-		cout << SDL_GetError();
+		std::cout << SDL_GetError();
 	}
 }
