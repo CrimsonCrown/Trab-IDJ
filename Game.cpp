@@ -52,4 +52,31 @@ Game::Game(const char* title, int width, int height){
 	if(renderer==nullptr){
 		std::cout << SDL_GetError();
 	}
+
+	//TODO: inicializar state
+	//state=new State;
+}
+
+Game::~Game(){
+	//TODO: deletar state
+	//delete state;
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	Mix_CloseAudio();
+	Mix_Quit();
+	IMG_Quit();
+	SDL_Quit();
+	//std::cout << "Destroyed game instance\n";
+}
+
+State& Game::GetState(){
+	return *state;
+}
+
+SDL_Renderer* Game::GetRenderer(){
+	return renderer;
+}
+
+void Game::Run(){
+	return;
 }
