@@ -48,8 +48,7 @@ Game::Game(const char* title, int width, int height){
 		std::cout << SDL_GetError();
 	}
 	//renderer
-	std::cout << SDL_GetNumRenderDrivers();
-	renderer=SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE|SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
+	renderer=SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if(renderer==nullptr){
 		std::cout << SDL_GetError();
 	}
