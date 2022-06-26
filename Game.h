@@ -4,10 +4,7 @@
 #include <iostream>
 #include <string>
 
-class State{
-public:
-	int data;
-};
+#include "State.h"
 
 class Game{
 public:
