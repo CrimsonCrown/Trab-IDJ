@@ -14,13 +14,43 @@ Game& Game::GetInstance(){
 	return *Game::instance;
 }
 
-Game::Game(std::string title, int width, int height){
+Game::Game(const char* title, int width, int height){
 	if(Game::instance!=nullptr){
 		return;
 	}
 	Game::instance = this;
+	//inits
 	int error=SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_TIMER);
 	if(error!=0){
+		std::cout << SDL_GetError();
+	}
+	error=IMG_Init(IMG_INIT_JPG|IMG_INIT_PNG|IMG_INIT_TIF);
+	if(error!=(IMG_INIT_JPG|IMG_INIT_PNG|IMG_INIT_TIF)){
+		std::cout << SDL_GetError();
+		std::cout << "IMG_Init fail\n";
+	}
+	error=Mix_Init(MIX_INIT_FLAC|MIX_INIT_OGG|MIX_INIT_MP3|MIX_INIT_MOD);
+	if(error!=(MIX_INIT_FLAC|MIX_INIT_OGG|MIX_INIT_MP3|MIX_INIT_MOD)){
+		std::cout << SDL_GetError();
+		std::cout << "Mix_Init fail\n";
+	}
+	error=Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
+	if(error!=0){
+		std::cout << SDL_GetError();
+	}
+	error=Mix_AllocateChannels(32);
+	if(error!=0){
+		std::cout << SDL_GetError();
+	}
+	//janela
+	window=SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+	if(window==nullptr){
+		std::cout << SDL_GetError();
+	}
+	//renderer
+	std::cout << SDL_GetNumRenderDrivers();
+	renderer=SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE|SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
+	if(renderer==nullptr){
 		std::cout << SDL_GetError();
 	}
 }
