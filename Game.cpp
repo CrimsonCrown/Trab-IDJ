@@ -10,7 +10,7 @@ Game& Game::GetInstance(){
 	if(Game::instance!=nullptr){
 		return *Game::instance;
 	}
-	Game::instance=new Game("hello",1920,1080);
+	Game::instance=new Game("hello",960,540);
 	return *Game::instance;
 }
 
@@ -52,14 +52,12 @@ Game::Game(const char* title, int width, int height){
 	if(renderer==nullptr){
 		std::cout << SDL_GetError();
 	}
-
-	//TODO: inicializar state
-	//state=new State;
+	//state
+	state=new State;
 }
 
 Game::~Game(){
-	//TODO: deletar state
-	//delete state;
+	delete state;
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	Mix_CloseAudio();
@@ -78,5 +76,12 @@ SDL_Renderer* Game::GetRenderer(){
 }
 
 void Game::Run(){
+	while(state->QuitRequested()==false){
+		//std::cout << "in game debug\n";
+		state->Update(0);
+		state->Render();
+		SDL_RenderPresent(renderer);
+		SDL_Delay(33);
+	}
 	return;
 }
