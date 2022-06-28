@@ -8,11 +8,7 @@
 #include <string>
 
 #include "Sprite.h"
-
-class Music{
-public:
-	int data;
-};
+#include "Music.h"
 
 class State{
 public:
