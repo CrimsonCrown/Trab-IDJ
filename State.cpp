@@ -6,6 +6,7 @@
 
 State::State(){
 	quitRequested=false;
+	LoadAssets();
 	return;
 }
 
@@ -14,7 +15,7 @@ bool State::QuitRequested(){
 }
 
 void State::LoadAssets(){
-	//TODO: Load Anything
+	bg.Open("Recursos/img/ocean.jpg");
 	return;
 }
 
@@ -26,6 +27,6 @@ void State::Update(float dt){
 }
 
 void State::Render(){
-	bg.Render();
+	bg.Render(0,0);
 	return;
 }

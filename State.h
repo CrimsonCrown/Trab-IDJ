@@ -1,8 +1,13 @@
-class Sprite{
-public:
-	int data;
-	void Render(){}
-};
+#ifndef STATE_INCLUDE
+#define STATE_INCLUDE
+
+#define INCLUDE_SDL
+#include "SDL_include.h"
+
+#include <iostream>
+#include <string>
+
+#include "Sprite.h"
 
 class Music{
 public:
@@ -21,3 +26,5 @@ private:
 	Music music;
 	bool quitRequested;
 };
+
+#endif
