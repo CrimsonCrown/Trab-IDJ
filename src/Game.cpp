@@ -10,7 +10,7 @@ Game& Game::GetInstance(){
 	if(Game::instance!=nullptr){
 		return *Game::instance;
 	}
-	Game::instance=new Game("hello",960,540);
+	Game::instance=new Game("Arthur_Da_Silveira_Couto_160002575",1024,600);
 	return *Game::instance;
 }
 
