@@ -16,7 +16,8 @@ bool State::QuitRequested(){
 }
 
 void State::LoadAssets(){
-	bg.Open("Recursos/img/ocean.jpg");
+	Sprite* newspr=new Sprite(bg,"Recursos/img/ocean.jpg");
+	bg.AddComponent(newspr);
 	music.Open("Recursos/audio/stageState.ogg");
 	return;
 }
@@ -29,6 +30,6 @@ void State::Update(float dt){
 }
 
 void State::Render(){
-	bg.Render(0,0);
+	bg.Render();
 	return;
 }

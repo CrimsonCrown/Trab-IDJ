@@ -9,6 +9,7 @@
 
 #include "Sprite.h"
 #include "Music.h"
+#include "GameObject.h"
 
 class State{
 public:
@@ -18,7 +19,7 @@ public:
 	void Update(float dt);
 	void Render();
 private:
-	Sprite bg;
+	GameObject bg;
 	Music music;
 	bool quitRequested;
 };

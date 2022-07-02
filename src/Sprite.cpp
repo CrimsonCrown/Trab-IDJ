@@ -5,12 +5,12 @@
 #include "Sprite.h"
 #include "Game.h"
 
-Sprite::Sprite(){
+Sprite::Sprite(GameObject& associated) : Component(associated){
 	texture=nullptr;
 	return;
 }
 
-Sprite::Sprite(const char* file){
+Sprite::Sprite(GameObject& associated, const char* file) : Component(associated){
 	texture=nullptr;
 	Open(file);
 	return;
@@ -32,6 +32,8 @@ void Sprite::Open(const char* file){
 		std::cout << SDL_GetError();
 	}
 	SDL_QueryTexture(texture,nullptr,nullptr,&width,&height);
+	associated.box.w=width;
+	associated.box.h=height;
 	SetClip(0,0,width,height);
 	return;
 }
@@ -44,12 +46,14 @@ void Sprite::SetClip(int x, int y, int w, int h){
 	return;
 }
 
-void Sprite::Render(int x, int y){
+void Sprite::Render(){
+	Rect box;
+	box=associated.box;
 	SDL_Rect dstrect;
-	dstrect.x=x;
-	dstrect.y=y;
-	dstrect.w=width;
-	dstrect.h=height;
+	dstrect.x=box.x;
+	dstrect.y=box.y;
+	dstrect.w=box.w;
+	dstrect.h=box.h;
 	SDL_RenderCopy(Game::GetInstance().GetRenderer(),texture,&clipRect,&dstrect);
 	return;
 }
@@ -64,6 +68,13 @@ int Sprite::GetHeight(){
 
 bool Sprite::IsOpen(){
 	if(texture!=nullptr){
+		return true;
+	}
+	return false;
+}
+
+bool Sprite::Is(std::string type){
+	if(type=="Sprite"){
 		return true;
 	}
 	return false;

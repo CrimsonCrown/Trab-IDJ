@@ -7,17 +7,22 @@
 #include <iostream>
 #include <string>
 
-class Sprite{
+#include "Component.h"
+#include "GameObject.h"
+
+class Sprite : public Component{
 public:
-	Sprite();
-	Sprite(const char* file);
+	Sprite(GameObject& associated);
+	Sprite(GameObject& associated, const char* file);
 	~Sprite();
 	void Open(const char* file);
 	void SetClip(int x, int y, int w, int h);
-	void Render(int x, int y);
+	void Render();
 	int GetWidth();
 	int GetHeight();
 	bool IsOpen();
+	void Update(float dt){return;}
+	bool Is(std::string type);
 private:
 	SDL_Texture* texture;
 	int width;
