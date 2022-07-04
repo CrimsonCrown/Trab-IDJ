@@ -20,7 +20,7 @@ public:
 	float DistTo(Vec2 vector);
 	float Incline();
 	float Incline(Vec2 vector);
-	void Rotate(float angle);
+	Vec2 Rotate(float angle);
 	float x;
 	float y;
 private:

@@ -59,13 +59,14 @@ float Vec2::Incline(Vec2 vector){
 	return dif.Incline();
 }
 
-void Vec2::Rotate(float angle){
+Vec2 Vec2::Rotate(float angle){
 	float xn,yn,s,c;
 	s=sin(angle);
 	c=cos(angle);
-	xn=x*c-y*s;
-	yn=y*c+x*s;
+	xn=(x*c)-(y*s);
+	yn=(y*c)+(x*s);
 	x=xn;
 	y=yn;
-	return;
+	std::cout << s << " " << c << "\n";
+	return Vec2(xn,yn);
 }
