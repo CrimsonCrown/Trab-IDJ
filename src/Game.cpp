@@ -58,7 +58,9 @@ Game::Game(const char* title, int width, int height){
 }
 
 Game::~Game(){
+	//std::cout << "Begin Delete State\n";
 	delete state;
+	//std::cout << "Deleted state instance\n";
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	Mix_CloseAudio();

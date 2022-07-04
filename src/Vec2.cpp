@@ -65,8 +65,5 @@ Vec2 Vec2::Rotate(float angle){
 	c=cos(angle);
 	xn=(x*c)-(y*s);
 	yn=(y*c)+(x*s);
-	x=xn;
-	y=yn;
-	std::cout << s << " " << c << "\n";
 	return Vec2(xn,yn);
 }

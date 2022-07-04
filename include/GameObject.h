@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "Rect.h"
 
@@ -26,7 +27,7 @@ public:
 	Component* GetComponent(std::string type);
 	Rect box;
 private:
-	std::vector<Component*> components;
+	std::vector<std::unique_ptr<Component>> components;
 	bool isDead;
 };
 
