@@ -18,6 +18,7 @@ public:
 	void Open(const char* file);
 	void SetClip(int x, int y, int w, int h);
 	void Render();
+	void Render(int x, int y, int w, int h);
 	int GetWidth();
 	int GetHeight();
 	bool IsOpen();
