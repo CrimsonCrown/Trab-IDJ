@@ -5,6 +5,7 @@
 #include "State.h"
 
 State::State(){
+	tileSet = new TileSet(64,64,"Recursos/img/tileset.png");
 	quitRequested=false;
 	LoadAssets();
 	music.Play();
@@ -13,6 +14,7 @@ State::State(){
 
 State::~State(){
 	objectArray.clear();
+	delete(tileSet);
 }
 
 bool State::QuitRequested(){
@@ -24,6 +26,10 @@ void State::LoadAssets(){
 	Sprite* newspr=new Sprite((*bg),"Recursos/img/ocean.jpg");
 	bg->AddComponent(newspr);
 	objectArray.emplace_back(bg);
+	GameObject* map=new GameObject();
+	TileMap* mapping=new TileMap((*map),"Recursos/map/tileMap.txt", tileSet);
+	map->AddComponent(mapping);
+	objectArray.emplace_back(map);
 	music.Open("Recursos/audio/stageState.ogg");
 	return;
 }

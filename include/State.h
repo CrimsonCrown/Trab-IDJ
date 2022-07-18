@@ -14,6 +14,8 @@
 #include "Music.h"
 #include "GameObject.h"
 #include "Face.h"
+#include "TileSet.h"
+#include "TileMap.h"
 
 class State{
 public:
@@ -24,6 +26,7 @@ public:
 	void Update(float dt);
 	void Render();
 private:
+	TileSet* tileSet;
 	void Input();
 	void AddObject(int mouseX, int mouseY);
 	std::vector<std::unique_ptr<GameObject>> objectArray;
