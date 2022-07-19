@@ -10,6 +10,7 @@
 
 #include "Component.h"
 #include "GameObject.h"
+#include "Resources.h"
 
 class Sound : public Component{
 public:

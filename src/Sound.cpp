@@ -12,7 +12,6 @@ Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
 
 Sound::~Sound(){
 	Stop();
-	if(chunk!=nullptr)Mix_FreeChunk(chunk);
 	return;
 }
 
@@ -29,13 +28,7 @@ void Sound::Stop(){
 }
 
 void Sound::Open(std::string file){
-	if(chunk!=nullptr){
-		Mix_FreeChunk(chunk);
-	}
-	chunk=Mix_LoadWAV(file.c_str());
-	if(chunk==nullptr){
-		std::cout << SDL_GetError();
-	}
+	chunk=Resources::GetSound(file);
 	return;
 }
 

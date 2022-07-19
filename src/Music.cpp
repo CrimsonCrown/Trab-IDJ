@@ -5,7 +5,7 @@ Music::Music(){
 	return;
 }
 
-Music::Music(const char* file){
+Music::Music(std::string file){
 	music=nullptr;
 	Open(file);
 	return;
@@ -26,14 +26,8 @@ void Music::Stop(int msToStop){
 	return;
 }
 
-void Music::Open(const char* file){
-	if(music!=nullptr){
-		Mix_FreeMusic(music);
-	}
-	music=Mix_LoadMUS(file);
-	if(music==nullptr){
-		std::cout << SDL_GetError();
-	}
+void Music::Open(std::string file){
+	music=Resources::GetMusic(file);
 	return;
 }
 
@@ -46,6 +40,5 @@ bool Music::IsOpen(){
 
 Music::~Music(){
 	Stop();
-	if(music!=nullptr)Mix_FreeMusic(music);
 	return;
 }

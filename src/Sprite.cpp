@@ -10,27 +10,18 @@ Sprite::Sprite(GameObject& associated) : Component(associated){
 	return;
 }
 
-Sprite::Sprite(GameObject& associated, const char* file) : Component(associated){
+Sprite::Sprite(GameObject& associated, std::string file) : Component(associated){
 	texture=nullptr;
 	Open(file);
 	return;
 }
 
 Sprite::~Sprite(){
-	if(texture!=nullptr){
-		SDL_DestroyTexture(texture);
-	}
 	return;
 }
 
-void Sprite::Open(const char* file){
-	if(texture!=nullptr){
-		SDL_DestroyTexture(texture);
-	}
-	texture=IMG_LoadTexture(Game::GetInstance().GetRenderer(),file);
-	if(texture==nullptr){
-		std::cout << SDL_GetError();
-	}
+void Sprite::Open(std::string file){
+	texture=Resources::GetImage(file);
 	SDL_QueryTexture(texture,nullptr,nullptr,&width,&height);
 	associated.box.w=width;
 	associated.box.h=height;
