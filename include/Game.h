@@ -11,6 +11,7 @@
 #include <ctime>
 
 #include "State.h"
+#include "InputManager.h"
 
 class Game{
 public:

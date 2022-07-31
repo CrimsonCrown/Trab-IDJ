@@ -81,6 +81,7 @@ SDL_Renderer* Game::GetRenderer(){
 void Game::Run(){
 	while(state->QuitRequested()==false){
 		//std::cout << "in game debug\n";
+		InputManager::GetInstance().Update();
 		state->Update(0);
 		state->Render();
 		SDL_RenderPresent(renderer);

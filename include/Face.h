@@ -11,6 +11,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Sound.h"
+#include "InputManager.h"
 
 class Face : public Component{
 public:
