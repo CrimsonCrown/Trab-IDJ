@@ -24,7 +24,9 @@ bool State::QuitRequested(){
 void State::LoadAssets(){
 	GameObject* bg=new GameObject();
 	Sprite* newspr=new Sprite((*bg),"Recursos/img/ocean.jpg");
+	CameraFollower* newflwr=new CameraFollower(*bg);
 	bg->AddComponent(newspr);
+	bg->AddComponent(newflwr);
 	objectArray.emplace_back(bg);
 	GameObject* map=new GameObject();
 	TileMap* mapping=new TileMap((*map),"Recursos/map/tileMap.txt", tileSet);
@@ -45,6 +47,7 @@ void State::Update(float dt){
 		Vec2 objPos = ((Vec2( 200, 0 )).Rotate( -PI + PI*(rand() % 1001)/500.0 )).Add(Vec2( InputManager::GetInstance().GetMouseX(), InputManager::GetInstance().GetMouseY() ));
 		AddObject((int)objPos.x, (int)objPos.y);
 	}
+	Camera::Update(dt);
 	long unsigned int index;
 	for(index=0;index<objectArray.size();index++){
 		objectArray[index]->Update(dt);
@@ -69,8 +72,8 @@ void State::Render(){
 void State::AddObject(int mouseX, int mouseY){
 	GameObject* objToAdd=new GameObject();
 	Sprite* newspr=new Sprite((*objToAdd),"Recursos/img/penguinface.png");
-	objToAdd->box.x=mouseX-objToAdd->box.w/2;
-	objToAdd->box.y=mouseY-objToAdd->box.h/2;
+	objToAdd->box.x=(mouseX-objToAdd->box.w/2)+Camera::pos.x;
+	objToAdd->box.y=(mouseY-objToAdd->box.h/2)+Camera::pos.y;
 	objToAdd->AddComponent(newspr);
 	Sound* newsnd=new Sound((*objToAdd),"Recursos/audio/boom.wav");
 	objToAdd->AddComponent(newsnd);

@@ -8,6 +8,7 @@
 #include <iostream>
 #include "TileSet.h"
 #include "Sprite.h"
+#include "Camera.h"
 
 class TileMap : public Component{
 public:

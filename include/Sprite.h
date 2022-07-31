@@ -10,6 +10,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include "Resources.h"
+#include "Camera.h"
 
 class Sprite : public Component{
 public:
