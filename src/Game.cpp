@@ -55,6 +55,9 @@ Game::Game(const char* title, int width, int height){
 	}
 	//state
 	state=new State;
+	//frameStart e dt
+	frameStart=SDL_GetTicks();
+	dt=0;
 }
 
 Game::~Game(){
@@ -81,8 +84,9 @@ SDL_Renderer* Game::GetRenderer(){
 void Game::Run(){
 	while(state->QuitRequested()==false){
 		//std::cout << "in game debug\n";
+		CalculateDeltaTime();
 		InputManager::GetInstance().Update();
-		state->Update(0);
+		state->Update(dt);
 		state->Render();
 		SDL_RenderPresent(renderer);
 		SDL_Delay(33);
@@ -91,4 +95,16 @@ void Game::Run(){
 	Resources::ClearMusics();
 	Resources::ClearSounds();
 	return;
+}
+
+void Game::CalculateDeltaTime(){
+	int newframestart;
+	newframestart=SDL_GetTicks();
+	dt=(newframestart-frameStart)/1000.0;
+	frameStart=newframestart;
+	return;
+}
+
+float Game::GetDeltaTime(){
+	return dt;
 }
