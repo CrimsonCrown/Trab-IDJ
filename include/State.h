@@ -13,12 +13,12 @@
 #include "Sprite.h"
 #include "Music.h"
 #include "GameObject.h"
-#include "Face.h"
 #include "TileSet.h"
 #include "TileMap.h"
 #include "InputManager.h"
 #include "Camera.h"
 #include "CameraFollower.h"
+#include "Alien.h"
 
 class State{
 public:
@@ -28,12 +28,16 @@ public:
 	void LoadAssets();
 	void Update(float dt);
 	void Render();
+	void Start();
+	std::weak_ptr<GameObject> AddObject(GameObject* go);
+	std::weak_ptr<GameObject> GetObjectPtr(GameObject* go);
 private:
 	TileSet* tileSet;
 	void AddObject(int mouseX, int mouseY);
-	std::vector<std::unique_ptr<GameObject>> objectArray;
+	std::vector<std::shared_ptr<GameObject>> objectArray;
 	Music music;
 	bool quitRequested;
+	bool started;
 };
 
 #endif

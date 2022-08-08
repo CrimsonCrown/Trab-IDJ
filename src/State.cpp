@@ -5,10 +5,32 @@
 #include "State.h"
 
 State::State(){
-	tileSet = new TileSet(64,64,"Recursos/img/tileset.png");
+	started=false;
 	quitRequested=false;
-	LoadAssets();
+	//tile set
+	tileSet = new TileSet(64,64,"Recursos/img/tileset.png");
+	//background
+	GameObject* bg=new GameObject();
+	Sprite* newspr=new Sprite((*bg),"Recursos/img/ocean.jpg");
+	CameraFollower* newflwr=new CameraFollower(*bg);
+	bg->AddComponent(newspr);
+	bg->AddComponent(newflwr);
+	AddObject(bg);
+	//tile map
+	GameObject* map=new GameObject();
+	TileMap* mapping=new TileMap((*map),"Recursos/map/tileMap.txt", tileSet);
+	map->AddComponent(mapping);
+	AddObject(map);
+	//music
+	music.Open("Recursos/audio/stageState.ogg");
 	music.Play();
+	//alien
+	GameObject* alien=new GameObject();
+	Alien* newalien=new Alien((*alien),0);
+	alien->AddComponent(newalien);
+	alien->box.x=512;
+	alien->box.y=300;
+	AddObject(alien);
 	return;
 }
 
@@ -22,6 +44,7 @@ bool State::QuitRequested(){
 }
 
 void State::LoadAssets(){
+	/*tileSet = new TileSet(64,64,"Recursos/img/tileset.png");
 	GameObject* bg=new GameObject();
 	Sprite* newspr=new Sprite((*bg),"Recursos/img/ocean.jpg");
 	CameraFollower* newflwr=new CameraFollower(*bg);
@@ -32,7 +55,7 @@ void State::LoadAssets(){
 	TileMap* mapping=new TileMap((*map),"Recursos/map/tileMap.txt", tileSet);
 	map->AddComponent(mapping);
 	objectArray.emplace_back(map);
-	music.Open("Recursos/audio/stageState.ogg");
+	music.Open("Recursos/audio/stageState.ogg");*/
 	return;
 }
 
@@ -70,15 +93,42 @@ void State::Render(){
 }
 
 void State::AddObject(int mouseX, int mouseY){
-	GameObject* objToAdd=new GameObject();
-	Sprite* newspr=new Sprite((*objToAdd),"Recursos/img/penguinface.png");
-	objToAdd->box.x=(mouseX-objToAdd->box.w/2)+Camera::pos.x;
-	objToAdd->box.y=(mouseY-objToAdd->box.h/2)+Camera::pos.y;
-	objToAdd->AddComponent(newspr);
-	Sound* newsnd=new Sound((*objToAdd),"Recursos/audio/boom.wav");
-	objToAdd->AddComponent(newsnd);
-	Face* newface=new Face((*objToAdd));
-	objToAdd->AddComponent(newface);
-	objectArray.emplace_back(objToAdd);
 	return;
+}
+
+void State::Start(){
+	LoadAssets();
+	long unsigned int index;
+	for(index=0;index<objectArray.size();index++){
+		objectArray[index]->Start();
+	}
+	started=true;
+	return;
+}
+
+std::weak_ptr<GameObject> State::AddObject(GameObject* go){
+	//constroi shared ptr
+	std::shared_ptr<GameObject> newobj(go);
+	//coloca no vetor
+	objectArray.push_back(newobj);
+	//start caso necessario
+	if(started){
+		newobj->Start();
+	}
+	//retorna weak ptr
+	std::weak_ptr<GameObject> newweak(newobj);
+	return newweak;
+}
+
+std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go){
+	//varre vetor
+	long unsigned int index;
+	for(index=0;index<objectArray.size();index++){
+		if(objectArray[index].get()==go){
+			std::weak_ptr<GameObject> newweak(objectArray[index]);
+			return newweak;
+		}
+	}
+	std::weak_ptr<GameObject> newweak;
+	return newweak;
 }

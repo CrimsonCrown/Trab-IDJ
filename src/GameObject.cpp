@@ -2,6 +2,7 @@
 #include "Component.h"
 
 GameObject::GameObject(){
+	started=false;
 	isDead=false;
 	return;
 }
@@ -36,6 +37,9 @@ void GameObject::RequestDelete(){
 }
 
 void GameObject::AddComponent(Component* cpt){
+	if(started){
+		cpt->Start();
+	}
 	components.emplace_back(cpt);
 	return;
 }
@@ -58,4 +62,13 @@ Component* GameObject::GetComponent(std::string type){
 		}
 	}
 	return nullptr;
+}
+
+void GameObject::Start(){
+	long unsigned int index;
+	for(index=0;index<components.size();index++){
+		components[index]->Start();
+	}
+	started=true;
+	return;
 }

@@ -27,8 +27,8 @@ Rect Rect::Add(Vec2 vector){
 
 Vec2 Rect::Center(){
 	Vec2 result;
-	result.x=(x+w)/2;
-	result.y=(y+h)/2;
+	result.x=x+(w/2);
+	result.y=y+(h/2);
 	return result;
 }
 

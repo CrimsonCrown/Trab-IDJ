@@ -22,16 +22,16 @@ void Camera::Update(float dt){
 		speed.x=0;
 		speed.y=0;
 		if(input.IsKeyDown(LEFT_ARROW_KEY)){
-			speed.x=-10;
+			speed.x=-(300*dt);
 		}
 		if(input.IsKeyDown(RIGHT_ARROW_KEY)){
-			speed.x=10;
+			speed.x=(300*dt);
 		}
 		if(input.IsKeyDown(UP_ARROW_KEY)){
-			speed.y=-10;
+			speed.y=-(300*dt);
 		}
 		if(input.IsKeyDown(DOWN_ARROW_KEY)){
-			speed.y=10;
+			speed.y=(300*dt);
 		}
 		pos.x+=speed.x;
 		pos.y+=speed.y;

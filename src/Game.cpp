@@ -82,6 +82,7 @@ SDL_Renderer* Game::GetRenderer(){
 }
 
 void Game::Run(){
+	state->Start();
 	while(state->QuitRequested()==false){
 		//std::cout << "in game debug\n";
 		CalculateDeltaTime();
