@@ -25,7 +25,7 @@ public:
 	int GetDamage();
 private:
 	Vec2 speed;
-	float disanceLeft;
+	float distanceLeft;
 	int damage;
 };
 

@@ -14,9 +14,11 @@ Alien::~Alien(){
 
 void Alien::Start(){
 	for(float arc=0;arc<=PI*2;arc+=PI/2){
+		float scale=((std::rand())/(RAND_MAX/0.5))+1;
 		GameObject* minion1=new GameObject();
 		Minion* newminion=new Minion((*minion1),Game::GetInstance().GetState().GetObjectPtr(&associated),arc);
 		minion1->AddComponent(newminion);
+		((Sprite*)minion1->GetComponent("Sprite"))->SetScaleX(scale,scale);
 		std::weak_ptr<GameObject> minionptr=Game::GetInstance().GetState().AddObject(minion1);
 		minionArray.push_back(minionptr);
 	}
@@ -25,13 +27,13 @@ void Alien::Start(){
 }
 
 void Alien::Update(float dt){
-	if(InputManager::GetInstance().IsMouseDown(SDL_BUTTON_LEFT)){
+	if(InputManager::GetInstance().MousePress(SDL_BUTTON_LEFT)){
 		float x=(float)InputManager::GetInstance().GetMouseX()+Camera::pos.x;
 		float y=(float)InputManager::GetInstance().GetMouseY()+Camera::pos.y;
 		Action newAction(Action::SHOOT,x,y);
 		taskQueue.push(newAction);
 	}
-	if(InputManager::GetInstance().IsMouseDown(SDL_BUTTON_RIGHT)){
+	if(InputManager::GetInstance().MousePress(SDL_BUTTON_RIGHT)){
 		float x=(float)InputManager::GetInstance().GetMouseX()+Camera::pos.x;
 		float y=(float)InputManager::GetInstance().GetMouseY()+Camera::pos.y;
 		Action newAction(Action::MOVE,x,y);
@@ -52,6 +54,20 @@ void Alien::Update(float dt){
 				associated.box=associated.box.Add(speed);
 			}
 		}
+		else if(todo.type==Action::SHOOT){
+			int index;
+			index=rand()%minionArray.size();
+			std::shared_ptr<GameObject> minionShooter=minionArray[index].lock();
+			Vec2 target(todo.pos.x,todo.pos.y);
+			if(minionShooter!=nullptr){
+				((Minion*)(minionShooter->GetComponent("Minion")))->Shoot(target);
+			}
+			taskQueue.pop();
+		}
+	}
+	associated.angleDeg-=(30*dt);
+	if(associated.angleDeg<=0){
+		associated.angleDeg+=360;
 	}
 	if(hp==0){
 		associated.RequestDelete();

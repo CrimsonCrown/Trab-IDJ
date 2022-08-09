@@ -1,4 +1,5 @@
 #include "Minion.h"
+#include "Game.h"
 
 Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg) : Component(associated){
 	Sprite* newspr=new Sprite((associated),"Recursos/img/minion.png");
@@ -19,6 +20,14 @@ void Minion::SetNewPos(){
 	newpos=newpos.Add(distToCenter).Rotate(arc).Sub(centerOffset).Add(centerPos);
 	associated.box.x=newpos.x;
 	associated.box.y=newpos.y;
+	Vec2 centerMinion=associated.box.Center();
+	Vec2 centerAlien=centerpointer->box.Center();
+	Vec2 diff=centerMinion.Sub(centerAlien);
+	//2pi=360
+	//angle=x
+	//(angle*360)/2pi=x
+	float angle=((diff.Incline()*360)/(2*PI))+90;
+	associated.angleDeg=angle;
 	return;
 }
 
@@ -47,4 +56,23 @@ bool Minion::Is(std::string type){
 		return true;
 	}
 	return false;
+}
+
+void Minion::Shoot(Vec2 target){
+	Vec2 centerMinion=associated.box.Center();
+	Vec2 diff=target.Sub(centerMinion);
+	float angle=diff.Incline();
+	//cria bullet
+	GameObject* bullet=new GameObject();
+	Bullet* bulletCpt=new Bullet((*bullet),angle,600,10,3000,"Recursos/img/minionbullet1.png");
+	bullet->AddComponent(bulletCpt);
+	bullet->box.x=associated.box.Center().x-(bullet->box.w/2);
+	bullet->box.y=associated.box.Center().y-(bullet->box.h/2);
+	//2pi=360
+	//angle=x
+	//(angle*360)/2pi=x
+	float angledg=((angle*360)/(2*PI));
+	bullet->angleDeg=angledg;
+	Game::GetInstance().GetState().AddObject(bullet);
+	return;
 }

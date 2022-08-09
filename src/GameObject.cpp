@@ -4,6 +4,7 @@
 GameObject::GameObject(){
 	started=false;
 	isDead=false;
+	angleDeg=0;
 	return;
 }
 

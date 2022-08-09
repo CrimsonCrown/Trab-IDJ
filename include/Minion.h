@@ -17,6 +17,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "Bullet.h"
 
 const float ANGSPEED = PI/2;
 

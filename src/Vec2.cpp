@@ -51,7 +51,7 @@ float Vec2::DistTo(Vec2 vector){
 }
 
 float Vec2::Incline(){
-	return atan2(x,y);
+	return atan2(y,x);
 }
 
 float Vec2::Incline(Vec2 vector){

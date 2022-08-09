@@ -28,6 +28,7 @@ public:
 	Rect box;
 	void Start();
 	bool started;
+	double angleDeg;
 private:
 	std::vector<std::unique_ptr<Component>> components;
 	bool isDead;

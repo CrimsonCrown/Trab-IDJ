@@ -26,11 +26,15 @@ public:
 	bool IsOpen();
 	void Update(float dt){return;}
 	bool Is(std::string type);
+	void SetScaleX(float scaleX, float scaleY);
+	Vec2 GetScale();
+	float angle;
 private:
 	SDL_Texture* texture;
 	int width;
 	int height;
 	SDL_Rect clipRect;
+	Vec2 scale;
 };
 
 #endif
