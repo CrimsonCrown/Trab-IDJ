@@ -27,13 +27,13 @@ void Alien::Start(){
 }
 
 void Alien::Update(float dt){
-	if(InputManager::GetInstance().MousePress(SDL_BUTTON_LEFT)){
+	if(InputManager::GetInstance().IsMouseDown(SDL_BUTTON_LEFT)){
 		float x=(float)InputManager::GetInstance().GetMouseX()+Camera::pos.x;
 		float y=(float)InputManager::GetInstance().GetMouseY()+Camera::pos.y;
 		Action newAction(Action::SHOOT,x,y);
 		taskQueue.push(newAction);
 	}
-	if(InputManager::GetInstance().MousePress(SDL_BUTTON_RIGHT)){
+	if(InputManager::GetInstance().IsMouseDown(SDL_BUTTON_RIGHT)){
 		float x=(float)InputManager::GetInstance().GetMouseX()+Camera::pos.x;
 		float y=(float)InputManager::GetInstance().GetMouseY()+Camera::pos.y;
 		Action newAction(Action::MOVE,x,y);
@@ -56,7 +56,18 @@ void Alien::Update(float dt){
 		}
 		else if(todo.type==Action::SHOOT){
 			int index;
-			index=rand()%minionArray.size();
+			long unsigned int i;
+			float distFromMinion;
+			index=0;
+			distFromMinion=1000000000;
+			Rect targetRect(todo.pos.x,todo.pos.y,0,0);
+			for(i=0;i<minionArray.size();i++){
+				std::shared_ptr<GameObject> minionTest=minionArray[i].lock();
+				if(minionTest->box.CenterDist(targetRect)<distFromMinion){
+					distFromMinion=minionTest->box.CenterDist(targetRect);
+					index=i;
+				}
+			}
 			std::shared_ptr<GameObject> minionShooter=minionArray[index].lock();
 			Vec2 target(todo.pos.x,todo.pos.y);
 			if(minionShooter!=nullptr){
