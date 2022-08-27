@@ -31,6 +31,14 @@ State::State(){
 	alien->box.x=512;
 	alien->box.y=300;
 	AddObject(alien);
+	//penguins
+	GameObject* pbody=new GameObject();
+	PenguinBody* newpbody=new PenguinBody((*pbody));
+	pbody->AddComponent(newpbody);
+	pbody->box.x=704;
+	pbody->box.y=640;
+	Camera::Follow(pbody);
+	AddObject(pbody);
 	return;
 }
 

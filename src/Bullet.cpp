@@ -1,7 +1,7 @@
 #include "Bullet.h"
 
-Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, std::string sprite) : Component(associated){
-	Sprite* newspr=new Sprite((associated),sprite);
+Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime) : Component(associated){
+	Sprite* newspr=new Sprite((associated),sprite, frameCount, frameTime);
 	associated.AddComponent(newspr);
 	this->speed.x=speed;
 	this->speed=this->speed.Rotate(angle);

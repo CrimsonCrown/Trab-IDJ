@@ -64,7 +64,7 @@ void Minion::Shoot(Vec2 target){
 	float angle=diff.Incline();
 	//cria bullet
 	GameObject* bullet=new GameObject();
-	Bullet* bulletCpt=new Bullet((*bullet),angle,600,10,3000,"Recursos/img/minionbullet1.png");
+	Bullet* bulletCpt=new Bullet((*bullet),angle,100,10,3000,"Recursos/img/minionbullet2.png", 3, 0.3);
 	bullet->AddComponent(bulletCpt);
 	bullet->box.x=associated.box.Center().x-(bullet->box.w/2);
 	bullet->box.y=associated.box.Center().y-(bullet->box.h/2);

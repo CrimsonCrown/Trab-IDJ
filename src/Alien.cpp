@@ -27,13 +27,13 @@ void Alien::Start(){
 }
 
 void Alien::Update(float dt){
-	if(InputManager::GetInstance().IsMouseDown(SDL_BUTTON_LEFT)){
+	if(InputManager::GetInstance().MousePress(SDL_BUTTON_LEFT)){
 		float x=(float)InputManager::GetInstance().GetMouseX()+Camera::pos.x;
 		float y=(float)InputManager::GetInstance().GetMouseY()+Camera::pos.y;
 		Action newAction(Action::SHOOT,x,y);
 		taskQueue.push(newAction);
 	}
-	if(InputManager::GetInstance().IsMouseDown(SDL_BUTTON_RIGHT)){
+	if(InputManager::GetInstance().MousePress(SDL_BUTTON_RIGHT)){
 		float x=(float)InputManager::GetInstance().GetMouseX()+Camera::pos.x;
 		float y=(float)InputManager::GetInstance().GetMouseY()+Camera::pos.y;
 		Action newAction(Action::MOVE,x,y);

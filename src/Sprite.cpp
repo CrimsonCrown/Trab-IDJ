@@ -10,14 +10,22 @@ Sprite::Sprite(GameObject& associated) : Component(associated){
 	angle=0;
 	scale.x=1;
 	scale.y=1;
+	frameCount=1;
+	frameTime=1;
+	currentFrame=0;
+	timeElapsed=0;
 	return;
 }
 
-Sprite::Sprite(GameObject& associated, std::string file) : Component(associated){
+Sprite::Sprite(GameObject& associated, std::string file, int frameCount, float frameTime) : Component(associated){
 	texture=nullptr;
 	angle=0;
 	scale.x=1;
 	scale.y=1;
+	this->frameCount=frameCount;
+	this->frameTime=frameTime;
+	currentFrame=0;
+	timeElapsed=0;
 	Open(file);
 	return;
 }
@@ -29,9 +37,9 @@ Sprite::~Sprite(){
 void Sprite::Open(std::string file){
 	texture=Resources::GetImage(file);
 	SDL_QueryTexture(texture,nullptr,nullptr,&width,&height);
-	associated.box.w=width;
+	associated.box.w=width/frameCount;
 	associated.box.h=height;
-	SetClip(0,0,width,height);
+	SetClip(0,0,width/frameCount,height);
 	return;
 }
 
@@ -62,7 +70,7 @@ void Sprite::Render(int x, int y, int w, int h){
 }
 
 int Sprite::GetWidth(){
-	return width*scale.x;
+	return (width*scale.x)/frameCount;
 }
 
 int Sprite::GetHeight(){
@@ -74,6 +82,21 @@ bool Sprite::IsOpen(){
 		return true;
 	}
 	return false;
+}
+
+void Sprite::Update(float dt){
+	if(frameCount>1){
+		timeElapsed+=dt;
+		if(timeElapsed>frameTime){
+			timeElapsed-=frameTime;
+			currentFrame+=1;
+			if(currentFrame>=frameCount){
+				currentFrame=0;
+			}
+			SetClip(0+(currentFrame*(width/frameCount)),0,width/frameCount,height);
+		}
+	}
+	return;
 }
 
 bool Sprite::Is(std::string type){
@@ -103,4 +126,26 @@ void Sprite::SetScaleX(float scaleX, float scaleY){
 
 Vec2 Sprite::GetScale(){
 	return scale;
+}
+
+void Sprite::SetFrame(int frame){
+	currentFrame=frame;
+	SetClip(0+(currentFrame*(width/frameCount)),0,width/frameCount,height);
+	return;
+}
+
+void Sprite::SetFrameCount(int frameCount){
+	this->frameCount=frameCount;
+	Vec2 oldScale=scale;
+	SetScaleX(1,1);
+	currentFrame=0;
+	SetClip(0+(currentFrame*(width/frameCount)),0,width/frameCount,height);
+	associated.box.w=width/frameCount;
+	SetScaleX(oldScale.x,oldScale.y);
+	return;
+}
+
+void Sprite::SetFrameTime(float frameTime){
+	this->frameTime=frameTime;
+	return;
 }

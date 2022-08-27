@@ -1,5 +1,5 @@
-#ifndef BULLET_INCLUDE
-#define BULLET_INCLUDE
+#ifndef PENGUINBODY_INCLUDE
+#define PENGUINBODY_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -16,17 +16,21 @@
 #include "Camera.h"
 #include "Sprite.h"
 
-class Bullet : public Component{
+class PenguinBody : public Component{
 public:
-	Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime);
+	PenguinBody(GameObject& associated);
+	~PenguinBody();
+	void Start();
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	int GetDamage();
+	static PenguinBody* player;
 private:
+	std::weak_ptr<GameObject> pcannon;
 	Vec2 speed;
-	float distanceLeft;
-	int damage;
+	float linearSpeed;
+	float angle;
+	int hp;
 };
 
 #endif
