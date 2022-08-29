@@ -26,6 +26,7 @@ public:
 	bool Is(std::string type);
 	static PenguinBody* player;
 	void NotifyCollision(GameObject& other);
+	Vec2 Position();
 private:
 	std::weak_ptr<GameObject> pcannon;
 	Vec2 speed;

@@ -26,22 +26,14 @@ public:
 	void Render();
 	bool Is(std::string type);
 	void NotifyCollision(GameObject& other);
+	static int alienCount;
 private:
-	class Action{
-	public:
-		enum ActionType {MOVE,SHOOT};
-		Action(ActionType type, float x, float y){
-			this->type=type;
-			pos.x=x;
-			pos.y=y;
-		};
-		ActionType type;
-		Vec2 pos;
-	private:
-	};
+	enum AlienState {MOVING,RESTING};
+	AlienState state;
+	Timer restTimer;
+	Vec2 destination;
 	Vec2 speed;
 	int hp;
-	std::queue<Action> taskQueue;
 	std::vector<std::weak_ptr<GameObject>> minionArray;
 };
 

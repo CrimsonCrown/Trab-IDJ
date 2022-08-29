@@ -100,3 +100,7 @@ void PenguinBody::NotifyCollision(GameObject& other){
 	}
 	return;
 }
+
+Vec2 PenguinBody::Position(){
+	return associated.box.Center();
+}

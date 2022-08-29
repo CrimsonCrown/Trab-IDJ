@@ -2,17 +2,22 @@
 #include "Game.h"
 #include "Collider.h"
 
+int Alien::alienCount=0;
+
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated){
 	Sprite* newspr=new Sprite((associated),"Recursos/img/alien.png");
 	associated.AddComponent(newspr);
 	Collider* newcol=new Collider((associated));
 	associated.AddComponent(newcol);
 	hp=30;
+	alienCount++;
+	state=RESTING;
 	return;
 }
 
 Alien::~Alien(){
 	minionArray.clear();
+	alienCount--;
 }
 
 void Alien::Start(){
@@ -30,58 +35,56 @@ void Alien::Start(){
 }
 
 void Alien::Update(float dt){
-	if(InputManager::GetInstance().MousePress(SDL_BUTTON_LEFT)){
-		float x=(float)InputManager::GetInstance().GetMouseX()+Camera::pos.x;
-		float y=(float)InputManager::GetInstance().GetMouseY()+Camera::pos.y;
-		Action newAction(Action::SHOOT,x,y);
-		taskQueue.push(newAction);
+	associated.angleDeg-=(30*dt);
+	if(associated.angleDeg<=0){
+		associated.angleDeg+=360;
 	}
-	if(InputManager::GetInstance().MousePress(SDL_BUTTON_RIGHT)){
-		float x=(float)InputManager::GetInstance().GetMouseX()+Camera::pos.x;
-		float y=(float)InputManager::GetInstance().GetMouseY()+Camera::pos.y;
-		Action newAction(Action::MOVE,x,y);
-		taskQueue.push(newAction);
+	if(PenguinBody::player==nullptr){
+		return;
 	}
-	if(taskQueue.size()>0){
-		Action todo=taskQueue.front();
-		if(todo.type==Action::MOVE){
-			Vec2 boxPos=associated.box.Center();
-			float distToMove=300*dt;
-			if(todo.pos.DistTo(boxPos)<=distToMove){
-				associated.box.x=todo.pos.x-(associated.box.w/2);
-				associated.box.y=todo.pos.y-(associated.box.h/2);
-				taskQueue.pop();
-			}
-			else{
-				speed=todo.pos.Sub(boxPos).Normal().Mul(distToMove);
-				associated.box=associated.box.Add(speed);
-			}
+	if(state==RESTING){
+		if(restTimer.Get()>2){
+			destination=PenguinBody::player->Position();
+			state=MOVING;
 		}
-		else if(todo.type==Action::SHOOT){
+		else{
+			restTimer.Update(dt);
+		}
+	}
+	else{
+		if(associated.box.Center().DistTo(destination)==0){
+			state=RESTING;
+			restTimer.Restart();
+			destination=PenguinBody::player->Position();
 			int index;
 			long unsigned int i;
 			float distFromMinion;
 			index=0;
 			distFromMinion=1000000000;
-			Rect targetRect(todo.pos.x,todo.pos.y,0,0);
 			for(i=0;i<minionArray.size();i++){
 				std::shared_ptr<GameObject> minionTest=minionArray[i].lock();
-				if(minionTest->box.CenterDist(targetRect)<distFromMinion){
-					distFromMinion=minionTest->box.CenterDist(targetRect);
+				if(minionTest->box.Center().DistTo(destination)<distFromMinion){
+					distFromMinion=minionTest->box.Center().DistTo(destination);
 					index=i;
 				}
 			}
 			std::shared_ptr<GameObject> minionShooter=minionArray[index].lock();
-			Vec2 target(todo.pos.x,todo.pos.y);
 			if(minionShooter!=nullptr){
-				((Minion*)(minionShooter->GetComponent("Minion")))->Shoot(target);
+				((Minion*)(minionShooter->GetComponent("Minion")))->Shoot(destination);
 			}
-			taskQueue.pop();
 		}
-	}
-	associated.angleDeg-=(30*dt);
-	if(associated.angleDeg<=0){
-		associated.angleDeg+=360;
+		else{
+			Vec2 boxPos=associated.box.Center();
+			float distToMove=100*dt;
+			if(destination.DistTo(boxPos)<=distToMove){
+				associated.box.x=destination.x-(associated.box.w/2);
+				associated.box.y=destination.y-(associated.box.h/2);
+			}
+			else{
+				speed=destination.Sub(boxPos).Normal().Mul(distToMove);
+				associated.box=associated.box.Add(speed);
+			}
+		}
 	}
 	return;
 }
