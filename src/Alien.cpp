@@ -83,9 +83,6 @@ void Alien::Update(float dt){
 	if(associated.angleDeg<=0){
 		associated.angleDeg+=360;
 	}
-	if(hp==0){
-		associated.RequestDelete();
-	}
 	return;
 }
 
@@ -103,6 +100,17 @@ bool Alien::Is(std::string type){
 void Alien::NotifyCollision(GameObject& other){
 	if((other.GetComponent("Bullet")!=nullptr)&&(((Bullet*)other.GetComponent("Bullet"))->targetsPlayer==false)){
 		hp-=10;
+		if(hp<=0){
+			GameObject* explosion=new GameObject();
+			Sprite* newspr=new Sprite((*explosion),"Recursos/img/aliendeath.png", 4, 0.5, 2);
+			explosion->AddComponent(newspr);
+			Sound* newsnd=new Sound((*explosion),"Recursos/audio/boom.wav");
+			newsnd->Play();
+			explosion->AddComponent(newsnd);
+			explosion->box=explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Game::GetInstance().GetState().AddObject(explosion);
+			associated.RequestDelete();
+		}
 	}
 	return;
 }

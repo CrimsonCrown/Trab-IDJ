@@ -12,6 +12,7 @@ PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> p
 	//outros atributos
 	pbody=penguinBody;
 	angle=0;
+	cooldown=true;
 	return;
 }
 
@@ -29,8 +30,16 @@ void PenguinCannon::Update(float dt){
 	Vec2 mouseposition(x,y);
 	angle=mouseposition.Sub(associated.box.Center()).Incline();
 	associated.angleDeg=((angle*360)/(2*PI));
+	cdtimer.Update(dt);
+	if(cdtimer.Get()>=0.5){
+		cooldown=true;
+	}
 	if(InputManager::GetInstance().MousePress(SDL_BUTTON_LEFT)){
-		Shoot();
+		if(cooldown){
+			Shoot();
+			cooldown=false;
+			cdtimer.Restart();
+		}
 	}
 	return;
 }

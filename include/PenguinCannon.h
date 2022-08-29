@@ -15,6 +15,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "Timer.h"
 
 class PenguinCannon : public Component{
 public:
@@ -24,6 +25,8 @@ public:
 	bool Is(std::string type);
 	void Shoot();
 private:
+	bool cooldown;
+	Timer cdtimer;
 	std::weak_ptr<GameObject> pbody;
 	float angle;
 };

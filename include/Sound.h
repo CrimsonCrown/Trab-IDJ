@@ -17,7 +17,7 @@ public:
 	Sound(GameObject& associated);
 	Sound(GameObject& associated, std::string file);
 	~Sound();
-	void Play(int times=1);
+	void Play(int times=0);
 	void Stop();
 	void Open(std::string file);
 	bool IsOpen();

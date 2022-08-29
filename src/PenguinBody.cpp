@@ -67,10 +67,6 @@ void PenguinBody::Update(float dt){
 	associated.box=associated.box.Add(speed.Mul(dt));
 	associated.angleDeg=((angle*360)/(2*PI));
 	//morre com 0 hp
-	if(hp<=0){
-		pcannon.lock()->RequestDelete();
-		associated.RequestDelete();
-	}
 	return;
 }
 
@@ -90,6 +86,16 @@ void PenguinBody::NotifyCollision(GameObject& other){
 		hp-=10;
 		if(hp<=0){
 			Camera::Unfollow();
+			GameObject* explosion=new GameObject();
+			Sprite* newspr=new Sprite((*explosion),"Recursos/img/penguindeath.png", 5, 0.4, 2);
+			explosion->AddComponent(newspr);
+			Sound* newsnd=new Sound((*explosion),"Recursos/audio/boom.wav");
+			newsnd->Play();
+			explosion->AddComponent(newsnd);
+			explosion->box=explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Game::GetInstance().GetState().AddObject(explosion);
+			pcannon.lock()->RequestDelete();
+			associated.RequestDelete();
 		}
 	}
 	return;
