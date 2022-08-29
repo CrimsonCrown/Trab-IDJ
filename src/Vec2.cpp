@@ -26,7 +26,7 @@ Vec2 Vec2::Sub(Vec2 vector){
 	return result;
 }
 
-Vec2 Vec2::Mul(float value){
+Vec2 Vec2::Mul(float value) const{
 	Vec2 result;
 	result.x=x*value;
 	result.y=y*value;

@@ -1,14 +1,17 @@
 #include "PenguinCannon.h"
 #include "Game.h"
+#include "Collider.h"
 
 PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated){
 	//cria sprite
 	Sprite* newspr=new Sprite((associated),"Recursos/img/cubngun.png");
 	associated.AddComponent(newspr);
+	//cria collider
+	Collider* newcol=new Collider((associated));
+	associated.AddComponent(newcol);
 	//outros atributos
 	pbody=penguinBody;
 	angle=0;
-	std::cout<<"penguins\n";
 	return;
 }
 
@@ -46,7 +49,7 @@ bool PenguinCannon::Is(std::string type){
 void PenguinCannon::Shoot(){
 	//cria bullet
 	GameObject* bullet=new GameObject();
-	Bullet* bulletCpt=new Bullet((*bullet),angle,100,10,3000,"Recursos/img/penguinbullet.png", 4, 1);
+	Bullet* bulletCpt=new Bullet((*bullet),angle,100,10,3000,"Recursos/img/penguinbullet.png", 4, 1,false);
 	bullet->AddComponent(bulletCpt);
 	Vec2 bulletoffset(associated.box.w/2,0);
 	bulletoffset=bulletoffset.Rotate(angle);

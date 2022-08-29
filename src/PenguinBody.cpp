@@ -1,11 +1,14 @@
 #include "PenguinBody.h"
 #include "Game.h"
 #include "PenguinCannon.h"
+#include "Collider.h"
 
 PenguinBody* PenguinBody::player;
 
 PenguinBody::PenguinBody(GameObject& associated) : Component(associated){
 	player=this;
+	Collider* newcol=new Collider((associated));
+	associated.AddComponent(newcol);
 	//cria sprite
 	Sprite* newspr=new Sprite((associated),"Recursos/img/penguin.png");
 	associated.AddComponent(newspr);
@@ -64,7 +67,7 @@ void PenguinBody::Update(float dt){
 	associated.box=associated.box.Add(speed.Mul(dt));
 	associated.angleDeg=((angle*360)/(2*PI));
 	//morre com 0 hp
-	if(hp==0){
+	if(hp<=0){
 		pcannon.lock()->RequestDelete();
 		associated.RequestDelete();
 	}
@@ -80,4 +83,14 @@ bool PenguinBody::Is(std::string type){
 		return true;
 	}
 	return false;
+}
+
+void PenguinBody::NotifyCollision(GameObject& other){
+	if((other.GetComponent("Bullet")!=nullptr)&&(((Bullet*)other.GetComponent("Bullet"))->targetsPlayer==true)){
+		hp-=10;
+		if(hp<=0){
+			Camera::Unfollow();
+		}
+	}
+	return;
 }

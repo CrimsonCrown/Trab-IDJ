@@ -73,3 +73,11 @@ void GameObject::Start(){
 	started=true;
 	return;
 }
+
+void GameObject::NotifyCollision(GameObject& other){
+	long unsigned int index;
+	for(index=0;index<components.size();index++){
+		components[index]->NotifyCollision(other);
+	}
+	return;
+}

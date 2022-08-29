@@ -1,5 +1,5 @@
-#ifndef PENGUINBODY_INCLUDE
-#define PENGUINBODY_INCLUDE
+#ifndef COLLIDER_INCLUDE
+#define COLLIDER_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -16,22 +16,18 @@
 #include "Camera.h"
 #include "Sprite.h"
 
-class PenguinBody : public Component{
+class Collider : public Component{
 public:
-	PenguinBody(GameObject& associated);
-	~PenguinBody();
-	void Start();
+	Collider(GameObject& associated, Vec2 scale={1,1}, Vec2 offset={0,0});
+	Rect box;
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	static PenguinBody* player;
-	void NotifyCollision(GameObject& other);
+	void SetScale(Vec2 scale);
+	void SetOffset(Vec2 offset);
 private:
-	std::weak_ptr<GameObject> pcannon;
-	Vec2 speed;
-	float linearSpeed;
-	float angle;
-	int hp;
+	Vec2 scale;
+	Vec2 offset;
 };
 
 #endif

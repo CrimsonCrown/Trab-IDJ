@@ -14,7 +14,7 @@ public:
 	Vec2(float x, float y);
 	Vec2 Add(Vec2 vector);
 	Vec2 Sub(Vec2 vector);
-	Vec2 Mul(float value);
+	Vec2 Mul(float value) const;
 	float Magnitude();
 	Vec2 Normal();
 	float DistTo(Vec2 vector);

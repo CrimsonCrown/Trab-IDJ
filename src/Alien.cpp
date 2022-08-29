@@ -1,9 +1,12 @@
 #include "Alien.h"
 #include "Game.h"
+#include "Collider.h"
 
 Alien::Alien(GameObject& associated, int nMinions) : Component(associated){
 	Sprite* newspr=new Sprite((associated),"Recursos/img/alien.png");
 	associated.AddComponent(newspr);
+	Collider* newcol=new Collider((associated));
+	associated.AddComponent(newcol);
 	hp=30;
 	return;
 }
@@ -95,4 +98,11 @@ bool Alien::Is(std::string type){
 		return true;
 	}
 	return false;
+}
+
+void Alien::NotifyCollision(GameObject& other){
+	if((other.GetComponent("Bullet")!=nullptr)&&(((Bullet*)other.GetComponent("Bullet"))->targetsPlayer==false)){
+		hp-=10;
+	}
+	return;
 }

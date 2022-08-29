@@ -1,9 +1,12 @@
 #include "Minion.h"
 #include "Game.h"
+#include "Collider.h"
 
 Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg) : Component(associated){
 	Sprite* newspr=new Sprite((associated),"Recursos/img/minion.png");
 	associated.AddComponent(newspr);
+	Collider* newcol=new Collider((associated));
+	associated.AddComponent(newcol);
 	arc=arcOffsetDeg;
 	this->alienCenter=alienCenter;
 	SetNewPos();
@@ -64,7 +67,7 @@ void Minion::Shoot(Vec2 target){
 	float angle=diff.Incline();
 	//cria bullet
 	GameObject* bullet=new GameObject();
-	Bullet* bulletCpt=new Bullet((*bullet),angle,100,10,3000,"Recursos/img/minionbullet2.png", 3, 0.3);
+	Bullet* bulletCpt=new Bullet((*bullet),angle,100,10,3000,"Recursos/img/minionbullet2.png", 3, 0.3,true);
 	bullet->AddComponent(bulletCpt);
 	bullet->box.x=associated.box.Center().x-(bullet->box.w/2);
 	bullet->box.y=associated.box.Center().y-(bullet->box.h/2);

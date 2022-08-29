@@ -1,11 +1,15 @@
 #include "Bullet.h"
+#include "Collider.h"
 
-Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime) : Component(associated){
+Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime, bool tp) : Component(associated){
 	Sprite* newspr=new Sprite((associated),sprite, frameCount, frameTime);
 	associated.AddComponent(newspr);
+	Collider* newcol=new Collider((associated));
+	associated.AddComponent(newcol);
 	this->speed.x=speed;
 	this->speed=this->speed.Rotate(angle);
 	this->damage=damage;
+	targetsPlayer=tp;
 	distanceLeft=maxDistance;
 	return;
 }
@@ -34,4 +38,14 @@ bool Bullet::Is(std::string type){
 
 int Bullet::GetDamage(){
 	return damage;
+}
+
+void Bullet::NotifyCollision(GameObject& other){
+	if(other.GetComponent("Alien")!=nullptr&&targetsPlayer==false){
+		associated.RequestDelete();
+	}
+	if(other.GetComponent("PenguinBody")!=nullptr&&targetsPlayer==true){
+		associated.RequestDelete();
+	}
+	return;
 }
