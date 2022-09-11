@@ -1,6 +1,7 @@
 #include "Alien.h"
 #include "Game.h"
 #include "Collider.h"
+#include "PenguinBody.h"
 
 int Alien::alienCount=0;
 
@@ -24,10 +25,10 @@ void Alien::Start(){
 	for(float arc=0;arc<=PI*2;arc+=PI/2){
 		float scale=((std::rand())/(RAND_MAX/0.5))+1;
 		GameObject* minion1=new GameObject();
-		Minion* newminion=new Minion((*minion1),Game::GetInstance().GetState().GetObjectPtr(&associated),arc);
+		Minion* newminion=new Minion((*minion1),Game::GetInstance().GetCurrentState().GetObjectPtr(&associated),arc);
 		minion1->AddComponent(newminion);
 		((Sprite*)minion1->GetComponent("Sprite"))->SetScaleX(scale,scale);
-		std::weak_ptr<GameObject> minionptr=Game::GetInstance().GetState().AddObject(minion1);
+		std::weak_ptr<GameObject> minionptr=Game::GetInstance().GetCurrentState().AddObject(minion1);
 		minionArray.push_back(minionptr);
 	}
 	//std::cout << "minions:" << minionArray.size() << "\n";
@@ -111,7 +112,7 @@ void Alien::NotifyCollision(GameObject& other){
 			newsnd->Play();
 			explosion->AddComponent(newsnd);
 			explosion->box=explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
-			Game::GetInstance().GetState().AddObject(explosion);
+			Game::GetInstance().GetCurrentState().AddObject(explosion);
 			associated.RequestDelete();
 		}
 	}

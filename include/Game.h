@@ -9,6 +9,7 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <stack>
 
 #include "State.h"
 #include "InputManager.h"
@@ -18,18 +19,20 @@ public:
 	~Game();
 	void Run();
 	SDL_Renderer* GetRenderer();
-	State& GetState();
+	State& GetCurrentState();
 	static Game& GetInstance();
 	float GetDeltaTime();
+	void Push(State* state);
 private:
 	Game(const char* title, int width, int height);
 	static Game* instance;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	State* state;
 	int frameStart;
 	float dt;
 	void CalculateDeltaTime();
+	State* storedState;
+	std::stack<std::unique_ptr<State>> stateStack;
 };
 
 #endif

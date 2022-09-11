@@ -68,6 +68,6 @@ void PenguinCannon::Shoot(){
 	//angle=x
 	//(angle*360)/2pi=x
 	bullet->angleDeg=((angle*360)/(2*PI));
-	Game::GetInstance().GetState().AddObject(bullet);
+	Game::GetInstance().GetCurrentState().AddObject(bullet);
 	return;
 }

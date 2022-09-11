@@ -3,6 +3,7 @@
 #include "SDL_include.h"
 
 #include "Game.h"
+#include "Resources.h"
 
 Game* Game::instance;
 
@@ -54,7 +55,7 @@ Game::Game(const char* title, int width, int height){
 		std::cout << SDL_GetError();
 	}
 	//state
-	state=new State;
+	storedState=nullptr;
 	//frameStart e dt
 	frameStart=SDL_GetTicks();
 	dt=0;
@@ -62,7 +63,9 @@ Game::Game(const char* title, int width, int height){
 
 Game::~Game(){
 	//std::cout << "Begin Delete State\n";
-	delete state;
+	if(storedState!=nullptr){
+		delete storedState;
+	}
 	//std::cout << "Deleted state instance\n";
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -70,11 +73,14 @@ Game::~Game(){
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
+	while(!stateStack.empty()){
+		stateStack.pop();
+	}
 	//std::cout << "Destroyed game instance\n";
 }
 
-State& Game::GetState(){
-	return *state;
+State& Game::GetCurrentState(){
+	return *stateStack.top();
 }
 
 SDL_Renderer* Game::GetRenderer(){
@@ -82,15 +88,36 @@ SDL_Renderer* Game::GetRenderer(){
 }
 
 void Game::Run(){
-	state->Start();
-	while(state->QuitRequested()==false){
-		//std::cout << "in game debug\n";
-		CalculateDeltaTime();
-		InputManager::GetInstance().Update();
-		state->Update(dt);
-		state->Render();
-		SDL_RenderPresent(renderer);
-		SDL_Delay(33);
+	if(storedState==nullptr){
+		return;
+	}
+	stateStack.emplace(storedState);
+	storedState=nullptr;
+	stateStack.top()->Start();
+	while(!stateStack.empty()&&stateStack.top()->QuitRequested()==false){
+		//remove estado
+		if(stateStack.top()->PopRequested()){
+			stateStack.pop();
+			if(!stateStack.empty()){
+				stateStack.top()->Resume();
+			}
+		}
+		//adiciona estado
+		if(storedState!=nullptr){
+			stateStack.top()->Pause();
+			stateStack.emplace(storedState);
+			storedState=nullptr;
+			stateStack.top()->Start();
+		}
+		//opera estado atual
+		if(!stateStack.empty()){
+			CalculateDeltaTime();
+			InputManager::GetInstance().Update();
+			stateStack.top()->Update(dt);
+			stateStack.top()->Render();
+			SDL_RenderPresent(renderer);
+			SDL_Delay(33);
+		}
 	}
 	Resources::ClearImages();
 	Resources::ClearMusics();
@@ -108,4 +135,8 @@ void Game::CalculateDeltaTime(){
 
 float Game::GetDeltaTime(){
 	return dt;
+}
+
+void Game::Push(State* state){
+	storedState=state;
 }

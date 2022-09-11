@@ -2,6 +2,9 @@
 #include "Game.h"
 #include "PenguinCannon.h"
 #include "Collider.h"
+#include "Bullet.h"
+
+#define PI 3.1415926
 
 PenguinBody* PenguinBody::player;
 
@@ -27,9 +30,9 @@ PenguinBody::~PenguinBody(){
 void PenguinBody::Start(){
 	//cria PenguinCannon
 	GameObject* penguinBuddy=new GameObject();
-	PenguinCannon* newcannon=new PenguinCannon((*penguinBuddy),Game::GetInstance().GetState().GetObjectPtr(&associated));
+	PenguinCannon* newcannon=new PenguinCannon((*penguinBuddy),Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
 	penguinBuddy->AddComponent(newcannon);
-	pcannon=Game::GetInstance().GetState().AddObject(penguinBuddy);
+	pcannon=Game::GetInstance().GetCurrentState().AddObject(penguinBuddy);
 	return;
 }
 
@@ -93,7 +96,7 @@ void PenguinBody::NotifyCollision(GameObject& other){
 			newsnd->Play();
 			explosion->AddComponent(newsnd);
 			explosion->box=explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
-			Game::GetInstance().GetState().AddObject(explosion);
+			Game::GetInstance().GetCurrentState().AddObject(explosion);
 			pcannon.lock()->RequestDelete();
 			associated.RequestDelete();
 		}
