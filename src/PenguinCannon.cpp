@@ -1,6 +1,9 @@
 #include "PenguinCannon.h"
 #include "Game.h"
 #include "Collider.h"
+#include "Bullet.h"
+
+#define PI 3.1415926
 
 PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated){
 	//cria sprite
