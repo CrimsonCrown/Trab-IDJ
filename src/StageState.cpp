@@ -67,8 +67,8 @@ void StageState::LoadAssets(){
 }
 
 void StageState::Update(float dt){
-	if(InputManager::GetInstance().IsKeyDown(ESCAPE_KEY)){
-		quitRequested=true;
+	if(InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
+		popRequested=true;
 	}
 	if(InputManager::GetInstance().QuitRequested()){
 		quitRequested=true;
