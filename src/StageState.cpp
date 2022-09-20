@@ -33,7 +33,7 @@ StageState::StageState(){
 	//alien
 	for(int i=0;i<3;i++){
 		GameObject* alien=new GameObject();
-		Alien* newalien=new Alien((*alien),0, 2+((std::rand()%100)*0.01));
+		Alien* newalien=new Alien((*alien),0, 2+((std::rand()%100)*0.03));
 		alien->AddComponent(newalien);
 		alien->box.x=std::rand() % 1408;
 		alien->box.y=std::rand() % 1280;
