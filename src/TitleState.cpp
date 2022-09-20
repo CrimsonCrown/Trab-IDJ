@@ -5,6 +5,8 @@
 #include "TitleState.h"
 #include "StageState.h"
 #include "Game.h"
+#include "Text.h"
+#include "Camera.h"
 
 TitleState::TitleState(){
 	started=false;
@@ -17,6 +19,15 @@ TitleState::TitleState(){
 	bg->AddComponent(newspr);
 	bg->AddComponent(newflwr);
 	AddObject(bg);
+	//text
+	GameObject* text=new GameObject();
+	Text* newtxt=new Text((*text),"Recursos/font/Call me maybe.ttf", 100, Text::TextStyle::SOLID, "Press Space To Start", {255,255,255,255}, 1);
+	text->AddComponent(newtxt);
+	//CameraFollower* newflwr2=new CameraFollower(*text);
+	//text->AddComponent(newflwr2);
+	text->box.y=Camera::pos.y+400;
+	text->box.x=Camera::pos.x+40;
+	AddObject(text);
 	return;
 }
 
@@ -51,6 +62,8 @@ void TitleState::Update(float dt){
 		Game& game=Game::GetInstance();
 		game.Push(new StageState());
 	}
+	Camera::pos.x=0;
+	Camera::pos.y=0;
 	UpdateArray(dt);
 	return;
 }

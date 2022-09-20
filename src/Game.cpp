@@ -1,5 +1,6 @@
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
+#define INCLUDE_SDL_TTF
 #include "SDL_include.h"
 
 #include "Game.h"
@@ -54,6 +55,10 @@ Game::Game(const char* title, int width, int height){
 	if(renderer==nullptr){
 		std::cout << SDL_GetError();
 	}
+	//ttf
+	if(TTF_Init()!=0){
+		std::cout << "TTF init fail\n";
+	}
 	//state
 	storedState=nullptr;
 	//frameStart e dt
@@ -73,6 +78,7 @@ Game::~Game(){
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
+	TTF_Quit();
 	while(!stateStack.empty()){
 		stateStack.pop();
 	}
