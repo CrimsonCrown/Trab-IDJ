@@ -68,6 +68,18 @@ void PenguinBody::Update(float dt){
 	speed=speed.Rotate(angle);
 	//aplica no objeto
 	associated.box=associated.box.Add(speed.Mul(dt));
+	if(associated.box.x<0){
+		associated.box.x=0;
+	}
+	if(associated.box.y<0){
+		associated.box.y=0;
+	}
+	if(associated.box.x>1408){
+		associated.box.x=1408;
+	}
+	if(associated.box.y>1280){
+		associated.box.y=1280;
+	}
 	associated.angleDeg=((angle*360)/(2*PI));
 	//morre com 0 hp
 	return;
