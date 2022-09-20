@@ -31,12 +31,14 @@ StageState::StageState(){
 	music.Open("Recursos/audio/stageState.ogg");
 	music.Play();
 	//alien
-	GameObject* alien=new GameObject();
-	Alien* newalien=new Alien((*alien),0);
-	alien->AddComponent(newalien);
-	alien->box.x=512;
-	alien->box.y=300;
-	AddObject(alien);
+	for(int i=0;i<3;i++){
+		GameObject* alien=new GameObject();
+		Alien* newalien=new Alien((*alien),0, 2+((std::rand()%100)*0.01));
+		alien->AddComponent(newalien);
+		alien->box.x=std::rand() % 1408;
+		alien->box.y=std::rand() % 1280;
+		AddObject(alien);
+	}
 	//penguins
 	GameObject* pbody=new GameObject();
 	PenguinBody* newpbody=new PenguinBody((*pbody));

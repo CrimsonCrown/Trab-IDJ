@@ -19,7 +19,7 @@
 
 class Alien : public Component{
 public:
-	Alien(GameObject& associated, int nMinions);
+	Alien(GameObject& associated, int nMinions, float alienDelay);
 	~Alien();
 	void Start();
 	void Update(float dt);
@@ -33,6 +33,7 @@ private:
 	Timer restTimer;
 	Vec2 destination;
 	Vec2 speed;
+	float alienDelay;
 	int hp;
 	std::vector<std::weak_ptr<GameObject>> minionArray;
 };

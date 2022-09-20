@@ -5,7 +5,7 @@
 
 int Alien::alienCount=0;
 
-Alien::Alien(GameObject& associated, int nMinions) : Component(associated){
+Alien::Alien(GameObject& associated, int nMinions, float alienDelay) : Component(associated){
 	Sprite* newspr=new Sprite((associated),"Recursos/img/alien.png");
 	associated.AddComponent(newspr);
 	Collider* newcol=new Collider((associated));
@@ -13,6 +13,7 @@ Alien::Alien(GameObject& associated, int nMinions) : Component(associated){
 	hp=30;
 	alienCount++;
 	state=RESTING;
+	this->alienDelay=alienDelay;
 	return;
 }
 
@@ -44,7 +45,7 @@ void Alien::Update(float dt){
 		return;
 	}
 	if(state==RESTING){
-		if(restTimer.Get()>2){
+		if(restTimer.Get()>alienDelay){
 			destination=PenguinBody::player->Position();
 			state=MOVING;
 		}
