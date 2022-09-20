@@ -5,6 +5,9 @@
 #include "StageState.h"
 #include "Collision.h"
 #include "Collider.h"
+#include "GameData.h"
+#include "EndState.h"
+#include "Game.h"
 
 StageState::StageState(){
 	started=false;
@@ -99,6 +102,18 @@ void StageState::Update(float dt){
 		if(objectArray[index]->IsDead()){
 			objectArray.erase(objectArray.begin()+index);
 		}
+	}
+	if(PenguinBody::player==nullptr){
+		GameData::playerVictory=false;
+		popRequested=true;
+		Game& game=Game::GetInstance();
+		game.Push(new EndState());
+	}
+	else if(Alien::alienCount==0){
+		GameData::playerVictory=true;
+		popRequested=true;
+		Game& game=Game::GetInstance();
+		game.Push(new EndState());
 	}
 	//TODO: clisoes, entidades
 	return;
