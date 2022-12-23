@@ -19,8 +19,8 @@ StageState::StageState(){
 	GameObject* bg=new GameObject();
 	Sprite* newspr=new Sprite((*bg),"Recursos/img/ocean.jpg");
 	CameraFollower* newflwr=new CameraFollower(*bg);
-	bg->AddComponent(newspr);
 	bg->AddComponent(newflwr);
+	bg->AddComponent(newspr);
 	AddObject(bg);
 	//tile map
 	GameObject* map=new GameObject();
