@@ -14,6 +14,7 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated){
 	associated.AddComponent(newcol);
 	//cria sprite
 	Sprite* newspr=new Sprite((associated),"Recursos/img/penguin.png");
+	//newspr->SetScaleX(0.55,1.12);
 	associated.AddComponent(newspr);
 	//outros atributos
 	linearSpeed=speed.Magnitude();

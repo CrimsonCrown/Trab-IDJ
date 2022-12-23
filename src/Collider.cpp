@@ -1,12 +1,12 @@
 #include "Collider.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #include "Camera.h"
 #include "Game.h"
 
 #include <SDL2/SDL.h>
-#endif // DEBUG
+#endif
 #define PI 3.1415926
 
 Collider::Collider(GameObject& associated, Vec2 scale, Vec2 offset) : Component(associated){
@@ -20,7 +20,8 @@ void Collider::Update(float dt){
 	box=associated.box;
 	box.w=box.w*scale.x;
 	box.h=box.h*scale.y;
-	box=box.Add((associated.box.Center().Add(offset)).Sub(box.Center()));
+	float angleradian=associated.angleDeg*(PI/180);
+	box=box.Add((associated.box.Center().Add(offset.Rotate(angleradian))).Sub(box.Center()));
 	return;
 }
 
@@ -44,7 +45,7 @@ void Collider::Render() {
 
 	SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
 	SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, 5);
-#endif // DEBUG
+#endif
 }
 
 bool Collider::Is(std::string type){

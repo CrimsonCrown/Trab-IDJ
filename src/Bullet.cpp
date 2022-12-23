@@ -4,7 +4,9 @@
 Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime, bool tp) : Component(associated){
 	Sprite* newspr=new Sprite((associated),sprite, frameCount, frameTime);
 	associated.AddComponent(newspr);
-	Collider* newcol=new Collider((associated));
+	Vec2 scale={1,1};
+	Vec2 offset={25,0};
+	Collider* newcol=new Collider(associated, scale, offset);
 	associated.AddComponent(newcol);
 	this->speed.x=speed;
 	this->speed=this->speed.Rotate(angle);

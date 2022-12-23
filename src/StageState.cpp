@@ -78,10 +78,10 @@ void StageState::Update(float dt){
 	if(InputManager::GetInstance().QuitRequested()){
 		quitRequested=true;
 	}
-	Camera::Update(dt);
 	long unsigned int index;
 	long unsigned int indexaux;
 	UpdateArray(dt);
+	Camera::Update(dt);
 	for(index=0;index<objectArray.size();index++){
 		if(objectArray[index]->GetComponent("Collider")!=nullptr){
 			for(indexaux=index;indexaux<objectArray.size();indexaux++){
