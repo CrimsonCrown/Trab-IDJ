@@ -5,7 +5,7 @@ Bullet::Bullet(GameObject& associated, float angle, float speed, int damage, flo
 	Sprite* newspr=new Sprite((associated),sprite, frameCount, frameTime);
 	associated.AddComponent(newspr);
 	Vec2 scale={1,1};
-	Vec2 offset={25,0};
+	Vec2 offset={5,0};
 	Collider* newcol=new Collider(associated, scale, offset);
 	associated.AddComponent(newcol);
 	this->speed.x=speed;
