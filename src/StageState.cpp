@@ -39,14 +39,14 @@ StageState::StageState(){
 		alien->box.y=std::rand() % 1280;
 		AddObject(alien);
 	}
-	//penguins
-	GameObject* pbody=new GameObject();
-	PenguinBody* newpbody=new PenguinBody((*pbody));
-	pbody->AddComponent(newpbody);
-	pbody->box.x=704;
-	pbody->box.y=640;
-	Camera::Follow(pbody);
-	AddObject(pbody);
+	//mushroom
+	GameObject* shroom=new GameObject();
+	Mushroom* newshroom=new Mushroom((*shroom));
+	shroom->AddComponent(newshroom);
+	shroom->box.x=704;
+	shroom->box.y=640;
+	Camera::Follow(shroom);
+	AddObject(shroom);
 	return;
 }
 
@@ -105,7 +105,7 @@ void StageState::Update(float dt){
 			objectArray.erase(objectArray.begin()+index);
 		}
 	}
-	if(PenguinBody::player==nullptr){
+	if(Mushroom::player==nullptr){
 		GameData::playerVictory=false;
 		popRequested=true;
 		Game& game=Game::GetInstance();

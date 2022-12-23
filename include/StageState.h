@@ -21,6 +21,7 @@
 #include "CameraFollower.h"
 #include "Alien.h"
 #include "PenguinBody.h"
+#include "Mushroom.h"
 
 class StageState : public State{
 public:
