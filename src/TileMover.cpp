@@ -3,7 +3,6 @@
 
 TileMover::TileMover(GameObject& associated) : Component(associated) {
 	state = RESTING;
-	std::cout << "tile mover made\n";
 	return;
 }
 
@@ -29,7 +28,6 @@ void TileMover::Update(float dt) {
 			moved = true;
 		}
 		if (moved) {
-			std::cout << "tile mover move again\n";
 			state = MOVING;
 			destination=destination.Add(offset);
 		}
@@ -47,7 +45,6 @@ void TileMover::Update(float dt) {
 		}
 		if (associated.box.Center().DistTo(destination) == 0) {
 			state = RESTING;
-			std::cout << "tile mover rest again\n";
 		}
 	}
 	return;
