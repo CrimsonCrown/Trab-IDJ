@@ -3,6 +3,7 @@
 #include "PenguinCannon.h"
 #include "Collider.h"
 #include "Bullet.h"
+#include "TileMover.h"
 
 #define PI 3.1415926
 
@@ -10,6 +11,8 @@ Mushroom* Mushroom::player;
 
 Mushroom::Mushroom(GameObject& associated) : Component(associated) {
 	player = this;
+	TileMover* newmover = new TileMover((associated));
+	associated.AddComponent(newmover);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
