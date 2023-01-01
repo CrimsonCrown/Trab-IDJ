@@ -1,5 +1,5 @@
-#ifndef MUSHROOM_INCLUDE
-#define MUSHROOM_INCLUDE
+#ifndef ENEMY_INCLUDE
+#define ENEMY_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -16,17 +16,14 @@
 #include "Camera.h"
 #include "Sprite.h"
 
-class Mushroom : public Component {
+class Enemy : public Component {
 public:
-	Mushroom(GameObject& associated);
-	~Mushroom();
+	Enemy(GameObject& associated);
 	void Start();
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	static Mushroom* player;
 	void NotifyCollision(GameObject& other);
-	Vec2 Position();
 private:
 	int dir;//0 stop, 1 up, 2 right, 3 down, 4 left
 	int hp;

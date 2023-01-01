@@ -1,5 +1,5 @@
-#ifndef MUSHROOM_INCLUDE
-#define MUSHROOM_INCLUDE
+#ifndef TILECHASER_INCLUDE
+#define TILECHASER_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -15,21 +15,20 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "Minion.h"
 
-class Mushroom : public Component {
+class TileChaser : public Component {
 public:
-	Mushroom(GameObject& associated);
-	~Mushroom();
-	void Start();
+	TileChaser(GameObject& associated, float tileSize, float tileSpeed);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	static Mushroom* player;
-	void NotifyCollision(GameObject& other);
-	Vec2 Position();
 private:
-	int dir;//0 stop, 1 up, 2 right, 3 down, 4 left
-	int hp;
+	enum MovementState { MOVING, RESTING };
+	MovementState state;
+	Vec2 destination;
+	float tileSize;
+	float tileSpeed;
 };
 
 #endif

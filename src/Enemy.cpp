@@ -1,23 +1,21 @@
-#include "Mushroom.h"
+#include "Enemy.h"
 #include "Game.h"
 #include "PenguinCannon.h"
 #include "Collider.h"
 #include "Bullet.h"
 #include "TileMover.h"
+#include "TileChaser.h"
 
 #define PI 3.1415926
 
-Mushroom* Mushroom::player;
-
-Mushroom::Mushroom(GameObject& associated) : Component(associated) {
-	player = this;
-	TileMover* newmover = new TileMover((associated), 64, 2);
-	associated.AddComponent(newmover);
+Enemy::Enemy(GameObject& associated) : Component(associated) {
+	TileChaser* newchaser = new TileChaser((associated), 64, 0.5);
+	associated.AddComponent(newchaser);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/penguin.png");
-	newspr->SetScaleX(0.55,1.12);
+	Sprite* newspr = new Sprite((associated), "Recursos/img/alien.png");
+	newspr->SetScaleX(0.43, 0.39);
 	associated.AddComponent(newspr);
 	//outros atributos
 	dir = 0;
@@ -25,35 +23,29 @@ Mushroom::Mushroom(GameObject& associated) : Component(associated) {
 	return;
 }
 
-Mushroom::~Mushroom() {
-	player = nullptr;
+void Enemy::Start() {
 	return;
 }
 
-void Mushroom::Start() {
+void Enemy::Update(float dt) {
 	return;
 }
 
-void Mushroom::Update(float dt) {
+void Enemy::Render() {
 	return;
 }
 
-void Mushroom::Render() {
-	return;
-}
-
-bool Mushroom::Is(std::string type) {
+bool Enemy::Is(std::string type) {
 	if (type == "Mushroom") {
 		return true;
 	}
 	return false;
 }
 
-void Mushroom::NotifyCollision(GameObject& other) {
+void Enemy::NotifyCollision(GameObject& other) {
 	if ((other.GetComponent("Bullet") != nullptr) && (((Bullet*)other.GetComponent("Bullet"))->targetsPlayer == true)) {
 		hp -= 10;
 		if (hp <= 0) {
-			Camera::Unfollow();
 			GameObject* explosion = new GameObject();
 			Sprite* newspr = new Sprite((*explosion), "Recursos/img/penguindeath.png", 5, 0.4, 2);
 			explosion->AddComponent(newspr);
@@ -66,8 +58,4 @@ void Mushroom::NotifyCollision(GameObject& other) {
 		}
 	}
 	return;
-}
-
-Vec2 Mushroom::Position() {
-	return associated.box.Center();
 }

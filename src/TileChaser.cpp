@@ -1,37 +1,40 @@
-#include "TileMover.h"
+#include "TileChaser.h"
 #include "Game.h"
+#include "Mushroom.h"
 
-TileMover::TileMover(GameObject& associated, float tileSize, float tileSpeed) : Component(associated) {
+TileChaser::TileChaser(GameObject& associated, float tileSize, float tileSpeed) : Component(associated) {
 	this->tileSize = tileSize;
 	this->tileSpeed = tileSpeed;
 	state = RESTING;
 	return;
 }
 
-void TileMover::Update(float dt) {
+void TileChaser::Update(float dt) {
 	if (state == RESTING) {
 		Vec2 offset = { 0,0 };
 		bool moved = false;
 		destination = associated.box.Center();
-		if (InputManager::GetInstance().IsKeyDown(SDLK_w)) {
+		Vec2 dif = Mushroom::player->Position().Sub(destination);
+		//alters offset
+		if (dif.y<(-0.5*tileSize)) {
 			offset.y -= tileSize;
 			moved = true;
 		}
-		if (InputManager::GetInstance().IsKeyDown(SDLK_s)) {
+		if (dif.y>(0.5*tileSize)) {
 			offset.y += tileSize;
 			moved = true;
 		}
-		if (InputManager::GetInstance().IsKeyDown(SDLK_a)) {
+		if (dif.x<(-0.5*tileSize)) {
 			offset.x -= tileSize;
 			moved = true;
 		}
-		if (InputManager::GetInstance().IsKeyDown(SDLK_d)) {
+		if (dif.x>(0.5*tileSize)) {
 			offset.x += tileSize;
 			moved = true;
 		}
 		if (moved) {
 			state = MOVING;
-			destination=destination.Add(offset);
+			destination = destination.Add(offset);
 		}
 	}
 	if (state == MOVING) {
@@ -52,12 +55,12 @@ void TileMover::Update(float dt) {
 	return;
 }
 
-void TileMover::Render() {
+void TileChaser::Render() {
 	return;
 }
 
-bool TileMover::Is(std::string type) {
-	if (type == "TileMover") {
+bool TileChaser::Is(std::string type) {
+	if (type == "TileChaser") {
 		return true;
 	}
 	return false;

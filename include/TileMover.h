@@ -19,7 +19,7 @@
 
 class TileMover : public Component {
 public:
-	TileMover(GameObject& associated);
+	TileMover(GameObject& associated, float tileSize, float tileSpeed);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
@@ -27,7 +27,8 @@ private:
 	enum MovementState { MOVING, RESTING };
 	MovementState state;
 	Vec2 destination;
-	Vec2 speed;
+	float tileSize;
+	float tileSpeed;
 };
 
 #endif

@@ -8,6 +8,7 @@
 #include "GameData.h"
 #include "EndState.h"
 #include "Game.h"
+#include "Enemy.h"
 
 StageState::StageState(){
 	started=false;
@@ -31,14 +32,21 @@ StageState::StageState(){
 	music.Open("Recursos/audio/stageState.ogg");
 	music.Play();
 	//alien
-	for(int i=0;i<3;i++){
+	/*for(int i=0;i<3;i++){
 		GameObject* alien=new GameObject();
 		Alien* newalien=new Alien((*alien),0, 2+((std::rand()%100)*0.03));
 		alien->AddComponent(newalien);
 		alien->box.x=std::rand() % 1408;
 		alien->box.y=std::rand() % 1280;
 		AddObject(alien);
-	}
+	}*/
+	//enemy
+	GameObject* enemy = new GameObject();
+	Enemy* newenemy = new Enemy((*enemy));
+	enemy->AddComponent(newenemy);
+	enemy->box.x = 640;
+	enemy->box.y = 576;
+	AddObject(enemy);
 	//mushroom
 	GameObject* shroom=new GameObject();
 	Mushroom* newshroom=new Mushroom((*shroom));
@@ -111,12 +119,12 @@ void StageState::Update(float dt){
 		Game& game=Game::GetInstance();
 		game.Push(new EndState());
 	}
-	else if(Alien::alienCount==0){
+	/*else if(Alien::alienCount==0){
 		GameData::playerVictory=true;
 		popRequested=true;
 		Game& game=Game::GetInstance();
 		game.Push(new EndState());
-	}
+	}*/
 	//TODO: clisoes, entidades
 	return;
 }
