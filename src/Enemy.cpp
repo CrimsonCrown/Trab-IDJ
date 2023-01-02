@@ -5,10 +5,13 @@
 #include "Bullet.h"
 #include "TileMover.h"
 #include "TileChaser.h"
+#include "Vision.h"
 
 #define PI 3.1415926
 
 Enemy::Enemy(GameObject& associated) : Component(associated) {
+	Vision* newvision = new Vision((associated), 64, 3, PI/2);
+	associated.AddComponent(newvision);
 	TileChaser* newchaser = new TileChaser((associated), 64, 0.5);
 	associated.AddComponent(newchaser);
 	Collider* newcol = new Collider((associated));

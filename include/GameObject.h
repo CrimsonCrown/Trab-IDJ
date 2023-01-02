@@ -17,7 +17,7 @@ class Component;
 class GameObject{
 public:
 	GameObject();
-	GameObject(int rp,int up); //para definir prioridades
+	//GameObject(int renderp,int updatep); //para definir prioridades
 	~GameObject();
 	void Update(float dt);
 	void Render();
@@ -32,8 +32,8 @@ public:
 	double angleDeg;
 	void NotifyCollision(GameObject& other);
 private:
-	int renderPriority;//bigger means render later
-	int updatePriority;//bigger means update later
+	//int renderPriority;//bigger means render later
+	//int updatePriority;//bigger means update later
 	std::vector<std::unique_ptr<Component>> components;
 	bool isDead;
 };
