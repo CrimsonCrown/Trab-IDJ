@@ -78,11 +78,22 @@ void TileChaser::See(Vec2 location) {
 }
 
 void TileChaser::Hear(Vec2 location) {
-	destinationType = HEARING;
-	destination = location;
+	if (destinationType != SIGHT) {
+		destinationType = HEARING;
+		destination = location;
+	}
 }
 
 void TileChaser::Smell(Vec2 location) {
-	destinationType = SMELL;
-	destination = location;
+	if (destinationType != SIGHT && destinationType != HEARING) {
+		destinationType = SMELL;
+		destination = location;
+	}
+}
+
+void TileChaser::Route(Vec2 location) {
+	if (destinationType != SIGHT && destinationType != HEARING && destinationType != SMELL) {
+		destinationType = PATROL;
+		destination = location;
+	}
 }

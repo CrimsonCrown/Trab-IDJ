@@ -26,9 +26,10 @@ public:
 	void See(Vec2 location);
 	void Hear(Vec2 location);
 	void Smell(Vec2 location);
+	void Route(Vec2 location);
 private:
 	enum MovementState { MOVING, RESTING };
-	enum PerceptionState { SIGHT, HEARING, SMELL, LOST };
+	enum PerceptionState { SIGHT, HEARING, SMELL, PATROL, LOST };
 	MovementState state;
 	PerceptionState destinationType;
 	Vec2 destination;
