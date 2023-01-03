@@ -12,7 +12,7 @@ TileChaser::TileChaser(GameObject& associated, float tileSize, float tileSpeed) 
 
 void TileChaser::Update(float dt) {
 	if (state == RESTING) {
-		if (destinationType == SIGHT) {
+		if (destinationType == SIGHT || destinationType == HEARING || destinationType == SMELL || destinationType == PATROL) {
 			Vec2 offset = { 0,0 };
 			bool moved = false;
 			nextPos = associated.box.Center();
