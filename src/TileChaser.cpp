@@ -1,6 +1,7 @@
 #include "TileChaser.h"
 #include "Game.h"
 #include "Mushroom.h"
+#include "AIModule.h"
 
 TileChaser::TileChaser(GameObject& associated, float tileSize, float tileSpeed) : Component(associated) {
 	this->tileSize = tileSize;
@@ -37,6 +38,7 @@ void TileChaser::Update(float dt) {
 			if (moved) {
 				state = MOVING;
 				nextPos = nextPos.Add(offset);
+				((AIModule*)associated.GetComponent("AIModule"))->ChangeDirection(offset.Incline());
 			}
 			else {
 				destinationType = LOST;

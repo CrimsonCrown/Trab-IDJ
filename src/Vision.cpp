@@ -1,7 +1,7 @@
 #include "Vision.h"
 #include "Game.h"
 #include "Mushroom.h"
-#include "TileChaser.h"
+#include "AIModule.h"
 
 Vision::Vision(GameObject& associated, float tileSize, float range, float angle) : Component(associated) {
 	this->tileSize = tileSize;
@@ -13,11 +13,39 @@ Vision::Vision(GameObject& associated, float tileSize, float range, float angle)
 void Vision::Update(float dt) {
 	Vec2 dif = Mushroom::player->Position().Sub(associated.box.Center());
 	if (dif.Magnitude() <= (range*tileSize)) {
-		((TileChaser*)associated.GetComponent("TileChaser"))->See(Mushroom::player->Position());
+		((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
 	}
 }
 
 void Vision::Render() {
+#ifdef DEBUG
+	const int np=9;
+	float direction=((AIModule*)associated.GetComponent("AIModule"))->FacingDirection();
+	SDL_Point points[np+2];
+
+	Vec2 point = associated.box.Center().Sub(Camera::pos);
+	points[0] = { (int)point.x, (int)point.y };
+	points[np+1] = { (int)point.x, (int)point.y };
+
+	for (int i = 0; i < np; i++) {
+		point = associated.box.Center().Add(Vec2(tileSize*range, 0).Rotate((direction - (angle / 2)) + (i*(angle/(np-1))))).Sub(Camera::pos);
+		points[i+1] = { (int)point.x, (int)point.y };
+
+	}
+
+	/*point = associated.box.Center().Add(Vec2(tileSize*range,0).Rotate(direction)).Sub(Camera::pos);
+	points[1] = { (int)point.x, (int)point.y };
+	points[5] = { (int)point.x, (int)point.y };
+
+	point = associated.box.Center().Add(Vec2(tileSize*range, 0).Rotate(direction+(angle/2))).Sub(Camera::pos);
+	points[2] = { (int)point.x, (int)point.y };
+
+	point = associated.box.Center().Add(Vec2(tileSize*range, 0).Rotate(direction-(angle/2))).Sub(Camera::pos);
+	points[4] = { (int)point.x, (int)point.y };*/
+
+	SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 0, 255, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, np+2);
+#endif
 	return;
 }
 

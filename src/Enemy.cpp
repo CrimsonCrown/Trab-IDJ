@@ -6,14 +6,15 @@
 #include "TileMover.h"
 #include "TileChaser.h"
 #include "Vision.h"
+#include "AIModule.h"
 
 #define PI 3.1415926
 
 Enemy::Enemy(GameObject& associated) : Component(associated) {
-	Vision* newvision = new Vision((associated), 64, 3.1, PI/2);
-	associated.AddComponent(newvision);
-	TileChaser* newchaser = new TileChaser((associated), 64, 0.5);
-	associated.AddComponent(newchaser);
+	AIModule*  newai = new AIModule((associated), 64);
+	newai->AddVision(3.1, PI/2);
+	newai->AddChaser(0.5);
+	associated.AddComponent(newai);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
@@ -21,7 +22,6 @@ Enemy::Enemy(GameObject& associated) : Component(associated) {
 	newspr->SetScaleX(0.43, 0.39);
 	associated.AddComponent(newspr);
 	//outros atributos
-	dir = 0;
 	hp = 30;
 	return;
 }

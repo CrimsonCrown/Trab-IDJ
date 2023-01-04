@@ -1,6 +1,6 @@
 #include "Collider.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #include "Camera.h"
 #include "Game.h"

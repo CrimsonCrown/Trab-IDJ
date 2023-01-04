@@ -25,7 +25,6 @@ public:
 	bool Is(std::string type);
 	void NotifyCollision(GameObject& other);
 private:
-	int dir;//0 stop, 1 up, 2 right, 3 down, 4 left
 	int hp;
 };
 
