@@ -14,10 +14,11 @@ Sprite::Sprite(GameObject& associated) : Component(associated){
 	frameTime=1;
 	currentFrame=0;
 	timeElapsed=0;
+	repeats=1;
 	return;
 }
 
-Sprite::Sprite(GameObject& associated, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated){
+Sprite::Sprite(GameObject& associated, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct, int repeats) : Component(associated){
 	texture=nullptr;
 	angle=0;
 	scale.x=1;
@@ -25,6 +26,7 @@ Sprite::Sprite(GameObject& associated, std::string file, int frameCount, float f
 	this->frameCount=frameCount;
 	this->frameTime=frameTime;
 	this->secondsToSelfDestruct=secondsToSelfDestruct;
+	this->repeats=repeats;
 	currentFrame=0;
 	timeElapsed=0;
 	Open(file);
@@ -66,7 +68,10 @@ void Sprite::Render(int x, int y, int w, int h){
 	dstrect.w=w;
 	dstrect.h=h;
 	//SDL_RenderCopy(Game::GetInstance().GetRenderer(),texture,&clipRect,&dstrect);
-	SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture,&clipRect,&dstrect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
+	for(int i=0;i<repeats;i++){
+		SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture,&clipRect,&dstrect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
+		dstrect.x+=w;
+	}
 	return;
 }
 
@@ -154,5 +159,10 @@ void Sprite::SetFrameCount(int frameCount){
 
 void Sprite::SetFrameTime(float frameTime){
 	this->frameTime=frameTime;
+	return;
+}
+
+void Sprite::SetRepeats(int repeats){
+	this->repeats=repeats;
 	return;
 }

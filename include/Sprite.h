@@ -16,7 +16,7 @@
 class Sprite : public Component{
 public:
 	Sprite(GameObject& associated);
-	Sprite(GameObject& associated, std::string file, int frameCount=1, float frameTime=1, float secondsToSelfDestruct=0);
+	Sprite(GameObject& associated, std::string file, int frameCount=1, float frameTime=1, float secondsToSelfDestruct=0, int repeats=1);
 	~Sprite();
 	void Open(std::string file);
 	void SetClip(int x, int y, int w, int h);
@@ -33,6 +33,7 @@ public:
 	void SetFrame(int frame);
 	void SetFrameCount(int frameCount);
 	void SetFrameTime(float frameTime);
+	void SetRepeats(int repeats);
 private:
 	SDL_Texture* texture;
 	int width;
@@ -45,6 +46,7 @@ private:
 	float frameTime;
 	Timer selfDestructCount;
 	float secondsToSelfDestruct;
+	int repeats;
 };
 
 #endif

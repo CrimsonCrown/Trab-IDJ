@@ -21,7 +21,7 @@ Mushroom::Mushroom(GameObject& associated) : Component(associated) {
 	associated.AddComponent(newspr);
 	//outros atributos
 	dir = 0;
-	hp = 30;
+	hp = 3;
 	return;
 }
 
@@ -70,4 +70,8 @@ void Mushroom::NotifyCollision(GameObject& other) {
 
 Vec2 Mushroom::Position() {
 	return associated.box.Center();
+}
+
+int Mushroom::GetHp(){
+	return hp;
 }

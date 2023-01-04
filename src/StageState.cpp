@@ -9,6 +9,7 @@
 #include "EndState.h"
 #include "Game.h"
 #include "Enemy.h"
+#include "HealthBar.h"
 
 StageState::StageState(){
 	started=false;
@@ -55,6 +56,11 @@ StageState::StageState(){
 	shroom->box.y=640;
 	Camera::Follow(shroom);
 	AddObject(shroom);
+	//health bar
+	GameObject* hpbar=new GameObject();
+	HealthBar* newbar=new HealthBar((*hpbar));
+	hpbar->AddComponent(newbar);
+	AddObject(hpbar);
 	return;
 }
 

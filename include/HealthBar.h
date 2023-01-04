@@ -1,5 +1,5 @@
-#ifndef MUSHROOM_INCLUDE
-#define MUSHROOM_INCLUDE
+#ifndef HEALTHBAR_INCLUDE
+#define HEALTHBAR_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -15,22 +15,15 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "Minion.h"
 
-class Mushroom : public Component {
+class HealthBar : public Component {
 public:
-	Mushroom(GameObject& associated);
-	~Mushroom();
-	void Start();
+	HealthBar(GameObject& associated);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	static Mushroom* player;
-	void NotifyCollision(GameObject& other);
-	Vec2 Position();
-	int GetHp();
 private:
-	int dir;//0 stop, 1 up, 2 right, 3 down, 4 left
-	int hp;
 };
 
 #endif
