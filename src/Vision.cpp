@@ -15,10 +15,28 @@ void Vision::Update(float dt) {
 	if (dif.Magnitude() <= (range*tileSize)) {
 		float direction = ((AIModule*)associated.GetComponent("AIModule"))->FacingDirection();
 		float playerDirection = dif.Incline();
+		if (direction < 0) {
+			direction += 2*PI;
+		}
+		if (playerDirection < 0) {
+			playerDirection += 2*PI;
+		}
+		float upperBound = direction + angle / 2;
+		float lowerBound = direction - angle / 2;
 		//+2PI to remove negative values
-		direction += 2 * PI;
-		playerDirection += 2 * PI;
-		if (playerDirection <= (direction + angle / 2) && playerDirection >= (direction - angle / 2)) {
+		if (lowerBound < 0) {
+			lowerBound += 2 * PI;
+			if (playerDirection >= lowerBound || playerDirection <= upperBound) {
+				((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
+			}
+		}
+		else if (upperBound > (2 * PI)) {
+			upperBound -= 2 * PI;
+			if (playerDirection >= lowerBound || playerDirection <= upperBound) {
+				((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
+			}
+		}
+		else if (playerDirection <= upperBound && playerDirection >= lowerBound) {
 			((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
 		}
 	}
@@ -26,7 +44,7 @@ void Vision::Update(float dt) {
 
 void Vision::Render() {
 #ifdef DEBUG
-	const int np=9;
+	const int np=15;
 	float direction=((AIModule*)associated.GetComponent("AIModule"))->FacingDirection();
 	SDL_Point points[np+2];
 
