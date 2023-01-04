@@ -13,7 +13,14 @@ Vision::Vision(GameObject& associated, float tileSize, float range, float angle)
 void Vision::Update(float dt) {
 	Vec2 dif = Mushroom::player->Position().Sub(associated.box.Center());
 	if (dif.Magnitude() <= (range*tileSize)) {
-		((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
+		float direction = ((AIModule*)associated.GetComponent("AIModule"))->FacingDirection();
+		float playerDirection = dif.Incline();
+		//+2PI to remove negative values
+		direction += 2 * PI;
+		playerDirection += 2 * PI;
+		if (playerDirection <= (direction + angle / 2) && playerDirection >= (direction - angle / 2)) {
+			((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
+		}
 	}
 }
 
