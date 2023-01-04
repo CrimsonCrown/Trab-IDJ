@@ -39,7 +39,7 @@ void Enemy::Render() {
 }
 
 bool Enemy::Is(std::string type) {
-	if (type == "Mushroom") {
+	if (type == "Enemy") {
 		return true;
 	}
 	return false;

@@ -4,6 +4,7 @@
 #include "Collider.h"
 #include "Bullet.h"
 #include "TileMover.h"
+#include "AnimationSetter.h"
 
 #define PI 3.1415926
 
@@ -16,9 +17,12 @@ Mushroom::Mushroom(GameObject& associated) : Component(associated) {
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/penguin.png");
-	newspr->SetScaleX(0.55,1.12);
+	Sprite* newspr = new Sprite((associated), "Recursos/img/chart_beta.png", 4, 2, 1, 0, 1, 0, 0);
+	newspr->SetScaleX(0.13417191,0.13417191);
 	associated.AddComponent(newspr);
+	//cria alterador de sprites
+	AnimationSetter* anset = new AnimationSetter((associated));
+	associated.AddComponent(anset);
 	//outros atributos
 	dir = 0;
 	hp = 3;

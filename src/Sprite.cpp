@@ -11,22 +11,28 @@ Sprite::Sprite(GameObject& associated) : Component(associated){
 	scale.x=1;
 	scale.y=1;
 	frameCount=1;
+	animCount=1;
 	frameTime=1;
 	currentFrame=0;
 	timeElapsed=0;
 	repeats=1;
+	firstFrame=0;
+	lastFrame=0;
 	return;
 }
 
-Sprite::Sprite(GameObject& associated, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct, int repeats) : Component(associated){
+Sprite::Sprite(GameObject& associated, std::string file, int frameCount, int animCount, float frameTime, float secondsToSelfDestruct, int repeats, int firstFrame, int lastFrame) : Component(associated){
 	texture=nullptr;
 	angle=0;
 	scale.x=1;
 	scale.y=1;
 	this->frameCount=frameCount;
+	this->animCount=animCount;
 	this->frameTime=frameTime;
 	this->secondsToSelfDestruct=secondsToSelfDestruct;
 	this->repeats=repeats;
+	this->firstFrame=firstFrame;
+	this->lastFrame=lastFrame;
 	currentFrame=0;
 	timeElapsed=0;
 	Open(file);
@@ -41,8 +47,8 @@ void Sprite::Open(std::string file){
 	texture=Resources::GetImage(file);
 	SDL_QueryTexture(texture,nullptr,nullptr,&width,&height);
 	associated.box.w=width/frameCount;
-	associated.box.h=height;
-	SetClip(0,0,width/frameCount,height);
+	associated.box.h=height/animCount;
+	SetClip(0,0,width/frameCount,height/animCount);
 	return;
 }
 
@@ -80,7 +86,7 @@ int Sprite::GetWidth(){
 }
 
 int Sprite::GetHeight(){
-	return height*scale.y;
+	return (height*scale.y)/animCount;
 }
 
 bool Sprite::IsOpen(){
@@ -91,15 +97,15 @@ bool Sprite::IsOpen(){
 }
 
 void Sprite::Update(float dt){
-	if(frameCount>1){
+	if(frameCount>1||animCount>1){
 		timeElapsed+=dt;
 		if(timeElapsed>frameTime){
 			timeElapsed-=frameTime;
 			currentFrame+=1;
-			if(currentFrame>=frameCount){
-				currentFrame=0;
+			if(currentFrame>=(frameCount*animCount)||currentFrame>lastFrame){
+				currentFrame=firstFrame;
 			}
-			SetClip(0+(currentFrame*(width/frameCount)),0,width/frameCount,height);
+			SetClip(0+((currentFrame%frameCount)*(width/frameCount)),0+((currentFrame/frameCount)*(height/animCount)),width/frameCount,height/animCount);
 		}
 	}
 	if(secondsToSelfDestruct>0){
@@ -141,18 +147,21 @@ Vec2 Sprite::GetScale(){
 }
 
 void Sprite::SetFrame(int frame){
+	timeElapsed=0;
 	currentFrame=frame;
-	SetClip(0+(currentFrame*(width/frameCount)),0,width/frameCount,height);
+	SetClip(0+((currentFrame%frameCount)*(width/frameCount)),0+((currentFrame/frameCount)*(height/animCount)),width/frameCount,height/animCount);
 	return;
 }
 
-void Sprite::SetFrameCount(int frameCount){
+void Sprite::SetFrameCount(int frameCount, int animCount){
 	this->frameCount=frameCount;
+	this->animCount=animCount;
 	Vec2 oldScale=scale;
 	SetScaleX(1,1);
 	currentFrame=0;
-	SetClip(0+(currentFrame*(width/frameCount)),0,width/frameCount,height);
+	SetClip(0+((currentFrame%frameCount)*(width/frameCount)),0+((currentFrame/frameCount)*(height/animCount)),width/frameCount,height/animCount);
 	associated.box.w=width/frameCount;
+	associated.box.h=height/animCount;
 	SetScaleX(oldScale.x,oldScale.y);
 	return;
 }
@@ -164,5 +173,13 @@ void Sprite::SetFrameTime(float frameTime){
 
 void Sprite::SetRepeats(int repeats){
 	this->repeats=repeats;
+	return;
+}
+
+void Sprite::SetAnim(int firstFrame, int lastFrame, float frameTime){
+	this->firstFrame=firstFrame;
+	this->lastFrame=lastFrame;
+	this->frameTime=frameTime;
+	SetFrame(firstFrame);
 	return;
 }

@@ -1,5 +1,6 @@
 #include "TileMover.h"
 #include "Game.h"
+#include "AnimationSetter.h"
 
 TileMover::TileMover(GameObject& associated, float tileSize, float tileSpeed) : Component(associated) {
 	this->tileSize = tileSize;
@@ -32,6 +33,10 @@ void TileMover::Update(float dt) {
 		if (moved) {
 			state = MOVING;
 			destination=destination.Add(offset);
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+		}
+		else{
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdle();
 		}
 	}
 	if (state == MOVING) {
