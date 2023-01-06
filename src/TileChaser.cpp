@@ -64,6 +64,59 @@ void TileChaser::Update(float dt) {
 }
 
 void TileChaser::Render() {
+#ifdef DEBUG
+	SDL_Point points[6];
+
+	Vec2 point = associated.box.Center().Sub(Camera::pos);
+	points[0] = { (int)point.x, (int)point.y };
+
+	point.x+=64;
+	points[1] = { (int)point.x, (int)point.y };
+	points[5] = { (int)point.x, (int)point.y };
+
+	point.x-=64;
+	point.y+=64;
+	points[2] = { (int)point.x, (int)point.y };
+
+	point.x-=64;
+	point.y-=64;
+	points[3] = { (int)point.x, (int)point.y };
+
+	point.x+=64;
+	point.y-=64;
+	points[4] = { (int)point.x, (int)point.y };
+
+	/*point = associated.box.Center().Add(Vec2(tileSize*range,0).Rotate(direction)).Sub(Camera::pos);
+	points[1] = { (int)point.x, (int)point.y };
+	points[5] = { (int)point.x, (int)point.y };
+
+	point = associated.box.Center().Add(Vec2(tileSize*range, 0).Rotate(direction+(angle/2))).Sub(Camera::pos);
+	points[2] = { (int)point.x, (int)point.y };
+
+	point = associated.box.Center().Add(Vec2(tileSize*range, 0).Rotate(direction-(angle/2))).Sub(Camera::pos);
+	points[4] = { (int)point.x, (int)point.y };*/
+	int colorR;
+	int colorG;
+	int colorB;
+	if(destinationType==SIGHT){
+		colorR=255;
+		colorG=0;
+		colorB=0;
+	}
+	else if(destinationType==PATROL){
+		colorR=0;
+		colorG=255;
+		colorB=0;
+	}
+	else{
+		colorR=0;
+		colorG=0;
+		colorB=255;
+	}
+
+	SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), colorR, colorG, colorB, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, 6);
+#endif
 	return;
 }
 

@@ -4,7 +4,7 @@
 #include "AIModule.h"
 
 PatrolSchedule::PatrolSchedule(GameObject& associated) : Component(associated) {
-	maxCommands = 8;
+	maxCommands = 9;
 	currentCommand = 0;
 	there = false;
 	//commands
@@ -40,6 +40,10 @@ PatrolSchedule::PatrolSchedule(GameObject& associated) : Component(associated) {
 	c8.location = { 608,544 };
 	c8.waitTime = 1;
 	commands.push_back(c8);
+	PatrolCommand c9;
+	c9.location = { 800,544 };
+	c9.waitTime = 1;
+	commands.push_back(c9);
 	return;
 }
 

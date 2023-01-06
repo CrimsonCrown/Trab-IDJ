@@ -10,6 +10,7 @@ AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection
 	this->facingDirection = facingDirection;
 	vision = false;
 	chaser = false;
+	patrol = false;
 	return;
 }
 
