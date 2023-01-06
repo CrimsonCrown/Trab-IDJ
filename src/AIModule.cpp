@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Mushroom.h"
 #include "TileChaser.h"
+#include "PatrolSchedule.h"
 
 AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection) : Component(associated) {
 	this->tileSize = tileSize;
@@ -40,6 +41,14 @@ void AIModule::AddChaser(float tileSpeed) {
 		chaser = true;
 		TileChaser* newchaser = new TileChaser((associated), tileSize, tileSpeed);
 		associated.AddComponent(newchaser);
+	}
+}
+
+void AIModule::AddPatrol() {
+	if (patrol == false) {
+		patrol = true;
+		PatrolSchedule* newpatrol = new PatrolSchedule((associated));
+		associated.AddComponent(newpatrol);
 	}
 }
 
