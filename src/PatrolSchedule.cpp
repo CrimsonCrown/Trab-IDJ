@@ -71,6 +71,33 @@ void PatrolSchedule::Update(float dt) {
 }
 
 void PatrolSchedule::Render() {
+#ifdef DEBUG
+	const int np=maxCommands+1;
+	Vec2 point;
+	SDL_Point* points=(SDL_Point*)malloc(np*sizeof(SDL_Point));
+
+	for (int i = 0; i < maxCommands; i++) {
+		point = commands[i].location.Sub(Camera::pos);
+		points[i] = { (int)point.x, (int)point.y };
+
+	}
+	point = commands[0].location.Sub(Camera::pos);
+	points[maxCommands] = { (int)point.x, (int)point.y };
+
+	/*point = associated.box.Center().Add(Vec2(tileSize*range,0).Rotate(direction)).Sub(Camera::pos);
+	points[1] = { (int)point.x, (int)point.y };
+	points[5] = { (int)point.x, (int)point.y };
+
+	point = associated.box.Center().Add(Vec2(tileSize*range, 0).Rotate(direction+(angle/2))).Sub(Camera::pos);
+	points[2] = { (int)point.x, (int)point.y };
+
+	point = associated.box.Center().Add(Vec2(tileSize*range, 0).Rotate(direction-(angle/2))).Sub(Camera::pos);
+	points[4] = { (int)point.x, (int)point.y };*/
+
+	SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, np);
+	free(points);
+#endif
 	return;
 }
 
