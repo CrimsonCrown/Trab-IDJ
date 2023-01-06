@@ -3,12 +3,14 @@
 #include "Game.h"
 #include "Mushroom.h"
 #include "TileChaser.h"
+#include "Patrol.h"
 
 AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection) : Component(associated) {
 	this->tileSize = tileSize;
 	this->facingDirection = facingDirection;
 	vision = false;
 	chaser = false;
+	patrol = false;
 	return;
 }
 
@@ -40,6 +42,14 @@ void AIModule::AddChaser(float tileSpeed) {
 		chaser = true;
 		TileChaser* newchaser = new TileChaser((associated), tileSize, tileSpeed);
 		associated.AddComponent(newchaser);
+	}
+}
+
+void AIModule::AddPatrol(std::queue<Vec2> route) {
+	if (patrol == false) {
+		patrol = true;
+		Patrol* newpatrol = new Patrol((associated), route);
+		associated.AddComponent(newpatrol);
 	}
 }
 

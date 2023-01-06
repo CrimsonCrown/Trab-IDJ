@@ -13,7 +13,22 @@
 Enemy::Enemy(GameObject& associated) : Component(associated) {
 	AIModule*  newai = new AIModule((associated), 64);
 	newai->AddVision(3.1, PI/2);
-	newai->AddChaser(2);
+	newai->AddChaser(1);
+	std::deque<Vec2> deq {
+		Vec2(704, 576),			// First patrol point
+		Vec2(768, 576),
+		Vec2(768, 512),
+		Vec2(768, 448),
+		Vec2(704, 448),
+		Vec2(640, 448),
+		Vec2(576, 448),
+		Vec2(512, 448),
+		Vec2(512, 512),
+		Vec2(512, 576),
+		Vec2(576, 576),
+		Vec2(640, 576)			// Last patrol point
+	};
+	newai->AddPatrol(std::queue<Vec2>(deq));
 	associated.AddComponent(newai);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);

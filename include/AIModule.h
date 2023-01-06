@@ -25,6 +25,7 @@ public:
 	bool Is(std::string type);
 	void AddVision(float range, float angle);
 	void AddChaser(float tileSpeed);
+	void AddPatrol(std::queue<Vec2>);
 	void See(Vec2 location);
 	void Hear(Vec2 location);
 	void Smell(Vec2 location);
@@ -36,6 +37,7 @@ private:
 	float tileSize;
 	bool vision;
 	bool chaser;
+	bool patrol;
 };
 
 #endif

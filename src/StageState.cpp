@@ -53,7 +53,7 @@ StageState::StageState(){
 	Mushroom* newshroom=new Mushroom((*shroom));
 	shroom->AddComponent(newshroom);
 	shroom->box.x=704;
-	shroom->box.y=640;
+	shroom->box.y=768;
 	Camera::Follow(shroom);
 	AddObject(shroom);
 	//health bar
