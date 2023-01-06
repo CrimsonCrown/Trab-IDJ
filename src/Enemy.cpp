@@ -12,9 +12,9 @@
 
 Enemy::Enemy(GameObject& associated) : Component(associated) {
 	AIModule*  newai = new AIModule((associated), 64);
+	newai->AddPatrol();
 	newai->AddVision(3.1, (PI/3)*2);
 	newai->AddChaser(2);
-	newai->AddPatrol();
 	associated.AddComponent(newai);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);

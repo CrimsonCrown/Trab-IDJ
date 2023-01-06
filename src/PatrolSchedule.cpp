@@ -10,39 +10,39 @@ PatrolSchedule::PatrolSchedule(GameObject& associated) : Component(associated) {
 	//commands
 	PatrolCommand c1;
 	c1.location = { 672,608 };
-	c1.waitTime = 1;
+	c1.waitTime = 0;
 	commands.push_back(c1);
 	PatrolCommand c2;
 	c2.location = { 672,672 };
-	c2.waitTime = 1;
+	c2.waitTime = 0;
 	commands.push_back(c2);
 	PatrolCommand c3;
 	c3.location = { 608,736 };
-	c3.waitTime = 1;
+	c3.waitTime = 0;
 	commands.push_back(c3);
 	PatrolCommand c4;
 	c4.location = { 544,736 };
-	c4.waitTime = 1;
+	c4.waitTime = 0;
 	commands.push_back(c4);
 	PatrolCommand c5;
 	c5.location = { 480,672 };
-	c5.waitTime = 1;
+	c5.waitTime = 0;
 	commands.push_back(c5);
 	PatrolCommand c6;
 	c6.location = { 480,608 };
-	c6.waitTime = 1;
+	c6.waitTime = 0;
 	commands.push_back(c6);
 	PatrolCommand c7;
 	c7.location = { 544,544 };
-	c7.waitTime = 1;
+	c7.waitTime = 0;
 	commands.push_back(c7);
 	PatrolCommand c8;
 	c8.location = { 608,544 };
-	c8.waitTime = 1;
+	c8.waitTime = 0;
 	commands.push_back(c8);
 	PatrolCommand c9;
 	c9.location = { 800,544 };
-	c9.waitTime = 1;
+	c9.waitTime = 0;
 	commands.push_back(c9);
 	return;
 }
@@ -59,8 +59,9 @@ void PatrolSchedule::Update(float dt) {
 			there = false;
 		}
 	}
-	else {
-		if (associated.box.Center().x == commands[currentCommand].location.x && associated.box.Center().y == commands[currentCommand].location.y) {
+	if(!there) {
+		//if (associated.box.Center().x == commands[currentCommand].location.x && associated.box.Center().y == commands[currentCommand].location.y) {
+		if ((abs(associated.box.Center().x - commands[currentCommand].location.x) <10 ) && (abs(associated.box.Center().y - commands[currentCommand].location.y)<10)) {
 			there = true;
 			timeElapsed.Restart();
 		}
