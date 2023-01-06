@@ -18,8 +18,8 @@ Enemy::Enemy(GameObject& associated) : Component(associated) {
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/alien.png");
-	newspr->SetScaleX(0.43, 0.39);
+	Sprite* newspr = new Sprite((associated), "Recursos/img/choromelo.png");
+	newspr->SetScaleX(0.17158177, 0.11786372);
 	associated.AddComponent(newspr);
 	//outros atributos
 	hp = 30;

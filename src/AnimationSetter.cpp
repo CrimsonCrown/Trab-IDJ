@@ -30,7 +30,7 @@ void AnimationSetter::SetIdle(){
 
 void AnimationSetter::SetRunLeft(){
 	if(state!=1){
-		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(4,7,1);
+		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(4,7,1.0/8.0);
 		state=1;
 	}
 }
