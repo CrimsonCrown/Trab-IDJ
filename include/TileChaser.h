@@ -16,6 +16,7 @@
 #include "Camera.h"
 #include "Sprite.h"
 #include "Minion.h"
+#include "TileCoords.h"
 
 class TileChaser : public Component {
 public:
@@ -23,17 +24,17 @@ public:
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	void See(Vec2 location);
-	void Hear(Vec2 location);
-	void Smell(Vec2 location);
-	void Route(Vec2 location);
+	void See(TileCoords location);
+	void Hear(TileCoords location);
+	void Smell(TileCoords location);
+	void Route(TileCoords location);
 private:
 	enum MovementState { MOVING, RESTING };
 	enum PerceptionState { SIGHT, HEARING, SMELL, PATROL, LOST };
 	MovementState state;
 	PerceptionState destinationType;
-	Vec2 destination;
-	Vec2 nextPos;
+	TileCoords destination;
+	TileCoords nextPos;
 	float tileSize;
 	float tileSpeed;
 };

@@ -16,16 +16,17 @@
 #include "Camera.h"
 #include "Sprite.h"
 #include "Minion.h"
+#include "TileCoords.h"
 
 class PatrolCommand {
 public:
-	Vec2 location;
+	TileCoords location;
 	float waitTime;
 };
 
 class PatrolSchedule : public Component {
 public:
-	PatrolSchedule(GameObject& associated);
+	PatrolSchedule(GameObject& associated, float tileSize);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
@@ -35,6 +36,7 @@ private:
 	int currentCommand;
 	Timer timeElapsed;
 	bool there;
+	float tileSize;
 };
 
 #endif

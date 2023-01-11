@@ -14,30 +14,33 @@ TileChaser::TileChaser(GameObject& associated, float tileSize, float tileSpeed) 
 void TileChaser::Update(float dt) {
 	if (state == RESTING) {
 		if (destinationType == SIGHT || destinationType == HEARING || destinationType == SMELL || destinationType == PATROL) {
-			Vec2 offset = { 0,0 };
 			bool moved = false;
-			nextPos = associated.box.Center();
-			Vec2 dif = destination.Sub(nextPos);
+			Vec2 offset={0,0};
+			nextPos = TileCoords(associated.box.Center(), tileSize);
+			TileCoords dif = destination.Sub(nextPos);
 			//alters offset
-			if (dif.y < (-0.5*tileSize)) {
-				offset.y -= tileSize;
+			if (dif.y <= -1) {
+				nextPos.y -= 1;
+				offset.y-=1;
 				moved = true;
 			}
-			if (dif.y > (0.5*tileSize)) {
-				offset.y += tileSize;
+			if (dif.y >= 1) {
+				nextPos.y += 1;
+				offset.y+=1;
 				moved = true;
 			}
-			if (dif.x < (-0.5*tileSize)) {
-				offset.x -= tileSize;
+			if (dif.x <= -1) {
+				nextPos.x -= 1;
+				offset.x-=1;
 				moved = true;
 			}
-			if (dif.x > (0.5*tileSize)) {
-				offset.x += tileSize;
+			if (dif.x >= 1) {
+				nextPos.x += 1;
+				offset.x+=1;
 				moved = true;
 			}
 			if (moved) {
 				state = MOVING;
-				nextPos = nextPos.Add(offset);
 				((AIModule*)associated.GetComponent("AIModule"))->ChangeDirection(offset.Incline());
 			}
 			else {
@@ -48,15 +51,15 @@ void TileChaser::Update(float dt) {
 	if (state == MOVING) {
 		Vec2 boxPos = associated.box.Center();
 		float distToMove = tileSize * tileSpeed * dt;
-		if (nextPos.DistTo(boxPos) <= distToMove) {
-			associated.box.x = nextPos.x - (associated.box.w / 2);
-			associated.box.y = nextPos.y - (associated.box.h / 2);
+		if (nextPos.Center(tileSize).DistTo(boxPos) <= distToMove) {
+			associated.box.x = nextPos.Center(tileSize).x - (associated.box.w / 2);
+			associated.box.y = nextPos.Center(tileSize).y - (associated.box.h / 2);
 		}
 		else {
-			Vec2 speed = nextPos.Sub(boxPos).Normal().Mul(distToMove);
+			Vec2 speed = nextPos.Center(tileSize).Sub(boxPos).Normal().Mul(distToMove);
 			associated.box = associated.box.Add(speed);
 		}
-		if (associated.box.Center().DistTo(nextPos) == 0) {
+		if (associated.box.Center().DistTo(nextPos.Center(tileSize)) == 0) {
 			state = RESTING;
 		}
 	}
@@ -127,26 +130,27 @@ bool TileChaser::Is(std::string type) {
 	return false;
 }
 
-void TileChaser::See(Vec2 location) {
+void TileChaser::See(TileCoords location) {
 	destinationType = SIGHT;
 	destination = location;
+	std::cout << location.x << " " << location.y << "\n";
 }
 
-void TileChaser::Hear(Vec2 location) {
+void TileChaser::Hear(TileCoords location) {
 	if (destinationType != SIGHT) {
 		destinationType = HEARING;
 		destination = location;
 	}
 }
 
-void TileChaser::Smell(Vec2 location) {
+void TileChaser::Smell(TileCoords location) {
 	if (destinationType != SIGHT && destinationType != HEARING) {
 		destinationType = SMELL;
 		destination = location;
 	}
 }
 
-void TileChaser::Route(Vec2 location) {
+void TileChaser::Route(TileCoords location) {
 	if (destinationType != SIGHT && destinationType != HEARING && destinationType != SMELL) {
 		destinationType = PATROL;
 		destination = location;

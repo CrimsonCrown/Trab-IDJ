@@ -16,6 +16,7 @@
 #include "Camera.h"
 #include "Sprite.h"
 #include "Minion.h"
+#include "TileCoords.h"
 
 class AIModule : public Component {
 public:
@@ -29,7 +30,7 @@ public:
 	void See(Vec2 location);
 	void Hear(Vec2 location);
 	void Smell(Vec2 location);
-	void Route(Vec2 location);
+	void Route(TileCoords location);
 	float FacingDirection();
 	void ChangeDirection(float newdir);
 private:

@@ -48,30 +48,31 @@ void AIModule::AddChaser(float tileSpeed) {
 void AIModule::AddPatrol() {
 	if (patrol == false) {
 		patrol = true;
-		PatrolSchedule* newpatrol = new PatrolSchedule((associated));
+		PatrolSchedule* newpatrol = new PatrolSchedule((associated), tileSize);
 		associated.AddComponent(newpatrol);
 	}
 }
 
 void AIModule::See(Vec2 location) {
 	if (chaser == true) {
-		((TileChaser*)associated.GetComponent("TileChaser"))->See(location);
+		((TileChaser*)associated.GetComponent("TileChaser"))->See(TileCoords(location, tileSize));
+		std::cout << location.x << " " << location.y << "\n";
 	}
 }
 
 void AIModule::Hear(Vec2 location) {
 	if (chaser == true) {
-		((TileChaser*)associated.GetComponent("TileChaser"))->Hear(location);
+		((TileChaser*)associated.GetComponent("TileChaser"))->Hear(TileCoords(location, tileSize));
 	}
 }
 
 void AIModule::Smell(Vec2 location) {
 	if (chaser == true) {
-		((TileChaser*)associated.GetComponent("TileChaser"))->Smell(location);
+		((TileChaser*)associated.GetComponent("TileChaser"))->Smell(TileCoords(location, tileSize));
 	}
 }
 
-void AIModule::Route(Vec2 location) {
+void AIModule::Route(TileCoords location) {
 	if (chaser == true) {
 		((TileChaser*)associated.GetComponent("TileChaser"))->Route(location);
 	}
