@@ -56,7 +56,6 @@ void AIModule::AddPatrol() {
 void AIModule::See(Vec2 location) {
 	if (chaser == true) {
 		((TileChaser*)associated.GetComponent("TileChaser"))->See(TileCoords(location, tileSize));
-		std::cout << location.x << " " << location.y << "\n";
 	}
 }
 

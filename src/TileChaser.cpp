@@ -133,7 +133,6 @@ bool TileChaser::Is(std::string type) {
 void TileChaser::See(TileCoords location) {
 	destinationType = SIGHT;
 	destination = location;
-	std::cout << location.x << " " << location.y << "\n";
 }
 
 void TileChaser::Hear(TileCoords location) {
