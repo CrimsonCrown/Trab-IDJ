@@ -2,18 +2,38 @@
 #include "Game.h"
 #include "Mushroom.h"
 #include "AIModule.h"
+#include "NavMap.h"
 
 TileChaser::TileChaser(GameObject& associated, float tileSize, float tileSpeed) : Component(associated) {
 	this->tileSize = tileSize;
 	this->tileSpeed = tileSpeed;
 	state = RESTING;
 	destinationType = LOST;
+	needspath = true;
 	return;
 }
 
 void TileChaser::Update(float dt) {
 	if (state == RESTING) {
 		if (destinationType == SIGHT || destinationType == HEARING || destinationType == SMELL || destinationType == PATROL) {
+			if (needspath) {
+				//std::cout << "needs a path\n";
+				NavMap::map->Path(TileCoords(associated.box.Center(), tileSize), destination, path);
+				needspath = false;
+			}
+			if (path.empty()) {
+				destinationType = LOST;
+				//std::cout << "no path yet\n";
+			}
+			else {
+				//std::cout << "we have path yet\n";
+				state = MOVING;
+				nextPos = path.front();
+				path.pop_front();
+				Vec2 offset = nextPos.Center(tileSize).Sub(associated.box.Center());
+				((AIModule*)associated.GetComponent("AIModule"))->ChangeDirection(offset.Incline());
+			}
+			/*
 			bool moved = false;
 			Vec2 offset={0,0};
 			nextPos = TileCoords(associated.box.Center(), tileSize);
@@ -45,7 +65,7 @@ void TileChaser::Update(float dt) {
 			}
 			else {
 				destinationType = LOST;
-			}
+			}*/
 		}
 	}
 	if (state == MOVING) {
@@ -133,12 +153,14 @@ bool TileChaser::Is(std::string type) {
 void TileChaser::See(TileCoords location) {
 	destinationType = SIGHT;
 	destination = location;
+	needspath = true;
 }
 
 void TileChaser::Hear(TileCoords location) {
 	if (destinationType != SIGHT) {
 		destinationType = HEARING;
 		destination = location;
+		needspath = true;
 	}
 }
 
@@ -146,6 +168,7 @@ void TileChaser::Smell(TileCoords location) {
 	if (destinationType != SIGHT && destinationType != HEARING) {
 		destinationType = SMELL;
 		destination = location;
+		needspath = true;
 	}
 }
 
@@ -153,5 +176,6 @@ void TileChaser::Route(TileCoords location) {
 	if (destinationType != SIGHT && destinationType != HEARING && destinationType != SMELL) {
 		destinationType = PATROL;
 		destination = location;
+		needspath = true;
 	}
 }

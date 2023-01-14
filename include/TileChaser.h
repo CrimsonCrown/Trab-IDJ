@@ -35,6 +35,8 @@ private:
 	PerceptionState destinationType;
 	TileCoords destination;
 	TileCoords nextPos;
+	std::deque<TileCoords> path;
+	bool needspath;
 	float tileSize;
 	float tileSpeed;
 };
