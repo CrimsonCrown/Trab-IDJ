@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "Enemy.h"
 #include "HealthBar.h"
+#include "NavMap.h"
 
 StageState::StageState(){
 	started=false;
@@ -41,6 +42,13 @@ StageState::StageState(){
 		alien->box.y=std::rand() % 1280;
 		AddObject(alien);
 	}*/
+	//navigation
+	GameObject* navigation = new GameObject();
+	NavMap* newnavmap = new NavMap((*navigation),64,100,100);
+	navigation->AddComponent(newnavmap);
+	newnavmap->Fill({ 5,5 }, 5, 1);
+	newnavmap->Fill({ 4,6 }, 2, 5);
+	AddObject(navigation);
 	//enemy
 	GameObject* enemy = new GameObject();
 	Enemy* newenemy = new Enemy((*enemy));
