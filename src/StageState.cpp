@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "HealthBar.h"
 #include "NavMap.h"
+#include "Wall.h"
 
 StageState::StageState(){
 	started=false;
@@ -46,9 +47,34 @@ StageState::StageState(){
 	GameObject* navigation = new GameObject();
 	NavMap* newnavmap = new NavMap((*navigation),64,100,100);
 	navigation->AddComponent(newnavmap);
-	newnavmap->Fill({ 5,5 }, 5, 1);
-	newnavmap->Fill({ 4,6 }, 2, 5);
+	//newnavmap->Fill({ 5,5 }, 5, 1);
+	//newnavmap->Fill({ 4,6 }, 2, 5);
 	AddObject(navigation);
+	//walls
+	GameObject* wall = new GameObject();
+	Wall* newwall = new Wall((*wall), {5,5}, 64, 1, 1);
+	wall->AddComponent(newwall);
+	AddObject(wall);
+	wall = new GameObject();
+	newwall = new Wall((*wall), { 6,5 }, 64, 1, 1);
+	wall->AddComponent(newwall);
+	AddObject(wall);
+	wall = new GameObject();
+	newwall = new Wall((*wall), { 7,5 }, 64, 1, 1);
+	wall->AddComponent(newwall);
+	AddObject(wall);
+	wall = new GameObject();
+	newwall = new Wall((*wall), { 8,5 }, 64, 1, 1);
+	wall->AddComponent(newwall);
+	AddObject(wall);
+	wall = new GameObject();
+	newwall = new Wall((*wall), { 9,5 }, 64, 1, 1);
+	wall->AddComponent(newwall);
+	AddObject(wall);
+	wall = new GameObject();
+	newwall = new Wall((*wall), { 13,8 }, 64, 1, 6);
+	wall->AddComponent(newwall);
+	AddObject(wall);
 	//enemy
 	GameObject* enemy = new GameObject();
 	Enemy* newenemy = new Enemy((*enemy));
