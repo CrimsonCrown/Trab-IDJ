@@ -24,6 +24,7 @@ public:
 	void Render();
 	bool Is(std::string type);
 private:
+	bool waitingCollision;
 	float tileSize;
 	float range;
 	float angle;
