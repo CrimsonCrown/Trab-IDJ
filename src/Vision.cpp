@@ -2,16 +2,22 @@
 #include "Game.h"
 #include "Mushroom.h"
 #include "AIModule.h"
+#include "SightRay.h"
 
 Vision::Vision(GameObject& associated, float tileSize, float range, float angle) : Component(associated) {
 	this->tileSize = tileSize;
 	this->range = range;
 	this->angle = angle;
+	waitingCollision=false;
 	return;
 }
 
 void Vision::Update(float dt) {
 	Vec2 dif = Mushroom::player->Position().Sub(associated.box.Center());
+	if(waitingCollision){
+		waitingCollision=false;
+		((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
+	}
 	if (dif.Magnitude() <= (range*tileSize)) {
 		float direction = ((AIModule*)associated.GetComponent("AIModule"))->FacingDirection();
 		float playerDirection = dif.Incline();
@@ -27,18 +33,25 @@ void Vision::Update(float dt) {
 		if (lowerBound < 0) {
 			lowerBound += 2 * PI;
 			if (playerDirection >= lowerBound || playerDirection <= upperBound) {
-				((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
+				waitingCollision=true;
 			}
 		}
 		else if (upperBound > (2 * PI)) {
 			upperBound -= 2 * PI;
 			if (playerDirection >= lowerBound || playerDirection <= upperBound) {
-				((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
+				waitingCollision=true;
 			}
 		}
 		else if (playerDirection <= upperBound && playerDirection >= lowerBound) {
-			((AIModule*)associated.GetComponent("AIModule"))->See(Mushroom::player->Position());
+				waitingCollision=true;
 		}
+	}
+	if(waitingCollision){
+		//cria raio
+		GameObject* ray=new GameObject();
+		SightRay* newray=new SightRay((*ray), (*this), associated.box.Center(), Mushroom::player->Position(), tileSize/2);
+		ray->AddComponent(newray);
+		Game::GetInstance().GetCurrentState().AddObject(ray);
 	}
 }
 
@@ -79,4 +92,8 @@ bool Vision::Is(std::string type) {
 		return true;
 	}
 	return false;
+}
+
+void Vision::Blocked(){
+	waitingCollision=false;
 }

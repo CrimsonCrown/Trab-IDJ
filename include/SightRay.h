@@ -1,5 +1,5 @@
-#ifndef VISION_INCLUDE
-#define VISION_INCLUDE
+#ifndef SIGHTRAY_INCLUDE
+#define SIGHTRAY_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -15,20 +15,18 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
-#include "Minion.h"
+#include "Vision.h"
 
-class Vision : public Component {
+class SightRay : public Component{
 public:
-	Vision(GameObject& associated, float tileSize, float range, float angle);
+	SightRay(GameObject& associated, Vision& eye, Vec2 origin, Vec2 destiny, float girth);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	void Blocked();
+	void NotifyCollision(GameObject& other);
 private:
-	bool waitingCollision;
-	float tileSize;
-	float range;
-	float angle;
+	bool todie;
+	Vision& eye;
 };
 
 #endif
