@@ -174,8 +174,17 @@ void TileChaser::Smell(TileCoords location) {
 
 void TileChaser::Route(TileCoords location) {
 	if (destinationType != SIGHT && destinationType != HEARING && destinationType != SMELL) {
-		destinationType = PATROL;
-		destination = location;
-		needspath = true;
+		if(destinationType == PATROL){
+			if(destination.x!=location.x||destination.y!=location.y){
+				destinationType = PATROL;
+				destination = location;
+				needspath = true;
+			}
+		}
+		else{
+			destinationType = PATROL;
+			destination = location;
+			needspath = true;
+		}
 	}
 }
