@@ -1,5 +1,6 @@
 #include "SightRay.h"
 #include "Collider.h"
+#include "Bush.h"
 
 SightRay::SightRay(GameObject& associated, Vision& eye, Vec2 origin, Vec2 destiny, float girth) : Component(associated), eye(eye){
 	Collider* newcol=new Collider(associated);
@@ -37,6 +38,11 @@ bool SightRay::Is(std::string type){
 void SightRay::NotifyCollision(GameObject& other){
 	if(other.GetComponent("Wall")!=nullptr){
 		eye.Blocked();
+	}
+	else if(other.GetComponent("Bush")!=nullptr){
+		if(((Bush*)(other.GetComponent("Bush")))->Ocupied()){
+			eye.Blocked();
+		}
 	}
 	return;
 }

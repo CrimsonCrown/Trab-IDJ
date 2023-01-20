@@ -12,6 +12,7 @@
 #include "HealthBar.h"
 #include "NavMap.h"
 #include "Wall.h"
+#include "Bush.h"
 
 StageState::StageState(){
 	started=false;
@@ -90,6 +91,11 @@ StageState::StageState(){
 	shroom->box.y=640;
 	Camera::Follow(shroom);
 	AddObject(shroom);
+	//bush
+	GameObject* bush = new GameObject();
+	Bush* newbush = new Bush((*bush), { 12,7 }, 64, 1, 1);
+	bush->AddComponent(newbush);
+	AddObject(bush);
 	//health bar
 	GameObject* hpbar=new GameObject();
 	HealthBar* newbar=new HealthBar((*hpbar));

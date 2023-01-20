@@ -1,6 +1,7 @@
 #include "TileMover.h"
 #include "Game.h"
 #include "AnimationSetter.h"
+#include "Noise.h"
 
 TileMover::TileMover(GameObject& associated, float tileSize, float tileSpeed) : Component(associated) {
 	this->tileSize = tileSize;
@@ -52,6 +53,11 @@ void TileMover::Update(float dt) {
 		}
 		if (associated.box.Center().DistTo(destination) == 0) {
 			state = RESTING;
+			//faz barulho
+			GameObject* noise=new GameObject();
+			Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*2);
+			noise->AddComponent(newnoise);
+			Game::GetInstance().GetCurrentState().AddObject(noise);
 		}
 	}
 	return;
