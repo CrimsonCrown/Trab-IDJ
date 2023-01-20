@@ -18,7 +18,7 @@ StageState::StageState(){
 	quitRequested=false;
 	popRequested=false;
 	//tile set
-	tileSet = new TileSet(64,64,"Recursos/img/tile_copiar.png");
+	tileSet = new TileSet(64,64,"Recursos/img/tile_copiar-2.png");
 	//background
 	GameObject* bg=new GameObject();
 	Sprite* newspr=new Sprite((*bg),"Recursos/img/ocean.jpg");
