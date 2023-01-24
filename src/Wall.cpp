@@ -11,11 +11,11 @@
 
 #define PI 3.1415926
 
-Wall::Wall(GameObject& associated, TileCoords origin, float tileSize, int sizex, int sizey) : Component(associated) {
+Wall::Wall(GameObject& associated, TileCoords origin, float tileSize, int sizex, int sizey, std::string imgFile) : Component(associated) {
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/moita1.png");
+	Sprite* newspr = new Sprite((associated), imgFile);
 	newspr->SetScaleX((tileSize/associated.box.w)*sizex, (tileSize / associated.box.h)*sizey);
 	associated.AddComponent(newspr);
 	//fill map and place

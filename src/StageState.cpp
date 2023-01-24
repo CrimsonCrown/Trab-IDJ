@@ -13,13 +13,14 @@
 #include "NavMap.h"
 #include "Wall.h"
 #include "Bush.h"
+#include <fstream>
 
 StageState::StageState(){
 	started=false;
 	quitRequested=false;
 	popRequested=false;
 	//tile set
-	tileSet = new TileSet(64,64,"Recursos/img/tile_copiar-2.png");
+	tileSet = new TileSet(64,64,"Recursos/img/tile_copiar-3.png");
 	//background
 	GameObject* bg=new GameObject();
 	Sprite* newspr=new Sprite((*bg),"Recursos/img/ocean.jpg");
@@ -52,7 +53,7 @@ StageState::StageState(){
 	//newnavmap->Fill({ 4,6 }, 2, 5);
 	AddObject(navigation);
 	//walls
-	GameObject* wall = new GameObject();
+	/*GameObject* wall = new GameObject();
 	Wall* newwall = new Wall((*wall), {5,5}, 64, 1, 1);
 	wall->AddComponent(newwall);
 	AddObject(wall);
@@ -75,7 +76,8 @@ StageState::StageState(){
 	wall = new GameObject();
 	newwall = new Wall((*wall), { 13,8 }, 64, 1, 6);
 	wall->AddComponent(newwall);
-	AddObject(wall);
+	AddObject(wall);*/
+	LoadWalls("Recursos/map/wallMap.txt");
 	//enemy
 	GameObject* enemy = new GameObject();
 	Enemy* newenemy = new Enemy((*enemy));
@@ -192,5 +194,31 @@ void StageState::Pause(){
 }
 
 void StageState::Resume(){
+	return;
+}
+
+void StageState::LoadWalls(std::string file) {
+	std::ifstream maptxt;
+	char comma;
+	int wallAmmount;
+	maptxt.open(file);
+	maptxt >> wallAmmount;
+	int x,y,sizex,sizey,ammountx,ammounty;
+	int i;
+	std::string name;
+	//std::cout << "trying to load walls\n";
+	for (i = 0; i < wallAmmount; i++) {
+		maptxt >> name >> x >> comma >> y >> comma >> sizex >> comma >> sizey >> comma >> ammountx >> comma >> ammounty >> comma;
+		//std::cout << "trying to load " + name + " at " << x << " " << y << " sized " << sizex << " " << sizey << " in quantity " << ammountx << " " << ammounty << "\n";
+		for (int w=0; w < ammountx; w++) {
+			for (int z=0; z < ammounty; z++) {
+				GameObject* wall = new GameObject();
+				Wall* newwall = new Wall((*wall), { x+w,y+z }, 64, sizex, sizey, "Recursos/img/" + name + ".png");
+				wall->AddComponent(newwall);
+				AddObject(wall);
+			}
+		}
+	}
+	maptxt.close();
 	return;
 }

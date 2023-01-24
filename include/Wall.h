@@ -18,7 +18,7 @@
 
 class Wall : public Component {
 public:
-	Wall(GameObject& associated, TileCoords origin, float tileSize, int sizex, int sizey);
+	Wall(GameObject& associated, TileCoords origin, float tileSize, int sizex, int sizey, std::string imgFile);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
