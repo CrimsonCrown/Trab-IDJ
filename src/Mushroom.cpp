@@ -5,20 +5,21 @@
 #include "Bullet.h"
 #include "TileMover.h"
 #include "AnimationSetter.h"
+#include "Pickup.h"
 
 #define PI 3.1415926
 
 Mushroom* Mushroom::player;
 
-Mushroom::Mushroom(GameObject& associated) : Component(associated) {
+Mushroom::Mushroom(GameObject& associated, float tileSize) : Component(associated) {
 	player = this;
-	TileMover* newmover = new TileMover((associated), 64, 2);
+	TileMover* newmover = new TileMover((associated), tileSize, 2);
 	associated.AddComponent(newmover);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
 	Sprite* newspr = new Sprite((associated), "Recursos/img/chart_beta.png", 4, 2, 1, 0, 1, 0, 0);
-	newspr->SetScaleX(0.13417191,0.13417191);
+	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//cria alterador de sprites
 	AnimationSetter* anset = new AnimationSetter((associated));
@@ -67,6 +68,13 @@ void Mushroom::NotifyCollision(GameObject& other) {
 			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
 			Game::GetInstance().GetCurrentState().AddObject(explosion);
 			associated.RequestDelete();
+		}
+	}
+	Pickup* pickup = (Pickup*)(other.GetComponent("Pickup"));
+	if(pickup != nullptr){
+		//std::cout << other.box.x << " " << other.box.y << "\n";
+		if(pickup->GetType()==Pickup::HEALTH){
+			hp++;
 		}
 	}
 	return;

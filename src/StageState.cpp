@@ -13,6 +13,7 @@
 #include "NavMap.h"
 #include "Wall.h"
 #include "Bush.h"
+#include "Pickup.h"
 #include <fstream>
 
 StageState::StageState(){
@@ -80,14 +81,14 @@ StageState::StageState(){
 	LoadWalls("Recursos/map/wallMap.txt");
 	//enemy
 	GameObject* enemy = new GameObject();
-	Enemy* newenemy = new Enemy((*enemy));
+	Enemy* newenemy = new Enemy((*enemy), 64);
 	enemy->AddComponent(newenemy);
 	enemy->box.x = 640;
 	enemy->box.y = 576;
 	AddObject(enemy);
 	//mushroom
 	GameObject* shroom=new GameObject();
-	Mushroom* newshroom=new Mushroom((*shroom));
+	Mushroom* newshroom=new Mushroom((*shroom), 64);
 	shroom->AddComponent(newshroom);
 	shroom->box.x=704;
 	shroom->box.y=640;
@@ -95,9 +96,18 @@ StageState::StageState(){
 	AddObject(shroom);
 	//bush
 	GameObject* bush = new GameObject();
-	Bush* newbush = new Bush((*bush), { 12,7 }, 64, 1, 1);
+	Bush* newbush = new Bush((*bush), TileCoords(12,7), 64, 1, 1);
 	bush->AddComponent(newbush);
 	AddObject(bush);
+	//pickup
+	GameObject* pickup = new GameObject();
+	Pickup* newpickup = new Pickup((*pickup), "Recursos/img/penguinface.png", { 2,2 }, Pickup::MUFFLE, 64);
+	pickup->AddComponent(newpickup);
+	AddObject(pickup);
+	pickup = new GameObject();
+	newpickup = new Pickup((*pickup), "Recursos/img/hpheart.png", { 4,2 }, Pickup::HEALTH, 64);
+	pickup->AddComponent(newpickup);
+	AddObject(pickup);
 	//health bar
 	GameObject* hpbar=new GameObject();
 	HealthBar* newbar=new HealthBar((*hpbar));

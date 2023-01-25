@@ -18,7 +18,7 @@
 
 class Mushroom : public Component {
 public:
-	Mushroom(GameObject& associated);
+	Mushroom(GameObject& associated, float tileSize);
 	~Mushroom();
 	void Start();
 	void Update(float dt);

@@ -1,5 +1,5 @@
-#ifndef ENEMY_INCLUDE
-#define ENEMY_INCLUDE
+#ifndef PICKUP_INCLUDE
+#define PICKUP_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -15,17 +15,19 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "TileCoords.h"
 
-class Enemy : public Component {
+class Pickup : public Component{
 public:
-	Enemy(GameObject& associated, float tileSize);
-	void Start();
+	enum Type{MUFFLE, HEALTH};
+	Pickup(GameObject& associated, std::string sprite, TileCoords position, Type pt, float tileSize);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
 	void NotifyCollision(GameObject& other);
+	Type GetType();
 private:
-	int hp;
+	Type pt;
 };
 
 #endif

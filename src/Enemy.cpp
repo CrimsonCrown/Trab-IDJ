@@ -10,8 +10,8 @@
 
 #define PI 3.1415926
 
-Enemy::Enemy(GameObject& associated) : Component(associated) {
-	AIModule*  newai = new AIModule((associated), 64);
+Enemy::Enemy(GameObject& associated, float tileSize) : Component(associated) {
+	AIModule*  newai = new AIModule((associated), tileSize);
 	newai->AddPatrol();
 	newai->AddVision(3.1, (PI/3)*2);
 	newai->AddChaser(2);
@@ -20,7 +20,7 @@ Enemy::Enemy(GameObject& associated) : Component(associated) {
 	associated.AddComponent(newcol);
 	//cria sprite
 	Sprite* newspr = new Sprite((associated), "Recursos/img/choromelo.png");
-	newspr->SetScaleX(0.17158177, 0.11786372);
+	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//outros atributos
 	hp = 30;
