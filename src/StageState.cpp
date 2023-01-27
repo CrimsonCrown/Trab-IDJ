@@ -14,6 +14,7 @@
 #include "Wall.h"
 #include "Bush.h"
 #include "Pickup.h"
+#include "SkillBar.h"
 #include <fstream>
 
 StageState::StageState(){
@@ -113,6 +114,11 @@ StageState::StageState(){
 	HealthBar* newbar=new HealthBar((*hpbar));
 	hpbar->AddComponent(newbar);
 	AddObject(hpbar);
+	//skill bar
+	GameObject* skbar=new GameObject();
+	SkillBar* newskbar=new SkillBar((*skbar));
+	skbar->AddComponent(newskbar);
+	AddObject(skbar);
 	return;
 }
 

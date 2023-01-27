@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "AnimationSetter.h"
 #include "Noise.h"
+#include "Mushroom.h"
 
 TileMover::TileMover(GameObject& associated, float tileSize, float tileSpeed) : Component(associated) {
 	this->tileSize = tileSize;
@@ -55,7 +56,7 @@ void TileMover::Update(float dt) {
 			state = RESTING;
 			//faz barulho
 			GameObject* noise=new GameObject();
-			Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*2);
+			Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*Mushroom::player->NoiseRadius());
 			noise->AddComponent(newnoise);
 			Game::GetInstance().GetCurrentState().AddObject(noise);
 		}

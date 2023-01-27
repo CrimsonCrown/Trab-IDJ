@@ -6,6 +6,7 @@
 #include "TileMover.h"
 #include "AnimationSetter.h"
 #include "Pickup.h"
+#include "SkillBar.h"
 
 #define PI 3.1415926
 
@@ -25,8 +26,8 @@ Mushroom::Mushroom(GameObject& associated, float tileSize) : Component(associate
 	AnimationSetter* anset = new AnimationSetter((associated));
 	associated.AddComponent(anset);
 	//outros atributos
-	dir = 0;
 	hp = 3;
+	currentskills=0;
 	return;
 }
 
@@ -86,4 +87,16 @@ Vec2 Mushroom::Position() {
 
 int Mushroom::GetHp(){
 	return hp;
+}
+
+void Mushroom::Muffle(){
+	noiseRadius=noiseRadius/2;
+}
+
+void Mushroom::Amplify(){
+	noiseRadius=noiseRadius*2;
+}
+
+float Mushroom::NoiseRadius(){
+	return noiseRadius;
 }

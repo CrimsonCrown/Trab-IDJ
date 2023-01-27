@@ -28,8 +28,14 @@ public:
 	void NotifyCollision(GameObject& other);
 	Vec2 Position();
 	int GetHp();
+	static const int maxskills=3;
+	int currentskills;
+	std::vector<std::weak_ptr<GameObject>> skills;
+	void Muffle();
+	void Amplify();
+	float NoiseRadius();
 private:
-	int dir;//0 stop, 1 up, 2 right, 3 down, 4 left
+	float noiseRadius;
 	int hp;
 };
 
