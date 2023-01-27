@@ -34,6 +34,7 @@ private:
 	float GetDuration();
 	Type st;
 	bool active;
+	bool coolingdown;
 	Timer cdtimer;
 	Timer drtimer;
 };

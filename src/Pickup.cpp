@@ -35,10 +35,7 @@ Pickup::Type Pickup::GetType(){
 }
 
 void Pickup::NotifyCollision(GameObject& other){
-	if(other.GetComponent("Mushroom")!=nullptr&&pt==HEALTH){
-		associated.RequestDelete();
-	}
-	if(other.GetComponent("PenguinBody")!=nullptr){
+	if(other.GetComponent("Mushroom")!=nullptr){
 		associated.RequestDelete();
 	}
 	return;

@@ -7,6 +7,7 @@
 #include "AnimationSetter.h"
 #include "Pickup.h"
 #include "SkillBar.h"
+#include "Skill.h"
 
 #define PI 3.1415926
 
@@ -33,6 +34,7 @@ Mushroom::Mushroom(GameObject& associated, float tileSize) : Component(associate
 }
 
 Mushroom::~Mushroom() {
+	skills.clear();
 	player = nullptr;
 	return;
 }
@@ -42,6 +44,15 @@ void Mushroom::Start() {
 }
 
 void Mushroom::Update(float dt) {
+	if (InputManager::GetInstance().KeyPress(SDLK_1)) {
+		if (currentskills >= 1) {
+			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
+			std::shared_ptr<GameObject> skilltouse = skills[0].lock();
+			if (skilltouse != nullptr) {
+				((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+			}
+		}
+	}
 	return;
 }
 
@@ -77,6 +88,14 @@ void Mushroom::NotifyCollision(GameObject& other) {
 		//std::cout << other.box.x << " " << other.box.y << "\n";
 		if(pickup->GetType()==Pickup::HEALTH){
 			hp++;
+		}
+		if (pickup->GetType() == Pickup::MUFFLE&&currentskills<maxskills) {
+			GameObject* skill = new GameObject();
+			Skill* newskill = new Skill((*skill), Skill::MUFFLE);
+			skill->AddComponent(newskill);
+			std::weak_ptr<GameObject> skillptr = Game::GetInstance().GetCurrentState().AddObject(skill);
+			skills.push_back(skillptr);
+			currentskills++;
 		}
 	}
 	return;

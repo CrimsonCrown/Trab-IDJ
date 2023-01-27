@@ -6,6 +6,7 @@
 Skill::Skill(GameObject& associated, Type st) : Component(associated){
 	this->st=st;
 	active=false;
+	coolingdown = false;
 	return;
 }
 
@@ -18,6 +19,11 @@ void Skill::Update(float dt){
 				Mushroom::player->Amplify();
 				active=false;
 			}
+		}
+	}
+	if (coolingdown) {
+		if (cdtimer.Get() > GetCooldown()) {
+			coolingdown = false;
 		}
 	}
 	return;
@@ -36,18 +42,25 @@ bool Skill::Is(std::string type){
 
 void Skill::Use(){
 	if(st==MUFFLE){
-		if(cdtimer.Get()>GetCooldown()){
+		//std::cout << "skill muffle was used ";
+		if(coolingdown==false){
+			//std::cout << "succesfully!";
 			Mushroom::player->Muffle();
 			cdtimer.Restart();
 			drtimer.Restart();
 			active=true;
+			coolingdown = true;
 		}
+		else {
+			//std::cout << "but it was on cooldown!";
+		}
+		//std::cout << "\n";
 	}
 }
 
 float Skill::GetCooldown(){
 	if(st==MUFFLE){
-		return 60;
+		return 10;
 	}
 	return 0;
 }
