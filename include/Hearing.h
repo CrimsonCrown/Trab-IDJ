@@ -19,14 +19,14 @@
 
 class Hearing : public Component {
 public:
-	Hearing(GameObject& associated, float radius);
+	Hearing(GameObject& associated, float sensibility);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
     void NotifyCollision(GameObject& other);
 private:
 	bool waitingCollision;
-	float radius;
+	float sensibility;
     Vec2 position;
 };
 

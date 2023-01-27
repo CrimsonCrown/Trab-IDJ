@@ -13,8 +13,8 @@
 Enemy::Enemy(GameObject& associated, float tileSize) : Component(associated) {
 	AIModule*  newai = new AIModule((associated), tileSize);
 	newai->AddPatrol();
-	newai->AddVision(3.1, (PI/3)*2);
-	newai->AddHearing(tileSize*3);
+	// newai->AddVision(3.1, (PI/3)*2);
+	newai->AddHearing(0.8);
 	newai->AddChaser(2);
 	associated.AddComponent(newai);
 	Collider* newcol = new Collider((associated));
