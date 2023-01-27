@@ -43,7 +43,7 @@ void Collider::Render() {
 	point = (Vec2(box.x, box.y + box.h).Sub(center)).Rotate( associated.angleDeg/(180/PI) ).Add(center.Sub(Camera::pos));
 	points[3] = {(int)point.x, (int)point.y};
 
-	SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 200, 10, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
 	SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, 5);
 #endif
 }

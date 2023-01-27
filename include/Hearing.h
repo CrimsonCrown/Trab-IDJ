@@ -25,9 +25,7 @@ public:
 	bool Is(std::string type);
     void NotifyCollision(GameObject& other);
 private:
-	bool waitingCollision;
 	float sensibility;
-    Vec2 position;
 };
 
 #endif
