@@ -3,11 +3,12 @@
 #include "Game.h"
 #include "CameraFollower.h"
 
-HealthBar::HealthBar(GameObject& associated) : Component(associated) {
+HealthBar::HealthBar(GameObject& associated, float iconSize) : Component(associated) {
 	CameraFollower* newflwr=new CameraFollower(associated);
 	associated.AddComponent(newflwr);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/hpheart.png");
+	Sprite* newspr = new Sprite((associated), "Recursos/img/Icon_life.png");
+	newspr->SetScaleX((iconSize / associated.box.w), (iconSize / associated.box.h));
 	associated.AddComponent(newspr);
 	return;
 }

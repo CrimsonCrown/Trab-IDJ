@@ -2,13 +2,13 @@
 #include "Collider.h"
 
 
-Pickup::Pickup(GameObject& associated, std::string sprite, TileCoords position, Type pt, float tileSize) : Component(associated){
-	Sprite* newspr=new Sprite((associated),sprite);
+Pickup::Pickup(GameObject& associated, TileCoords position, Type pt, float tileSize) : Component(associated){
+	this->pt = pt;
+	Sprite* newspr=new Sprite((associated),GetSprite());
 	associated.AddComponent(newspr);
 	//newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	Collider* newcol=new Collider(associated);
 	associated.AddComponent(newcol);
-	this->pt=pt;
 	newspr->SetScaleX((tileSize/associated.box.w)*0.5, (tileSize / associated.box.h)*0.5);
 	associated.box.x+=position.Center(tileSize).x-associated.box.Center().x;
 	associated.box.y+=position.Center(tileSize).y-associated.box.Center().y;
@@ -39,4 +39,14 @@ void Pickup::NotifyCollision(GameObject& other){
 		associated.RequestDelete();
 	}
 	return;
+}
+
+std::string Pickup::GetSprite() {
+	if (pt == MUFFLE) {
+		return "Recursos/img/Icon_chamariz.png";
+	}
+	else if (pt == HEALTH) {
+		return "Recursos/img/Icon_life.png";
+	}
+	return "";
 }

@@ -20,13 +20,14 @@
 class Pickup : public Component{
 public:
 	enum Type{MUFFLE, HEALTH};
-	Pickup(GameObject& associated, std::string sprite, TileCoords position, Type pt, float tileSize);
+	Pickup(GameObject& associated, TileCoords position, Type pt, float tileSize);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
 	void NotifyCollision(GameObject& other);
 	Type GetType();
 private:
+	std::string GetSprite();
 	Type pt;
 };
 

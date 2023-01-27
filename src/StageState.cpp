@@ -22,7 +22,7 @@ StageState::StageState(){
 	quitRequested=false;
 	popRequested=false;
 	//tile set
-	tileSet = new TileSet(64,64,"Recursos/img/tile_copiar-3.png");
+	tileSet = new TileSet(64,64,"Recursos/img/tile_copiar.png");
 	//background
 	GameObject* bg=new GameObject();
 	Sprite* newspr=new Sprite((*bg),"Recursos/img/ocean.jpg");
@@ -102,16 +102,16 @@ StageState::StageState(){
 	AddObject(bush);
 	//pickup
 	GameObject* pickup = new GameObject();
-	Pickup* newpickup = new Pickup((*pickup), "Recursos/img/penguinface.png", { 2,2 }, Pickup::MUFFLE, 64);
+	Pickup* newpickup = new Pickup((*pickup), { 2,2 }, Pickup::MUFFLE, 64);
 	pickup->AddComponent(newpickup);
 	AddObject(pickup);
 	pickup = new GameObject();
-	newpickup = new Pickup((*pickup), "Recursos/img/hpheart.png", { 4,2 }, Pickup::HEALTH, 64);
+	newpickup = new Pickup((*pickup), { 4,2 }, Pickup::HEALTH, 64);
 	pickup->AddComponent(newpickup);
 	AddObject(pickup);
 	//health bar
 	GameObject* hpbar=new GameObject();
-	HealthBar* newbar=new HealthBar((*hpbar));
+	HealthBar* newbar=new HealthBar((*hpbar), 64);
 	hpbar->AddComponent(newbar);
 	AddObject(hpbar);
 	//skill bar
