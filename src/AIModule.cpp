@@ -4,6 +4,7 @@
 #include "Mushroom.h"
 #include "TileChaser.h"
 #include "PatrolSchedule.h"
+#include "Hearing.h"
 
 AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection) : Component(associated) {
 	this->tileSize = tileSize;
@@ -11,6 +12,7 @@ AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection
 	vision = false;
 	chaser = false;
 	patrol = false;
+	hearing = false;
 	return;
 }
 
@@ -50,6 +52,14 @@ void AIModule::AddPatrol() {
 		patrol = true;
 		PatrolSchedule* newpatrol = new PatrolSchedule((associated), tileSize);
 		associated.AddComponent(newpatrol);
+	}
+}
+
+void AIModule::AddHearing(float radius) {
+	if (hearing == false) {
+		hearing = true;
+		Hearing* newhearing = new Hearing((associated), radius);
+		associated.AddComponent(newhearing);
 	}
 }
 

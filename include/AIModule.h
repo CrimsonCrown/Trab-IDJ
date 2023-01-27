@@ -27,6 +27,7 @@ public:
 	void AddVision(float range, float angle);
 	void AddChaser(float tileSpeed);
 	void AddPatrol();
+	void AddHearing(float radius);
 	void See(Vec2 location);
 	void Hear(Vec2 location);
 	void Smell(Vec2 location);
@@ -39,6 +40,7 @@ private:
 	bool vision;
 	bool chaser;
 	bool patrol;
+	bool hearing;
 };
 
 #endif
