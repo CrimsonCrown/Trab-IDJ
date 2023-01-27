@@ -23,7 +23,6 @@ public:
 	void Render();
 	bool Is(std::string type);
 	Vec2 GetOrigin();
-	float GetRadius();
 private:
 	Vec2 origin;
 	float radius;

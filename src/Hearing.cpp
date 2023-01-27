@@ -10,10 +10,6 @@ Hearing::Hearing(GameObject& associated, float radius) : Component(associated) {
 	this->radius = radius;
 	waitingCollision=false;
     position=Vec2(0,0);
-	associated.box.x=(associated.box.x + associated.box.w/2)-radius;
-	associated.box.y=(associated.box.y + associated.box.h/2)-radius;
-    associated.box.w=radius*2;
-	associated.box.h=radius*2;
 	return;
 }
 
@@ -61,10 +57,11 @@ bool Hearing::Is(std::string type) {
 
 void Hearing::NotifyCollision(GameObject& other){
 	if(other.GetComponent("Noise")!=nullptr){
-		waitingCollision = true;
-		position = Vec2(associated.box.x, associated.box.y);
-		float angle = ((Noise *) other.GetComponent("Noise"))->GetOrigin().Incline(position);
-		position = position.Add(Vec2(radius * cos(angle), radius * sin(angle)));
+		position = ((Noise *) other.GetComponent("Noise"))->GetOrigin();
+		float dist = associated.box.Center().DistTo(position);
+		if(dist <= radius) {
+			waitingCollision = true;
+		}
 	}
 	return;
 }

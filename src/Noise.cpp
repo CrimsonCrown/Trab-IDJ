@@ -63,8 +63,3 @@ bool Noise::Is(std::string type){
 Vec2 Noise::GetOrigin() {
 	return origin;
 }
-	
-	
-float Noise::GetRadius() {
-	return radius;
-}
