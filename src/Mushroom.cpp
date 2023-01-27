@@ -29,7 +29,7 @@ Mushroom::Mushroom(GameObject& associated, float tileSize) : Component(associate
 	//outros atributos
 	hp = 3;
 	currentskills=0;
-	noiseRadius = 2;
+	noiseRadius = 3;
 	return;
 }
 

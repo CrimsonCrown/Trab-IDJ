@@ -1,5 +1,5 @@
-#ifndef NOISE_INCLUDE
-#define NOISE_INCLUDE
+#ifndef HEARING_INCLUDE
+#define HEARING_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -15,19 +15,17 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "Minion.h"
 
-class Noise : public Component{
+class Hearing : public Component {
 public:
-	Noise(GameObject& associated, Vec2 origin, float radius);
+	Hearing(GameObject& associated, float sensibility);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	Vec2 GetOrigin();
-	float GetRadius();
+    void NotifyCollision(GameObject& other);
 private:
-	Vec2 origin;
-	float radius;
-	bool todie;
+	float sensibility;
 };
 
 #endif
