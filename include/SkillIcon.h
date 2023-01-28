@@ -1,5 +1,5 @@
-#ifndef SKILLBAR_INCLUDE
-#define SKILLBAR_INCLUDE
+#ifndef SKILLICON_INCLUDE
+#define SKILLICON_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -15,18 +15,17 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
-#include "Minion.h"
+#include "TileCoords.h"
 
-class SkillBar : public Component {
+class SkillIcon : public Component {
 public:
-	SkillBar(GameObject& associated);
+	SkillIcon(GameObject& associated, Vec2 position, int index);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	static SkillBar* bar;
-	void AddIcon(int index);
 private:
-	Vec2 origin;
+	Vec2 position;
+	int index;
 };
 
 #endif

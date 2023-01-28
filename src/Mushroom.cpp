@@ -53,6 +53,24 @@ void Mushroom::Update(float dt) {
 			}
 		}
 	}
+	if (InputManager::GetInstance().KeyPress(SDLK_2)) {
+		if (currentskills >= 2) {
+			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
+			std::shared_ptr<GameObject> skilltouse = skills[1].lock();
+			if (skilltouse != nullptr) {
+				((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+			}
+		}
+	}
+	if (InputManager::GetInstance().KeyPress(SDLK_3)) {
+		if (currentskills >= 3) {
+			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
+			std::shared_ptr<GameObject> skilltouse = skills[2].lock();
+			if (skilltouse != nullptr) {
+				((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+			}
+		}
+	}
 	return;
 }
 
@@ -95,6 +113,7 @@ void Mushroom::NotifyCollision(GameObject& other) {
 			skill->AddComponent(newskill);
 			std::weak_ptr<GameObject> skillptr = Game::GetInstance().GetCurrentState().AddObject(skill);
 			skills.push_back(skillptr);
+			SkillBar::bar->AddIcon(currentskills);
 			currentskills++;
 		}
 	}
@@ -119,4 +138,8 @@ void Mushroom::Amplify(){
 
 float Mushroom::NoiseRadius(){
 	return noiseRadius;
+}
+
+Skill* Mushroom::GetSkill(int index){
+	return ((Skill*)((skills[index].lock())->GetComponent("Skill")));
 }

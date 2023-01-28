@@ -15,6 +15,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "Skill.h"
 
 class Mushroom : public Component {
 public:
@@ -30,11 +31,12 @@ public:
 	int GetHp();
 	static const int maxskills=3;
 	int currentskills;
-	std::vector<std::weak_ptr<GameObject>> skills;
 	void Muffle();
 	void Amplify();
 	float NoiseRadius();
+	Skill* GetSkill(int index);
 private:
+	std::vector<std::weak_ptr<GameObject>> skills;
 	float noiseRadius;
 	int hp;
 };

@@ -1,7 +1,7 @@
 6
 
 tronco_copia
-0,0,1,1,22,1,
+0,0,2,1,11,1,
 tronco_copia
 0,1,1,1,1,19,
 tronco_copia
@@ -10,5 +10,5 @@ tronco_copia
 21,1,1,1,1,18,
 tronco_copia
 5,5,1,1,5,1,
-tronco_copia
+cabeca_veado
 13,8,1,1,1,6,

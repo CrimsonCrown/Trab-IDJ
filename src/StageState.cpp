@@ -109,6 +109,10 @@ StageState::StageState(){
 	newpickup = new Pickup((*pickup), { 4,2 }, Pickup::HEALTH, 64);
 	pickup->AddComponent(newpickup);
 	AddObject(pickup);
+	pickup = new GameObject();
+	newpickup = new Pickup((*pickup), { 6,2 }, Pickup::MUFFLE, 64);
+	pickup->AddComponent(newpickup);
+	AddObject(pickup);
 	//health bar
 	GameObject* hpbar=new GameObject();
 	HealthBar* newbar=new HealthBar((*hpbar), 64);
@@ -229,7 +233,7 @@ void StageState::LoadWalls(std::string file) {
 		for (int w=0; w < ammountx; w++) {
 			for (int z=0; z < ammounty; z++) {
 				GameObject* wall = new GameObject();
-				Wall* newwall = new Wall((*wall), { x+w,y+z }, 64, sizex, sizey, "Recursos/img/" + name + ".png");
+				Wall* newwall = new Wall((*wall), { x+(w*sizex),y+(z*sizey) }, 64, sizex, sizey, "Recursos/img/" + name + ".png");
 				wall->AddComponent(newwall);
 				AddObject(wall);
 			}

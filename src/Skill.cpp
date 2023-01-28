@@ -78,7 +78,7 @@ float Skill::GetDuration(){
 
 std::string Skill::GetSprite(){
 	if(st==MUFFLE){
-		return "Resources/img/penguinface.png";
+		return "Recursos/img/Icon_chamariz.png";
 	}
 	return "";
 }

@@ -2,12 +2,15 @@
 #include "Mushroom.h"
 #include "Game.h"
 #include "CameraFollower.h"
+#include "SkillIcon.h"
 
 SkillBar* SkillBar::bar;
 
 SkillBar::SkillBar(GameObject& associated) : Component(associated) {
 	bar=this;
-	CameraFollower* newflwr=new CameraFollower(associated,(1024-(64*Mushroom::maxskills))/2,576-64);
+	origin.x=(1024-(64*Mushroom::maxskills))/2;
+	origin.y=576-64;
+	CameraFollower* newflwr=new CameraFollower(associated,origin.x,origin.y);
 	associated.AddComponent(newflwr);
 	//cria sprite
 	Sprite* newspr = new Sprite((associated), "Recursos/img/minion.png");
@@ -30,4 +33,15 @@ bool SkillBar::Is(std::string type) {
 		return true;
 	}
 	return false;
+}
+
+void SkillBar::AddIcon(int index){
+	Vec2 pos={origin.x+(index*64), origin.y};
+	//pos.x=associated.box.x;
+	//pos.y=associated.box.y;
+	//Vec2 pos(0,0);
+	GameObject* icon = new GameObject();
+	SkillIcon* newicon = new SkillIcon((*icon), pos, index);
+	icon->AddComponent(newicon);
+	Game::GetInstance().GetCurrentState().AddObject(icon);
 }
