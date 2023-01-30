@@ -8,8 +8,8 @@ SkillBar* SkillBar::bar;
 
 SkillBar::SkillBar(GameObject& associated) : Component(associated) {
 	bar=this;
-	origin.x=(1024-(64*Mushroom::maxskills))/2;
-	origin.y=576-64;
+	origin.x=0;
+	origin.y=600-64;
 	CameraFollower* newflwr=new CameraFollower(associated,origin.x,origin.y);
 	associated.AddComponent(newflwr);
 	//cria sprite

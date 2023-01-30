@@ -66,7 +66,12 @@ float Skill::GetCooldown(){
 }
 
 float Skill::GetActiveCooldown(){
-	return GetCooldown()-cdtimer.Get();
+	if (coolingdown) {
+		return GetCooldown() - cdtimer.Get();
+	}
+	else {
+		return 0;
+	}
 }
 
 float Skill::GetDuration(){

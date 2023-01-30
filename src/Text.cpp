@@ -51,7 +51,7 @@ void Text::Render(){
 	dstrect.y=box.y-Camera::pos.y;
 	dstrect.w=box.w;
 	dstrect.h=box.h;
-	SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture,&cliprect,&dstrect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
+	SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &cliprect, &dstrect, associated.angleDeg, nullptr, SDL_FLIP_NONE);
 	return;
 }
 

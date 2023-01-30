@@ -1,5 +1,5 @@
-#ifndef SKILLICON_INCLUDE
-#define SKILLICON_INCLUDE
+#ifndef BUTTONTEXT_INCLUDE
+#define BUTTONTEXT_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -17,13 +17,12 @@
 #include "Sprite.h"
 #include "TileCoords.h"
 
-class SkillIcon : public Component {
+class ButtonText : public Component {
 public:
-	SkillIcon(GameObject& associated, Vec2 position, int index);
+	ButtonText(GameObject& associated, Vec2 position, int index);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	void Start();
 private:
 	Vec2 position;
 	int index;

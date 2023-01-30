@@ -11,6 +11,8 @@
 #include "Mushroom.h"
 #include "CameraFollower.h"
 #include "Text.h"
+#include "ButtonText.h"
+#include "CooldownText.h"
 
 SkillIcon::SkillIcon(GameObject& associated, Vec2 position, int index) : Component(associated) {
 	this->index=index;
@@ -21,9 +23,6 @@ SkillIcon::SkillIcon(GameObject& associated, Vec2 position, int index) : Compone
 	Sprite* newspr = new Sprite((associated), Mushroom::player->GetSkill(index)->GetSprite());
 	newspr->SetScaleX((64/associated.box.w), (64 / associated.box.h));
 	associated.AddComponent(newspr);
-	//cria text
-	//Text* newtxt=new Text((associated),"Recursos/font/Call me maybe.ttf", 30, Text::TextStyle::SOLID, "60", {255,255,255,255});
-	//associated.AddComponent(newtxt);
 	return;
 }
 
@@ -40,4 +39,17 @@ bool SkillIcon::Is(std::string type) {
 		return true;
 	}
 	return false;
+}
+
+void SkillIcon::Start() {
+	//cria text
+	GameObject* buttontext = new GameObject();
+	ButtonText* newtxt = new ButtonText((*buttontext), position, index);
+	buttontext->AddComponent(newtxt);
+	Game::GetInstance().GetCurrentState().AddObject(buttontext);
+	//cria cooldown text
+	GameObject* cooldowntext = new GameObject();
+	CooldownText* newctxt = new CooldownText((*cooldowntext), position.Add({ associated.box.w - 30, associated.box.h - 45 }), index);
+	cooldowntext->AddComponent(newctxt);
+	Game::GetInstance().GetCurrentState().AddObject(cooldowntext);
 }

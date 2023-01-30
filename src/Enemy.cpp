@@ -20,7 +20,8 @@ Enemy::Enemy(GameObject& associated, float tileSize) : Component(associated) {
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/Veado_transparente.png");
+	//Sprite* newspr = new Sprite((associated), "Recursos/img/Veado_transparente.png");
+	Sprite* newspr = new Sprite((associated), "Recursos/img/beta_chart.png", 3, 1, 1.0 / 8.0, 0, 1, 0, 2);
 	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//outros atributos
