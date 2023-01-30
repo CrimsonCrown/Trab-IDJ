@@ -55,30 +55,6 @@ StageState::StageState(){
 	//newnavmap->Fill({ 4,6 }, 2, 5);
 	AddObject(navigation);
 	//walls
-	/*GameObject* wall = new GameObject();
-	Wall* newwall = new Wall((*wall), {5,5}, 64, 1, 1);
-	wall->AddComponent(newwall);
-	AddObject(wall);
-	wall = new GameObject();
-	newwall = new Wall((*wall), { 6,5 }, 64, 1, 1);
-	wall->AddComponent(newwall);
-	AddObject(wall);
-	wall = new GameObject();
-	newwall = new Wall((*wall), { 7,5 }, 64, 1, 1);
-	wall->AddComponent(newwall);
-	AddObject(wall);
-	wall = new GameObject();
-	newwall = new Wall((*wall), { 8,5 }, 64, 1, 1);
-	wall->AddComponent(newwall);
-	AddObject(wall);
-	wall = new GameObject();
-	newwall = new Wall((*wall), { 9,5 }, 64, 1, 1);
-	wall->AddComponent(newwall);
-	AddObject(wall);
-	wall = new GameObject();
-	newwall = new Wall((*wall), { 13,8 }, 64, 1, 6);
-	wall->AddComponent(newwall);
-	AddObject(wall);*/
 	LoadWalls("Recursos/map/wallMap.txt");
 	//enemy
 	GameObject* enemy = new GameObject();
@@ -101,7 +77,8 @@ StageState::StageState(){
 	bush->AddComponent(newbush);
 	AddObject(bush);
 	//pickup
-	GameObject* pickup = new GameObject();
+	LoadPickups("Recursos/map/pickupMap.txt");
+	/*GameObject* pickup = new GameObject();
 	Pickup* newpickup = new Pickup((*pickup), { 2,2 }, Pickup::MUFFLE, 64);
 	pickup->AddComponent(newpickup);
 	AddObject(pickup);
@@ -112,7 +89,7 @@ StageState::StageState(){
 	pickup = new GameObject();
 	newpickup = new Pickup((*pickup), { 6,2 }, Pickup::MUFFLE, 64);
 	pickup->AddComponent(newpickup);
-	AddObject(pickup);
+	AddObject(pickup);*/
 	//health bar
 	GameObject* hpbar=new GameObject();
 	HealthBar* newbar=new HealthBar((*hpbar), 64);
@@ -238,6 +215,35 @@ void StageState::LoadWalls(std::string file) {
 				AddObject(wall);
 			}
 		}
+	}
+	maptxt.close();
+	return;
+}
+
+void StageState::LoadPickups(std::string file) {
+	std::ifstream maptxt;
+	char comma;
+	int pickAmmount;
+	maptxt.open(file);
+	maptxt >> pickAmmount;
+	int x, y;
+	int i;
+	std::string name;
+	Pickup::Type type;
+	//std::cout << "trying to load walls\n";
+	for (i = 0; i < pickAmmount; i++) {
+		maptxt >> name >> x >> comma >> y >> comma;
+		//std::cout << "trying to load " + name + " at " << x << " " << y << " sized " << sizex << " " << sizey << " in quantity " << ammountx << " " << ammounty << "\n";
+		if (name == "MUFFLE") {
+			type = Pickup::MUFFLE;
+		}
+		else if (name == "HEALTH") {
+			type = Pickup::HEALTH;
+		}
+		GameObject* pickup = new GameObject();
+		Pickup* newpickup = new Pickup((*pickup), { x,y }, type, 64);
+		pickup->AddComponent(newpickup);
+		AddObject(pickup);
 	}
 	maptxt.close();
 	return;
