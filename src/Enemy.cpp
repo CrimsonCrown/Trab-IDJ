@@ -10,9 +10,9 @@
 
 #define PI 3.1415926
 
-Enemy::Enemy(GameObject& associated, float tileSize) : Component(associated) {
+Enemy::Enemy(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands) : Component(associated) {
 	AIModule*  newai = new AIModule((associated), tileSize);
-	newai->AddPatrol("enemy");
+	newai->AddPatrol(commands);
 	newai->AddVision(3.1, (PI/3)*2);
 	newai->AddHearing(0.8);
 	newai->AddChaser(2);

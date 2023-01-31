@@ -47,10 +47,10 @@ void AIModule::AddChaser(float tileSpeed) {
 	}
 }
 
-void AIModule::AddPatrol(std::string name) {
+void AIModule::AddPatrol(std::vector<PatrolCommand> commands) {
 	if (patrol == false) {
 		patrol = true;
-		PatrolSchedule* newpatrol = new PatrolSchedule((associated), tileSize, name);
+		PatrolSchedule* newpatrol = new PatrolSchedule((associated), tileSize, commands);
 		associated.AddComponent(newpatrol);
 	}
 }

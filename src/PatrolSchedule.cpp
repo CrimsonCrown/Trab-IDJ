@@ -4,9 +4,10 @@
 #include "AIModule.h"
 #include <fstream>
 
-PatrolSchedule::PatrolSchedule(GameObject& associated, float tileSize, std::string name) : Component(associated) {
+PatrolSchedule::PatrolSchedule(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands) : Component(associated) {
 	this->tileSize=tileSize;
-	LoadPatrol(name);
+	this->commands = commands;
+	maxCommands = commands.size();
 	there = false;
 	currentCommand = 0;
 	return;
@@ -72,53 +73,4 @@ bool PatrolSchedule::Is(std::string type) {
 		return true;
 	}
 	return false;
-}
-
-void PatrolSchedule::LoadPatrol(std::string name) {
-	maxCommands = 9;
-	std::ifstream patroltxt;
-	char comma;
-	int patrolAmmount;
-	std::string patrolname;
-	patroltxt.open("Recursos/map/patrolmap.txt");
-
-	while (patroltxt >> patrolname) {
-		patroltxt >> patrolAmmount;
-
-		if (patrolname == name) {
-			int x,y;
-			float waittime;
-			int i;
-			for (i = 0; i < patrolAmmount; i++) {
-				PatrolCommand cx;
-				patroltxt >> x >> comma >> y >> comma >> waittime;
-				cx.location = {x, y};
-				cx.waitTime = waittime;
-				commands.push_back(cx);
-			}
-			maxCommands = patrolAmmount;
-			break;
-		} else {
-			// Skip se não for o inimigo certo
-			std::string auxstring;
-			std::getline(patroltxt, auxstring); // Elimina o resto da linha do patrolAmmount
-			for (int i = 0; i < patrolAmmount; i++) std::getline(patroltxt, auxstring);
-		}
-	}
-	if(commands.empty()) {
-		// Se por algum motivo a patrulha nao for encontrada, uma patrulha default sera colocada.
-		std::cout << "A patrulha do inimigo nao foi encontrada! Patrulha default escolhida!";
-		maxCommands = 2;
-		PatrolCommand c1;
-		c1.location = {9, 9};
-		c1.waitTime = 0;
-		commands.push_back(c1);
-		PatrolCommand c2;
-		c2.location = {9, 10};
-		c2.waitTime = 0;
-		commands.push_back(c2);
-	}
-	
-	patroltxt.close();
-	return;
 }

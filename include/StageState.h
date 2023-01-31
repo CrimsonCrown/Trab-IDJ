@@ -35,6 +35,7 @@ public:
 	void Resume();
 	void LoadWalls(std::string);
 	void LoadPickups(std::string);
+	void LoadPatrols(std::string);
 private:
 	TileSet* tileSet;
 	Music music;

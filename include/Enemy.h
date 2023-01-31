@@ -15,10 +15,11 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "PatrolSchedule.h"
 
 class Enemy : public Component {
 public:
-	Enemy(GameObject& associated, float tileSize);
+	Enemy(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands);
 	void Start();
 	void Update(float dt);
 	void Render();
