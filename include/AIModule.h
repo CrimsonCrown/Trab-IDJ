@@ -26,7 +26,7 @@ public:
 	bool Is(std::string type);
 	void AddVision(float range, float angle);
 	void AddChaser(float tileSpeed);
-	void AddPatrol();
+	void AddPatrol(std::string name);
 	void AddHearing(float radius);
 	void See(Vec2 location);
 	void Hear(Vec2 location);

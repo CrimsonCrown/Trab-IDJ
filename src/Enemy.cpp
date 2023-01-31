@@ -12,7 +12,7 @@
 
 Enemy::Enemy(GameObject& associated, float tileSize) : Component(associated) {
 	AIModule*  newai = new AIModule((associated), tileSize);
-	newai->AddPatrol();
+	newai->AddPatrol("enemy");
 	newai->AddVision(3.1, (PI/3)*2);
 	newai->AddHearing(0.8);
 	newai->AddChaser(2);

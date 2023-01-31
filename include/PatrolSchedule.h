@@ -26,11 +26,12 @@ public:
 
 class PatrolSchedule : public Component {
 public:
-	PatrolSchedule(GameObject& associated, float tileSize);
+	PatrolSchedule(GameObject& associated, float tileSize, std::string name);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
 private:
+	void LoadPatrol(std::string name);
 	std::vector<PatrolCommand> commands;
 	int maxCommands;
 	int currentCommand;
