@@ -21,7 +21,7 @@ Enemy::Enemy(GameObject& associated, float tileSize, std::vector<PatrolCommand> 
 	associated.AddComponent(newcol);
 	//cria sprite
 	//Sprite* newspr = new Sprite((associated), "Recursos/img/Veado_transparente.png");
-	Sprite* newspr = new Sprite((associated), "Recursos/img/beta_chart.png", 3, 1, 1.0 / 8.0, 0, 1, 0, 2);
+	Sprite* newspr = new Sprite((associated), "Recursos/img/deertrial.png", 3, 1, 1.0 / 6.0, 0, 1, 0, 2);
 	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//outros atributos
