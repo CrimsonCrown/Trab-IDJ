@@ -17,6 +17,7 @@
 #include "Sprite.h"
 #include "Minion.h"
 #include "TileCoords.h"
+#include "PatrolSchedule.h"
 
 class AIModule : public Component {
 public:
@@ -26,7 +27,7 @@ public:
 	bool Is(std::string type);
 	void AddVision(float range, float angle);
 	void AddChaser(float tileSpeed);
-	void AddPatrol();
+	void AddPatrol(std::vector<PatrolCommand> commands);
 	void AddHearing(float radius);
 	void See(Vec2 location);
 	void Hear(Vec2 location);

@@ -26,7 +26,7 @@ public:
 
 class PatrolSchedule : public Component {
 public:
-	PatrolSchedule(GameObject& associated, float tileSize);
+	PatrolSchedule(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);

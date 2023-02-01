@@ -15,6 +15,7 @@
 #include "Bush.h"
 #include "Pickup.h"
 #include "SkillBar.h"
+#include "PatrolSchedule.h"
 #include <fstream>
 
 StageState::StageState(){
@@ -56,13 +57,7 @@ StageState::StageState(){
 	AddObject(navigation);
 	//walls
 	LoadWalls("Recursos/map/wallMap.txt");
-	//enemy
-	GameObject* enemy = new GameObject();
-	Enemy* newenemy = new Enemy((*enemy), 64);
-	enemy->AddComponent(newenemy);
-	enemy->box.x = 640;
-	enemy->box.y = 576;
-	AddObject(enemy);
+	LoadPatrols("Recursos/map/patrolmap.txt");
 	//mushroom
 	GameObject* shroom=new GameObject();
 	Mushroom* newshroom=new Mushroom((*shroom), 64);
@@ -249,5 +244,40 @@ void StageState::LoadPickups(std::string file) {
 		AddObject(pickup);
 	}
 	maptxt.close();
+	return;
+}
+
+void StageState::LoadPatrols(std::string name) {
+	std::vector<PatrolCommand> commands;
+	std::ifstream patroltxt;
+	char comma;
+	int patrolAmmount;
+	std::string patrolname;
+	patroltxt.open("Recursos/map/patrolmap.txt");
+
+	while (patroltxt >> patrolname) {
+		patroltxt >> patrolAmmount;
+		int x,y;
+		float waittime;
+		PatrolCommand cx;
+		int i;
+		for (i = 0; i < patrolAmmount; i++) {
+			patroltxt >> x >> comma >> y >> comma >> waittime;
+			cx.location = {x, y};
+			cx.waitTime = waittime;
+			commands.push_back(cx); 
+		}
+		if (patrolname == "enemy") {
+			GameObject* enemy = new GameObject();
+			Enemy* newenemy = new Enemy((*enemy), 64, commands);
+			enemy->AddComponent(newenemy);
+			enemy->box.x = commands.front().location.x * 64;
+			enemy->box.y = commands.front().location.y * 64;
+			AddObject(enemy);
+		}
+		commands.clear();
+	}
+	
+	patroltxt.close();
 	return;
 }
