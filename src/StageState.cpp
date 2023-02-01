@@ -9,6 +9,7 @@
 #include "EndState.h"
 #include "Game.h"
 #include "Enemy.h"
+#include "Rat.h"
 #include "HealthBar.h"
 #include "NavMap.h"
 #include "Wall.h"
@@ -271,6 +272,14 @@ void StageState::LoadPatrols(std::string name) {
 			GameObject* enemy = new GameObject();
 			Enemy* newenemy = new Enemy((*enemy), 64, commands);
 			enemy->AddComponent(newenemy);
+			enemy->box.x = commands.front().location.x * 64;
+			enemy->box.y = commands.front().location.y * 64;
+			AddObject(enemy);
+		}
+		if (patrolname == "rat") {
+			GameObject* enemy = new GameObject();
+			Rat* newrat = new Rat((*enemy), 64, commands);
+			enemy->AddComponent(newrat);
 			enemy->box.x = commands.front().location.x * 64;
 			enemy->box.y = commands.front().location.y * 64;
 			AddObject(enemy);
