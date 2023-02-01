@@ -21,8 +21,8 @@
 
 class Skill : public Component{
 public:
-	enum Type{MUFFLE};
-	Skill(GameObject& associated, Type st);
+	enum Type{MUFFLE, SPEEDBOOST};
+	Skill(GameObject& associated, Type st, std::weak_ptr<GameObject> player);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
@@ -37,6 +37,7 @@ private:
 	bool coolingdown;
 	Timer cdtimer;
 	Timer drtimer;
+	std::weak_ptr<GameObject> player;
 };
 
 #endif

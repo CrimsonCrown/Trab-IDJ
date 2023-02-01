@@ -33,11 +33,15 @@ public:
 	int currentskills;
 	void Muffle();
 	void Amplify();
+	void SpeedUp();
+	void SlowDown();
 	float NoiseRadius();
+	float TileSpeed();
 	Skill* GetSkill(int index);
 private:
 	std::vector<std::weak_ptr<GameObject>> skills;
 	float noiseRadius;
+	float tileSpeed;
 	int hp;
 };
 

@@ -19,7 +19,7 @@
 
 class TileMover : public Component {
 public:
-	TileMover(GameObject& associated, float tileSize, float tileSpeed);
+	TileMover(GameObject& associated, float tileSize);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);

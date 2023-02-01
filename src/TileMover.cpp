@@ -4,9 +4,8 @@
 #include "Noise.h"
 #include "Mushroom.h"
 
-TileMover::TileMover(GameObject& associated, float tileSize, float tileSpeed) : Component(associated) {
+TileMover::TileMover(GameObject& associated, float tileSize) : Component(associated) {
 	this->tileSize = tileSize;
-	this->tileSpeed = tileSpeed;
 	state = RESTING;
 	return;
 }
@@ -43,7 +42,7 @@ void TileMover::Update(float dt) {
 	}
 	if (state == MOVING) {
 		Vec2 boxPos = associated.box.Center();
-		float distToMove = tileSize * tileSpeed * dt;
+		float distToMove = tileSize * Mushroom::player->TileSpeed() * dt;
 		if (destination.DistTo(boxPos) <= distToMove) {
 			associated.box.x = destination.x - (associated.box.w / 2);
 			associated.box.y = destination.y - (associated.box.h / 2);

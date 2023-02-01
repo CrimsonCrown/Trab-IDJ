@@ -15,7 +15,7 @@ Mushroom* Mushroom::player;
 
 Mushroom::Mushroom(GameObject& associated, float tileSize) : Component(associated) {
 	player = this;
-	TileMover* newmover = new TileMover((associated), tileSize, 2);
+	TileMover* newmover = new TileMover((associated), tileSize);
 	associated.AddComponent(newmover);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
@@ -24,12 +24,13 @@ Mushroom::Mushroom(GameObject& associated, float tileSize) : Component(associate
 	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//cria alterador de sprites
-	AnimationSetter* anset = new AnimationSetter((associated));
+	AnimationSetter* anset = new AnimationSetter((associated), 2);
 	associated.AddComponent(anset);
 	//outros atributos
 	hp = 3;
 	currentskills=0;
 	noiseRadius = 3;
+	tileSpeed = 2;
 	return;
 }
 
@@ -109,7 +110,16 @@ void Mushroom::NotifyCollision(GameObject& other) {
 		}
 		if (pickup->GetType() == Pickup::MUFFLE&&currentskills<maxskills) {
 			GameObject* skill = new GameObject();
-			Skill* newskill = new Skill((*skill), Skill::MUFFLE);
+			Skill* newskill = new Skill((*skill), Skill::MUFFLE, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
+			skill->AddComponent(newskill);
+			std::weak_ptr<GameObject> skillptr = Game::GetInstance().GetCurrentState().AddObject(skill);
+			skills.push_back(skillptr);
+			SkillBar::bar->AddIcon(currentskills);
+			currentskills++;
+		}
+		if (pickup->GetType() == Pickup::SPEEDBOOST&&currentskills < maxskills) {
+			GameObject* skill = new GameObject();
+			Skill* newskill = new Skill((*skill), Skill::SPEEDBOOST, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
 			skill->AddComponent(newskill);
 			std::weak_ptr<GameObject> skillptr = Game::GetInstance().GetCurrentState().AddObject(skill);
 			skills.push_back(skillptr);
@@ -136,8 +146,22 @@ void Mushroom::Amplify(){
 	noiseRadius=noiseRadius*2;
 }
 
+void Mushroom::SpeedUp() {
+	tileSpeed = tileSpeed * 2;
+	((AnimationSetter*)associated.GetComponent("AnimationSetter"))->UpdateSpeed(tileSpeed);
+}
+
+void Mushroom::SlowDown() {
+	tileSpeed = tileSpeed / 2;
+	((AnimationSetter*)associated.GetComponent("AnimationSetter"))->UpdateSpeed(tileSpeed);
+}
+
 float Mushroom::NoiseRadius(){
 	return noiseRadius;
+}
+
+float Mushroom::TileSpeed() {
+	return tileSpeed;
 }
 
 Skill* Mushroom::GetSkill(int index){

@@ -240,6 +240,9 @@ void StageState::LoadPickups(std::string file) {
 		else if (name == "HEALTH") {
 			type = Pickup::HEALTH;
 		}
+		else if (name == "SPEEDBOOST") {
+			type = Pickup::SPEEDBOOST;
+		}
 		GameObject* pickup = new GameObject();
 		Pickup* newpickup = new Pickup((*pickup), { x,y }, type, 64);
 		pickup->AddComponent(newpickup);

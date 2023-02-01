@@ -48,5 +48,8 @@ std::string Pickup::GetSprite() {
 	else if (pt == HEALTH) {
 		return "Recursos/img/Icon_life.png";
 	}
+	else if (pt == SPEEDBOOST) {
+		return "Recursos/img/Icon_Speed.png";
+	}
 	return "";
 }
