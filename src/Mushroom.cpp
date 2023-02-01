@@ -90,12 +90,12 @@ bool Mushroom::Is(std::string type) {
 }
 
 void Mushroom::NotifyCollision(GameObject& other) {
-	if ((other.GetComponent("Bullet") != nullptr) && (((Bullet*)other.GetComponent("Bullet"))->targetsPlayer == true)) {
-		hp -= 10;
+	if ((other.GetComponent("Enemy") != nullptr)||(other.GetComponent("Rat")!=nullptr)) {
+		hp -= 1;
 		if (hp <= 0) {
 			Camera::Unfollow();
 			GameObject* explosion = new GameObject();
-			Sprite* newspr = new Sprite((*explosion), "Recursos/img/penguindeath.png", 5, 0.4, 2);
+			Sprite* newspr = new Sprite((*explosion), "Recursos/img/penguindeath.png", 5, 1, 0.4, 2, 1, 0, 4);
 			explosion->AddComponent(newspr);
 			Sound* newsnd = new Sound((*explosion), "Recursos/audio/boom.wav");
 			newsnd->Play();
@@ -103,6 +103,9 @@ void Mushroom::NotifyCollision(GameObject& other) {
 			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
 			Game::GetInstance().GetCurrentState().AddObject(explosion);
 			associated.RequestDelete();
+		}
+		else{
+			Place(initialPosition);
 		}
 	}
 	Pickup* pickup = (Pickup*)(other.GetComponent("Pickup"));
@@ -141,6 +144,7 @@ void Mushroom::Place(TileCoords position){
 	Vec2 location=position.Location(tileSize);
 	associated.box.x=location.x;
 	associated.box.y=location.y;
+	((TileMover*)(associated.GetComponent("TileMover")))->Reset();
 }
 
 int Mushroom::GetHp(){

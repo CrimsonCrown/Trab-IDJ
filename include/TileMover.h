@@ -23,6 +23,7 @@ public:
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
+	void Reset();
 private:
 	enum MovementState { MOVING, RESTING };
 	MovementState state;

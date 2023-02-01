@@ -73,3 +73,7 @@ bool TileMover::Is(std::string type) {
 	}
 	return false;
 }
+
+void TileMover::Reset(){
+	state=RESTING;
+}

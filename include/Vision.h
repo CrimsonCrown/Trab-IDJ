@@ -25,6 +25,7 @@ public:
 	bool Is(std::string type);
 	void Blocked();
 private:
+	Vec2 positionSeen;
 	bool waitingCollision;
 	float tileSize;
 	float range;
