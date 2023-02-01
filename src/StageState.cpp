@@ -32,60 +32,47 @@ StageState::StageState(){
 	bg->AddComponent(newflwr);
 	bg->AddComponent(newspr);
 	AddObject(bg);
-	//tile map
-	GameObject* map=new GameObject();
-	TileMap* mapping=new TileMap((*map),"Recursos/map/tileMap.txt", tileSet);
-	map->AddComponent(mapping);
-	AddObject(map);
 	//music
 	music.Open("Recursos/audio/stageState.ogg");
 	music.Play();
-	//alien
-	/*for(int i=0;i<3;i++){
-		GameObject* alien=new GameObject();
-		Alien* newalien=new Alien((*alien),0, 2+((std::rand()%100)*0.03));
-		alien->AddComponent(newalien);
-		alien->box.x=std::rand() % 1408;
-		alien->box.y=std::rand() % 1280;
-		AddObject(alien);
-	}*/
 	//navigation
 	GameObject* navigation = new GameObject();
 	NavMap* newnavmap = new NavMap((*navigation),64,100,100);
 	navigation->AddComponent(newnavmap);
-	//newnavmap->Fill({ 5,5 }, 5, 1);
-	//newnavmap->Fill({ 4,6 }, 2, 5);
 	AddObject(navigation);
+
+	//read file
+	std::ifstream maptxt;
+	char comma;
+	int x,y;
+	std::string tiles,walls,pickups,enemies;
+	maptxt.open("Recursos/map/map1.txt");
+	maptxt >> x >> comma >> y >> tiles >> walls >> pickups >> enemies;
+	maptxt.close();
+
+	//tile map
+	GameObject* map=new GameObject();
+	TileMap* mapping=new TileMap((*map),"Recursos/map/"+tiles+".txt", tileSet);
+	map->AddComponent(mapping);
+	AddObject(map);
 	//walls
-	LoadWalls("Recursos/map/wallMap.txt");
-	LoadPatrols("Recursos/map/patrolmap.txt");
+	LoadWalls("Recursos/map/"+walls+".txt");
+	//pickup
+	LoadPickups("Recursos/map/"+pickups+".txt");
+	//patrols
+	LoadPatrols("Recursos/map/"+enemies+".txt");
 	//mushroom
 	GameObject* shroom=new GameObject();
-	Mushroom* newshroom=new Mushroom((*shroom), 64);
+	Mushroom* newshroom=new Mushroom((*shroom), 64, {x,y});
 	shroom->AddComponent(newshroom);
-	shroom->box.x=704;
-	shroom->box.y=640;
 	Camera::Follow(shroom);
 	AddObject(shroom);
+	//end file
 	//bush
 	GameObject* bush = new GameObject();
 	Bush* newbush = new Bush((*bush), TileCoords(12,7), 64, 1, 1);
 	bush->AddComponent(newbush);
 	AddObject(bush);
-	//pickup
-	LoadPickups("Recursos/map/pickupMap.txt");
-	/*GameObject* pickup = new GameObject();
-	Pickup* newpickup = new Pickup((*pickup), { 2,2 }, Pickup::MUFFLE, 64);
-	pickup->AddComponent(newpickup);
-	AddObject(pickup);
-	pickup = new GameObject();
-	newpickup = new Pickup((*pickup), { 4,2 }, Pickup::HEALTH, 64);
-	pickup->AddComponent(newpickup);
-	AddObject(pickup);
-	pickup = new GameObject();
-	newpickup = new Pickup((*pickup), { 6,2 }, Pickup::MUFFLE, 64);
-	pickup->AddComponent(newpickup);
-	AddObject(pickup);*/
 	//health bar
 	GameObject* hpbar=new GameObject();
 	HealthBar* newbar=new HealthBar((*hpbar), 64);

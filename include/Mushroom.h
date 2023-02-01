@@ -16,10 +16,11 @@
 #include "Camera.h"
 #include "Sprite.h"
 #include "Skill.h"
+#include "TileCoords.h"
 
 class Mushroom : public Component {
 public:
-	Mushroom(GameObject& associated, float tileSize);
+	Mushroom(GameObject& associated, float tileSize, TileCoords initialPosition);
 	~Mushroom();
 	void Start();
 	void Update(float dt);
@@ -28,6 +29,7 @@ public:
 	static Mushroom* player;
 	void NotifyCollision(GameObject& other);
 	Vec2 Position();
+	void Place(TileCoords position);
 	int GetHp();
 	static const int maxskills=3;
 	int currentskills;
@@ -40,8 +42,10 @@ public:
 	Skill* GetSkill(int index);
 private:
 	std::vector<std::weak_ptr<GameObject>> skills;
+	float tileSize;
 	float noiseRadius;
 	float tileSpeed;
+	TileCoords initialPosition;
 	int hp;
 };
 

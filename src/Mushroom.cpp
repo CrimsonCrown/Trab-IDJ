@@ -13,7 +13,7 @@
 
 Mushroom* Mushroom::player;
 
-Mushroom::Mushroom(GameObject& associated, float tileSize) : Component(associated) {
+Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPosition) : Component(associated) {
 	player = this;
 	TileMover* newmover = new TileMover((associated), tileSize);
 	associated.AddComponent(newmover);
@@ -27,10 +27,13 @@ Mushroom::Mushroom(GameObject& associated, float tileSize) : Component(associate
 	AnimationSetter* anset = new AnimationSetter((associated), 2);
 	associated.AddComponent(anset);
 	//outros atributos
+	this->initialPosition=initialPosition;
+	this->tileSize=tileSize;
 	hp = 3;
 	currentskills=0;
 	noiseRadius = 3;
 	tileSpeed = 2;
+	Place(initialPosition);
 	return;
 }
 
@@ -132,6 +135,12 @@ void Mushroom::NotifyCollision(GameObject& other) {
 
 Vec2 Mushroom::Position() {
 	return associated.box.Center();
+}
+
+void Mushroom::Place(TileCoords position){
+	Vec2 location=position.Location(tileSize);
+	associated.box.x=location.x;
+	associated.box.y=location.y;
 }
 
 int Mushroom::GetHp(){
