@@ -90,7 +90,7 @@ bool Mushroom::Is(std::string type) {
 }
 
 void Mushroom::NotifyCollision(GameObject& other) {
-	if ((other.GetComponent("Enemy") != nullptr)||(other.GetComponent("Rat")!=nullptr)) {
+	if (((other.GetComponent("Enemy") != nullptr)||(other.GetComponent("Rat")!=nullptr))&&other.box.CenterDist(associated.box)<0.5*tileSize) {
 		hp -= 1;
 		if (hp <= 0) {
 			Camera::Unfollow();

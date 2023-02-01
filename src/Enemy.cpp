@@ -14,7 +14,7 @@ Enemy::Enemy(GameObject& associated, float tileSize, std::vector<PatrolCommand> 
 	AIModule*  newai = new AIModule((associated), tileSize);
 	newai->AddPatrol(commands);
 	newai->AddVision(3.1, (PI/3)*2);
-	newai->AddHearing(0.8);
+	newai->AddHearing(0.5);
 	newai->AddChaser(2);
 	associated.AddComponent(newai);
 	Collider* newcol = new Collider((associated));

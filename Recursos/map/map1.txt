@@ -1,5 +1,5 @@
 1,1
-tileMap
+tileMap1
 wallMap
 pickupMap
 patrolmap
