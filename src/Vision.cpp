@@ -9,14 +9,17 @@ Vision::Vision(GameObject& associated, float tileSize, float range, float angle)
 	this->range = range;
 	this->angle = angle;
 	waitingCollision=false;
+	seeing=false;
 	return;
 }
 
 void Vision::Update(float dt) {
 	Vec2 dif = Mushroom::player->Position().Sub(associated.box.Center());
+	seeing=false;
 	if(waitingCollision){
 		waitingCollision=false;
 		((AIModule*)associated.GetComponent("AIModule"))->See(positionSeen);
+		seeing=true;
 	}
 	if (dif.Magnitude() <= (range*tileSize)) {
 		float direction = ((AIModule*)associated.GetComponent("AIModule"))->FacingDirection();
@@ -50,7 +53,7 @@ void Vision::Update(float dt) {
 		//cria raio
 		positionSeen=Mushroom::player->Position();
 		GameObject* ray=new GameObject();
-		SightRay* newray=new SightRay((*ray), (*this), associated.box.Center(), positionSeen, tileSize/2);
+		SightRay* newray=new SightRay((*ray), (*this), associated.box.Center(), positionSeen, tileSize/2, seeing);
 		ray->AddComponent(newray);
 		Game::GetInstance().GetCurrentState().AddObject(ray);
 	}

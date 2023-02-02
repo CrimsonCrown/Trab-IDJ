@@ -19,13 +19,14 @@
 
 class SightRay : public Component{
 public:
-	SightRay(GameObject& associated, Vision& eye, Vec2 origin, Vec2 destiny, float girth);
+	SightRay(GameObject& associated, Vision& eye, Vec2 origin, Vec2 destiny, float girth, bool seeing);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
 	void NotifyCollision(GameObject& other);
 private:
 	bool todie;
+	bool seeing;
 	Vision& eye;
 };
 

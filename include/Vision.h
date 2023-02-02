@@ -30,6 +30,7 @@ private:
 	float tileSize;
 	float range;
 	float angle;
+	bool seeing;
 };
 
 #endif

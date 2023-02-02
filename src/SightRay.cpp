@@ -2,7 +2,7 @@
 #include "Collider.h"
 #include "Bush.h"
 
-SightRay::SightRay(GameObject& associated, Vision& eye, Vec2 origin, Vec2 destiny, float girth) : Component(associated), eye(eye){
+SightRay::SightRay(GameObject& associated, Vision& eye, Vec2 origin, Vec2 destiny, float girth, bool seeing) : Component(associated), eye(eye){
 	Collider* newcol=new Collider(associated);
 	associated.AddComponent(newcol);
 	Vec2 newcenter=destiny.Sub(origin).Mul(0.5).Add(origin);
@@ -12,6 +12,7 @@ SightRay::SightRay(GameObject& associated, Vision& eye, Vec2 origin, Vec2 destin
 	associated.box.x=associated.box.x+(newcenter.x-associated.box.Center().x);
 	associated.box.y=associated.box.y+(newcenter.y-associated.box.Center().y);
 	todie=false;
+	this->seeing=seeing;
 	return;
 }
 
@@ -39,7 +40,7 @@ void SightRay::NotifyCollision(GameObject& other){
 	if(other.GetComponent("Wall")!=nullptr){
 		eye.Blocked();
 	}
-	else if(other.GetComponent("Bush")!=nullptr){
+	else if(other.GetComponent("Bush")!=nullptr&&seeing==false){
 		if(((Bush*)(other.GetComponent("Bush")))->Ocupied()){
 			eye.Blocked();
 		}
