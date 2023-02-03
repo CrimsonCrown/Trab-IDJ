@@ -19,17 +19,23 @@
 
 class AnimationSetter : public Component {
 public:
-	AnimationSetter(GameObject& associated, float tileSpeed);
+	AnimationSetter(GameObject& associated, float tileSpeed, std::string name);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
 	void SetIdle();
+	void SetIdleLeft();
+	void SetIdleRight();
 	void SetRunLeft();
+	void SetRunRight();
 	void UpdateSpeed(float newspeed);
 private:
+	void LoadIndexes(std::string name);
+	int indexes[2][2][2];
 	int frames;
 	float tileSpeed;
-	int state;
+	int state1;
+	int state2;
 };
 
 #endif

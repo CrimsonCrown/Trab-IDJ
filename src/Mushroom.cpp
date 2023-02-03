@@ -24,7 +24,7 @@ Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPos
 	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//cria alterador de sprites
-	AnimationSetter* anset = new AnimationSetter((associated), 2);
+	AnimationSetter* anset = new AnimationSetter((associated), 2, "Recursos/animations/mushroomanims.txt");
 	associated.AddComponent(anset);
 	//outros atributos
 	this->initialPosition=initialPosition;

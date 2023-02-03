@@ -37,7 +37,7 @@ void TileMover::Update(float dt) {
 			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
 		}
 		else{
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdle();
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdleLeft();
 		}
 	}
 	if (state == MOVING) {

@@ -5,6 +5,7 @@
 #include "TileChaser.h"
 #include "PatrolSchedule.h"
 #include "Hearing.h"
+#include "AnimationSetter.h"
 
 AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection) : Component(associated) {
 	this->tileSize = tileSize;
@@ -13,6 +14,7 @@ AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection
 	chaser = false;
 	patrol = false;
 	hearing = false;
+	animations = false;
 	return;
 }
 
@@ -63,6 +65,14 @@ void AIModule::AddHearing(float radius) {
 	}
 }
 
+void AIModule::AddAnimations(float tileSpeed, std::string name) {
+	if (animations == false) {
+		animations = true;
+		AnimationSetter* newanims = new AnimationSetter((associated), tileSpeed, name);
+		associated.AddComponent(newanims);
+	}
+}
+
 void AIModule::See(Vec2 location) {
 	if (chaser == true) {
 		((TileChaser*)associated.GetComponent("TileChaser"))->See(TileCoords(location, tileSize));
@@ -93,4 +103,32 @@ float AIModule::FacingDirection() {
 
 void AIModule::ChangeDirection(float newdir) {
 	facingDirection = newdir;
+	if (animations) {
+		if (facingDirection < 0) {
+			facingDirection += 2*PI;
+		}
+		if (facingDirection > 13 * (PI / 8) || facingDirection < 3 * (PI / 8)) {
+			//direita
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunRight();
+		}
+		else if (facingDirection > 5 * (PI / 8) && facingDirection < 11 * (PI / 8)) {
+			//esquerda
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+		}
+		else if (facingDirection > 3 * (PI / 8) && facingDirection < 5 * (PI / 8)) {
+			//baixo
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunRight();
+		}
+		else if (facingDirection > 11 * (PI / 8) && facingDirection < 13 * (PI / 8)) {
+			//cima
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+		}
+	}
+	//facingDirection = newdir;
+}
+
+void AIModule::Stop() {
+	if (animations) {
+		((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdle();
+	}
 }

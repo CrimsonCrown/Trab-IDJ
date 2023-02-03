@@ -11,19 +11,22 @@
 #define PI 3.1415926
 
 Enemy::Enemy(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands) : Component(associated) {
+	//cria sprite
+	//Sprite* newspr = new Sprite((associated), "Recursos/img/Veado_transparente.png");
+	Sprite* newspr = new Sprite((associated), "Recursos/img/deertrial.png", 4, 2, 1.0 / 6.0, 0, 1, 1, 3);
+	newspr->SetScaleX((tileSize / associated.box.w), (tileSize / associated.box.h));
+	associated.AddComponent(newspr);
+	//AI
 	AIModule*  newai = new AIModule((associated), tileSize);
 	newai->AddPatrol(commands);
 	newai->AddVision(3.1, (PI/3)*2);
 	newai->AddHearing(0.5);
 	newai->AddChaser(2);
+	newai->AddAnimations(2,"Recursos/animations/deeranims.txt");
 	associated.AddComponent(newai);
+	//collider
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
-	//cria sprite
-	//Sprite* newspr = new Sprite((associated), "Recursos/img/Veado_transparente.png");
-	Sprite* newspr = new Sprite((associated), "Recursos/img/deertrial.png", 3, 1, 1.0 / 6.0, 0, 1, 0, 2);
-	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
-	associated.AddComponent(newspr);
 	//outros atributos
 	hp = 30;
 	return;

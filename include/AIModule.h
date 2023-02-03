@@ -29,12 +29,14 @@ public:
 	void AddChaser(float tileSpeed);
 	void AddPatrol(std::vector<PatrolCommand> commands);
 	void AddHearing(float radius);
+	void AddAnimations(float tileSpeed, std::string name);
 	void See(Vec2 location);
 	void Hear(Vec2 location);
 	void Smell(Vec2 location);
 	void Route(TileCoords location);
 	float FacingDirection();
 	void ChangeDirection(float newdir);
+	void Stop();
 private:
 	float facingDirection;
 	float tileSize;
@@ -42,6 +44,7 @@ private:
 	bool chaser;
 	bool patrol;
 	bool hearing;
+	bool animations;
 };
 
 #endif

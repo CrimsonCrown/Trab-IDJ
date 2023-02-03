@@ -23,6 +23,7 @@ void TileChaser::Update(float dt) {
 			}
 			if (path.empty()) {
 				destinationType = LOST;
+				((AIModule*)associated.GetComponent("AIModule"))->Stop();
 				//std::cout << "no path yet\n";
 			}
 			else {

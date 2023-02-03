@@ -53,6 +53,7 @@ StageState::StageState(){
 	//tile map
 	GameObject* map=new GameObject();
 	TileMap* mapping=new TileMap((*map),"Recursos/map/"+tiles+".txt", tileSet);
+	std::cout << "Recursos/map/" + tiles + ".txt\n";
 	map->AddComponent(mapping);
 	AddObject(map);
 	//walls
@@ -241,7 +242,7 @@ void StageState::LoadPatrols(std::string name) {
 	char comma;
 	int patrolAmmount;
 	std::string patrolname;
-	patroltxt.open("Recursos/map/patrolmap.txt");
+	patroltxt.open(name);
 
 	while (patroltxt >> patrolname) {
 		patroltxt >> patrolAmmount;

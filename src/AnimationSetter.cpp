@@ -1,11 +1,12 @@
 #include "AnimationSetter.h"
 #include "Game.h"
 #include "Mushroom.h"
+#include <fstream>
 
-AnimationSetter::AnimationSetter(GameObject& associated, float tileSpeed) : Component(associated) {
-	state=0;
-	frames = 1;
+AnimationSetter::AnimationSetter(GameObject& associated, float tileSpeed, std::string name) : Component(associated) {
+	LoadIndexes(name);
 	this->tileSpeed=tileSpeed;
+	SetIdleLeft();
 }
 
 void AnimationSetter::Update(float dt) {
@@ -23,23 +24,66 @@ bool AnimationSetter::Is(std::string type) {
 	return false;
 }
 
-void AnimationSetter::SetIdle(){
-	if(state!=0){
-		frames=1;
-		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(0,0,1.0/(frames*tileSpeed));
-		state=0;
+void AnimationSetter::SetIdle() {
+	if (state2 != 0) {
+		state2 = 0;
+		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
+	}
+}
+
+void AnimationSetter::SetIdleLeft(){
+	if (state1 != 0 || state2 != 0) {
+		state1 = 0;
+		state2 = 0;
+		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
+	}
+}
+
+void AnimationSetter::SetIdleRight() {
+	if (state1 != 1 || state2 != 0) {
+		state1 = 1;
+		state2 = 0;
+		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
 	}
 }
 
 void AnimationSetter::SetRunLeft(){
-	if(state!=1){
-		frames = 4;
-		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(4,7, 1.0 / (frames*tileSpeed));
-		state=1;
+	if (state1 != 0 || state2 != 1) {
+		state1 = 0;
+		state2 = 1;
+		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
+	}
+}
+
+void AnimationSetter::SetRunRight() {
+	if (state1 != 1 || state2 != 1) {
+		state1 = 1;
+		state2 = 1;
+		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
 	}
 }
 
 void AnimationSetter::UpdateSpeed(float newspeed) {
 	tileSpeed = newspeed;
 	((Sprite*)associated.GetComponent("Sprite"))->SetFrameTime(1.0 / (frames*tileSpeed));
+}
+
+void AnimationSetter::LoadIndexes(std::string name) {
+	std::ifstream maptxt;
+	char comma;
+	maptxt.open(name);
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			for (int k = 0; k < 2; k++) {
+				maptxt >> indexes[i][j][k] >> comma;
+			}
+		}
+	}
+	maptxt.close();
+	return;
 }
