@@ -1,4 +1,5 @@
 1,1
+36,6
 tileMap2
 wallMap2
 pickupmapmaze

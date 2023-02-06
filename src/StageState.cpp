@@ -17,6 +17,7 @@
 #include "Pickup.h"
 #include "SkillBar.h"
 #include "PatrolSchedule.h"
+#include "EndGate.h"
 #include <fstream>
 
 StageState::StageState(){
@@ -44,10 +45,10 @@ StageState::StageState(){
 	//read file
 	std::ifstream maptxt;
 	char comma;
-	int x,y;
+	int x,y,ex,ey;
 	std::string tiles,walls,pickups,enemies;
 	maptxt.open("Recursos/map/map2.txt");
-	maptxt >> x >> comma >> y >> tiles >> walls >> pickups >> enemies;
+	maptxt >> x >> comma >> y >> ex >> comma >> ey >> tiles >> walls >> pickups >> enemies;
 	maptxt.close();
 
 	//tile map
@@ -67,6 +68,11 @@ StageState::StageState(){
 	shroom->AddComponent(newshroom);
 	Camera::Follow(shroom);
 	AddObject(shroom);
+	//end gate
+	GameObject* endgate = new GameObject();
+	EndGate* newgate = new EndGate((*endgate), 64, { ex,ey });
+	endgate->AddComponent(newgate);
+	AddObject(endgate);
 	//end file
 	//bush
 	GameObject* bush = new GameObject();
@@ -147,13 +153,12 @@ void StageState::Update(float dt){
 		Game& game=Game::GetInstance();
 		game.Push(new EndState());
 	}
-	/*else if(Alien::alienCount==0){
+	else if(EndGate::ending){
 		GameData::playerVictory=true;
 		popRequested=true;
 		Game& game=Game::GetInstance();
 		game.Push(new EndState());
-	}*/
-	//TODO: clisoes, entidades
+	}
 	return;
 }
 
