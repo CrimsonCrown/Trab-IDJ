@@ -34,10 +34,29 @@ void TileMover::Update(float dt) {
 		if (moved) {
 			state = MOVING;
 			destination=destination.Add(offset);
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+			float facingDirection=offset.Incline();
+			if (facingDirection < 0) {
+				facingDirection += 2 * PI;
+			}
+			if (facingDirection > 13 * (PI / 8) || facingDirection < 3 * (PI / 8)) {
+				//direita
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunRight();
+			}
+			else if (facingDirection > 5 * (PI / 8) && facingDirection < 11 * (PI / 8)) {
+				//esquerda
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+			}
+			else if (facingDirection > 3 * (PI / 8) && facingDirection < 5 * (PI / 8)) {
+				//baixo
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunRight();
+			}
+			else if (facingDirection > 11 * (PI / 8) && facingDirection < 13 * (PI / 8)) {
+				//cima
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+			}
 		}
 		else{
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdleLeft();
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdle();
 		}
 	}
 	if (state == MOVING) {

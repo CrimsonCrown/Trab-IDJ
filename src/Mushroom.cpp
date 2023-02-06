@@ -20,7 +20,7 @@ Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPos
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/chart_beta.png", 4, 2, 1, 0, 1, 0, 0);
+	Sprite* newspr = new Sprite((associated), "Recursos/img/mushroomtrial.png", 4, 3, 1, 0, 1, 0, 0);
 	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//cria alterador de sprites

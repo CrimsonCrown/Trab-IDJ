@@ -11,19 +11,21 @@
 #define PI 3.1415926
 
 Rat::Rat(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands) : Component(associated) {
+	//cria sprite
+	//Sprite* newspr = new Sprite((associated), "Recursos/img/Veado_transparente.png");
+	Sprite* newspr = new Sprite((associated), "Recursos/img/rattrial.png", 4, 2, 1, 0, 1, 0, 0);
+	newspr->SetScaleX((tileSize / associated.box.w), (tileSize / associated.box.h));
+	associated.AddComponent(newspr);
+	//AI
 	AIModule*  newai = new AIModule((associated), tileSize);
 	newai->AddPatrol(commands);
 	newai->AddVision(1.1, (PI/2));
 	newai->AddHearing(1);
 	newai->AddChaser(2.1);
+	newai->AddAnimations(2, "Recursos/animations/ratanims.txt");
 	associated.AddComponent(newai);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
-	//cria sprite
-	//Sprite* newspr = new Sprite((associated), "Recursos/img/Veado_transparente.png");
-	Sprite* newspr = new Sprite((associated), "Recursos/img/rattrial.png", 3, 1, 1.0 / 6.0, 0, 1, 0, 2);
-	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
-	associated.AddComponent(newspr);
 	//outros atributos
 	hp = 30;
 	return;

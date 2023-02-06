@@ -27,7 +27,7 @@ bool AnimationSetter::Is(std::string type) {
 void AnimationSetter::SetIdle() {
 	if (state2 != 0) {
 		state2 = 0;
-		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		frames = (indexes[state1][state2][1] - indexes[state1][state2][0])+1;
 		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
 	}
 }
@@ -36,7 +36,7 @@ void AnimationSetter::SetIdleLeft(){
 	if (state1 != 0 || state2 != 0) {
 		state1 = 0;
 		state2 = 0;
-		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		frames = (indexes[state1][state2][1] - indexes[state1][state2][0])+1;
 		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
 	}
 }
@@ -45,7 +45,7 @@ void AnimationSetter::SetIdleRight() {
 	if (state1 != 1 || state2 != 0) {
 		state1 = 1;
 		state2 = 0;
-		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		frames = (indexes[state1][state2][1] - indexes[state1][state2][0])+1;
 		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
 	}
 }
@@ -54,7 +54,7 @@ void AnimationSetter::SetRunLeft(){
 	if (state1 != 0 || state2 != 1) {
 		state1 = 0;
 		state2 = 1;
-		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		frames = (indexes[state1][state2][1] - indexes[state1][state2][0])+1;
 		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
 	}
 }
@@ -63,7 +63,7 @@ void AnimationSetter::SetRunRight() {
 	if (state1 != 1 || state2 != 1) {
 		state1 = 1;
 		state2 = 1;
-		frames = indexes[state1][state2][1] - indexes[state1][state2][0];
+		frames = (indexes[state1][state2][1] - indexes[state1][state2][0])+1;
 		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(indexes[state1][state2][0], indexes[state1][state2][1], 1.0 / (frames*tileSpeed));
 	}
 }

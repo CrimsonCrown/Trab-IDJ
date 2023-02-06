@@ -46,14 +46,13 @@ StageState::StageState(){
 	char comma;
 	int x,y;
 	std::string tiles,walls,pickups,enemies;
-	maptxt.open("Recursos/map/map1.txt");
+	maptxt.open("Recursos/map/map2.txt");
 	maptxt >> x >> comma >> y >> tiles >> walls >> pickups >> enemies;
 	maptxt.close();
 
 	//tile map
 	GameObject* map=new GameObject();
 	TileMap* mapping=new TileMap((*map),"Recursos/map/"+tiles+".txt", tileSet);
-	std::cout << "Recursos/map/" + tiles + ".txt\n";
 	map->AddComponent(mapping);
 	AddObject(map);
 	//walls
