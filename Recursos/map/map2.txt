@@ -4,3 +4,4 @@ tileMap2
 wallMap2
 pickupmapmaze
 patrolMap2
+END

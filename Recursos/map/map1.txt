@@ -1,5 +1,7 @@
 1,1
+19,17
 tileMap1
 wallMap
 pickupMap
 patrolmap
+map2

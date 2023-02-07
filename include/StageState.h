@@ -25,7 +25,7 @@
 
 class StageState : public State{
 public:
-	StageState();
+	StageState(std::string mapfile="Recursos/map/map1.txt");
 	~StageState();
 	void LoadAssets();
 	void Update(float dt);
@@ -37,6 +37,7 @@ public:
 	void LoadPickups(std::string);
 	void LoadPatrols(std::string);
 private:
+	std::string nextStage;
 	TileSet* tileSet;
 	Music music;
 };

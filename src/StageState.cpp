@@ -20,7 +20,7 @@
 #include "EndGate.h"
 #include <fstream>
 
-StageState::StageState(){
+StageState::StageState(std::string mapfile){
 	started=false;
 	quitRequested=false;
 	popRequested=false;
@@ -35,7 +35,6 @@ StageState::StageState(){
 	AddObject(bg);
 	//music
 	music.Open("Recursos/audio/stageState.ogg");
-	music.Play();
 	//navigation
 	GameObject* navigation = new GameObject();
 	NavMap* newnavmap = new NavMap((*navigation),64,100,100);
@@ -46,10 +45,11 @@ StageState::StageState(){
 	std::ifstream maptxt;
 	char comma;
 	int x,y,ex,ey;
-	std::string tiles,walls,pickups,enemies;
-	maptxt.open("Recursos/map/map2.txt");
-	maptxt >> x >> comma >> y >> ex >> comma >> ey >> tiles >> walls >> pickups >> enemies;
+	std::string tiles,walls,pickups,enemies,next;
+	maptxt.open(mapfile);
+	maptxt >> x >> comma >> y >> ex >> comma >> ey >> tiles >> walls >> pickups >> enemies >> next;
 	maptxt.close();
+	nextStage = next;
 
 	//tile map
 	GameObject* map=new GameObject();
@@ -154,10 +154,18 @@ void StageState::Update(float dt){
 		game.Push(new EndState());
 	}
 	else if(EndGate::ending){
-		GameData::playerVictory=true;
-		popRequested=true;
-		Game& game=Game::GetInstance();
-		game.Push(new EndState());
+		if (nextStage == "END") {
+			GameData::playerVictory = true;
+			popRequested = true;
+			Game& game = Game::GetInstance();
+			game.Push(new EndState());
+		}
+		else {
+			popRequested = true;
+			objectArray.clear();
+			Game& game = Game::GetInstance();
+			game.Push(new StageState("Recursos/map/"+nextStage+".txt"));
+		}
 	}
 	return;
 }
@@ -168,6 +176,7 @@ void StageState::Render(){
 }
 
 void StageState::Start(){
+	music.Play();
 	LoadAssets();
 	StartArray();
 	started=true;
