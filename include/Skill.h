@@ -29,6 +29,7 @@ public:
 	void Use();
 	std::string GetSprite();
 	float GetActiveCooldown();
+	Type GetType();
 private:
 	float GetCooldown();
 	float GetDuration();

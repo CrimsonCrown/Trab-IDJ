@@ -20,7 +20,7 @@
 
 class Mushroom : public Component {
 public:
-	Mushroom(GameObject& associated, float tileSize, TileCoords initialPosition);
+	Mushroom(GameObject& associated, float tileSize, TileCoords initialPosition, int starthp = 3, std::vector<Skill::Type> skilltypes = {});
 	~Mushroom();
 	void Start();
 	void Update(float dt);
@@ -40,13 +40,16 @@ public:
 	float NoiseRadius();
 	float TileSpeed();
 	Skill* GetSkill(int index);
+	std::vector<Skill::Type> GetSkillTypes();
 private:
+	void AddSkill(Skill::Type type);
 	std::vector<std::weak_ptr<GameObject>> skills;
 	float tileSize;
 	float noiseRadius;
 	float tileSpeed;
 	TileCoords initialPosition;
 	int hp;
+	std::vector<Skill::Type> oldskills;
 };
 
 #endif

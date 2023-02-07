@@ -13,7 +13,7 @@
 
 Mushroom* Mushroom::player;
 
-Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPosition) : Component(associated) {
+Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPosition, int starthp, std::vector<Skill::Type> skilltypes) : Component(associated) {
 	player = this;
 	TileMover* newmover = new TileMover((associated), tileSize);
 	associated.AddComponent(newmover);
@@ -29,11 +29,12 @@ Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPos
 	//outros atributos
 	this->initialPosition=initialPosition;
 	this->tileSize=tileSize;
-	hp = 3;
+	hp = starthp;
 	currentskills=0;
 	noiseRadius = 3;
 	tileSpeed = 2;
 	Place(initialPosition);
+	oldskills = skilltypes;
 	return;
 }
 
@@ -44,6 +45,11 @@ Mushroom::~Mushroom() {
 }
 
 void Mushroom::Start() {
+	//skills
+	for (unsigned int i = 0; i < oldskills.size(); i++) {
+		Skill::Type type = oldskills[i];
+		AddSkill(type);
+	}
 	return;
 }
 
@@ -115,22 +121,10 @@ void Mushroom::NotifyCollision(GameObject& other) {
 			hp++;
 		}
 		if (pickup->GetType() == Pickup::MUFFLE&&currentskills<maxskills) {
-			GameObject* skill = new GameObject();
-			Skill* newskill = new Skill((*skill), Skill::MUFFLE, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
-			skill->AddComponent(newskill);
-			std::weak_ptr<GameObject> skillptr = Game::GetInstance().GetCurrentState().AddObject(skill);
-			skills.push_back(skillptr);
-			SkillBar::bar->AddIcon(currentskills);
-			currentskills++;
+			AddSkill(Skill::MUFFLE);
 		}
 		if (pickup->GetType() == Pickup::SPEEDBOOST&&currentskills < maxskills) {
-			GameObject* skill = new GameObject();
-			Skill* newskill = new Skill((*skill), Skill::SPEEDBOOST, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
-			skill->AddComponent(newskill);
-			std::weak_ptr<GameObject> skillptr = Game::GetInstance().GetCurrentState().AddObject(skill);
-			skills.push_back(skillptr);
-			SkillBar::bar->AddIcon(currentskills);
-			currentskills++;
+			AddSkill(Skill::SPEEDBOOST);
 		}
 	}
 	return;
@@ -179,4 +173,24 @@ float Mushroom::TileSpeed() {
 
 Skill* Mushroom::GetSkill(int index){
 	return ((Skill*)((skills[index].lock())->GetComponent("Skill")));
+}
+
+std::vector<Skill::Type> Mushroom::GetSkillTypes() {
+	std::vector<Skill::Type> skilltypes;
+	for (int i = 0; i < currentskills; i++) {
+		skilltypes.insert( skilltypes.end(), ((Skill*)(skills[i].lock()->GetComponent("Skill")))->GetType());
+	}
+	return skilltypes;
+}
+
+void Mushroom::AddSkill(Skill::Type type) {
+	GameObject* skill = new GameObject();
+	Skill* newskill = new Skill((*skill), type, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
+	skill->AddComponent(newskill);
+	std::weak_ptr<GameObject> skillptr = Game::GetInstance().GetCurrentState().AddObject(skill);
+	skills.push_back(skillptr);
+	if (SkillBar::bar != nullptr) {
+		SkillBar::bar->AddIcon(currentskills);
+	}
+	currentskills++;
 }

@@ -20,7 +20,7 @@
 #include "EndGate.h"
 #include <fstream>
 
-StageState::StageState(std::string mapfile){
+StageState::StageState(std::string mapfile, bool oldplayer, int oldhp, std::vector<Skill::Type> oldskills){
 	started=false;
 	quitRequested=false;
 	popRequested=false;
@@ -63,11 +63,20 @@ StageState::StageState(std::string mapfile){
 	//patrols
 	LoadPatrols("Recursos/map/"+enemies+".txt");
 	//mushroom
-	GameObject* shroom=new GameObject();
-	Mushroom* newshroom=new Mushroom((*shroom), 64, {x,y});
-	shroom->AddComponent(newshroom);
-	Camera::Follow(shroom);
-	AddObject(shroom);
+	if(oldplayer){
+		GameObject* shroom = new GameObject();
+		Mushroom* newshroom = new Mushroom((*shroom), 64, { x,y }, oldhp, oldskills);
+		shroom->AddComponent(newshroom);
+		Camera::Follow(shroom);
+		AddObject(shroom);
+	}
+	else {
+		GameObject* shroom = new GameObject();
+		Mushroom* newshroom = new Mushroom((*shroom), 64, { x,y });
+		shroom->AddComponent(newshroom);
+		Camera::Follow(shroom);
+		AddObject(shroom);
+	}
 	//end gate
 	GameObject* endgate = new GameObject();
 	EndGate* newgate = new EndGate((*endgate), 64, { ex,ey });
@@ -162,9 +171,11 @@ void StageState::Update(float dt){
 		}
 		else {
 			popRequested = true;
+			int hp = Mushroom::player->GetHp();
+			std::vector<Skill::Type> types = Mushroom::player->GetSkillTypes();
 			objectArray.clear();
 			Game& game = Game::GetInstance();
-			game.Push(new StageState("Recursos/map/"+nextStage+".txt"));
+			game.Push(new StageState("Recursos/map/"+nextStage+".txt",true,hp,types));
 		}
 	}
 	return;

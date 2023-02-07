@@ -20,6 +20,11 @@ SkillBar::SkillBar(GameObject& associated) : Component(associated) {
 	return;
 }
 
+SkillBar::~SkillBar() {
+	bar = nullptr;
+	return;
+}
+
 void SkillBar::Update(float dt) {
 	return;
 }

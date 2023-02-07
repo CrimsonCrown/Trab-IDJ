@@ -25,7 +25,7 @@
 
 class StageState : public State{
 public:
-	StageState(std::string mapfile="Recursos/map/map1.txt");
+	StageState(std::string mapfile = "Recursos/map/map1.txt", bool oldplayer = false, int oldhp = 0, std::vector<Skill::Type> oldskills = {});
 	~StageState();
 	void LoadAssets();
 	void Update(float dt);

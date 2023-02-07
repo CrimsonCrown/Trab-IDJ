@@ -81,6 +81,10 @@ float Skill::GetActiveCooldown(){
 	}
 }
 
+Skill::Type Skill::GetType() {
+	return st;
+}
+
 float Skill::GetDuration(){
 	if(st==MUFFLE){
 		return 6;
