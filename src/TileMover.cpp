@@ -79,7 +79,46 @@ void TileMover::Update(float dt) {
 			Game::GetInstance().GetCurrentState().AddObject(noise);
 		}
 	}
+	if (state == DASHING) {
+		Vec2 boxPos = associated.box.Center();
+		float distToMove = tileSize * 4 * Mushroom::player->TileSpeed() * dt;
+		if (destination.DistTo(boxPos) <= distToMove) {
+			associated.box.x = destination.x - (associated.box.w / 2);
+			associated.box.y = destination.y - (associated.box.h / 2);
+		}
+		else {
+			Vec2 speed = destination.Sub(boxPos).Normal().Mul(distToMove);
+			associated.box = associated.box.Add(speed);
+		}
+		if (associated.box.Center().DistTo(destination) == 0) {
+			state = RESTING;
+			Mushroom::player->SetInvencibility(false);
+			//faz barulho alto
+			GameObject* noise=new GameObject();
+			Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*Mushroom::player->NoiseRadius() * 2);
+			noise->AddComponent(newnoise);
+			Game::GetInstance().GetCurrentState().AddObject(noise);
+		}
+	}
 	return;
+}
+
+void TileMover::Dash() {
+	Vec2 offset = { 0,0 };
+	if (InputManager::GetInstance().IsKeyDown(SDLK_w)) {
+		offset.y -= tileSize;
+	}
+	if (InputManager::GetInstance().IsKeyDown(SDLK_s)) {
+		offset.y += tileSize;
+	}
+	if (InputManager::GetInstance().IsKeyDown(SDLK_a)) {
+		offset.x -= tileSize;
+	}
+	if (InputManager::GetInstance().IsKeyDown(SDLK_d)) {
+		offset.x += tileSize;
+	}
+	destination=destination.Add(offset.Mul(2));
+	state = DASHING;
 }
 
 void TileMover::Render() {

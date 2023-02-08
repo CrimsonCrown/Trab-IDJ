@@ -51,5 +51,8 @@ std::string Pickup::GetSprite() {
 	else if (pt == SPEEDBOOST) {
 		return "Recursos/img/Icon_Speed.png";
 	}
+	else if (pt == DASH) {
+		return "Recursos/img/Icon_Dash.png";
+	}
 	return "";
 }

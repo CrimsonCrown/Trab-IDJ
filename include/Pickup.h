@@ -19,7 +19,7 @@
 
 class Pickup : public Component{
 public:
-	enum Type{MUFFLE, SPEEDBOOST, HEALTH};
+	enum Type{MUFFLE, SPEEDBOOST, HEALTH, DASH};
 	Pickup(GameObject& associated, TileCoords position, Type pt, float tileSize);
 	void Update(float dt);
 	void Render();

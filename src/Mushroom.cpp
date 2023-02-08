@@ -35,6 +35,7 @@ Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPos
 	tileSpeed = 2;
 	Place(initialPosition);
 	oldskills = skilltypes;
+	invencibility = false;
 	return;
 }
 
@@ -96,7 +97,7 @@ bool Mushroom::Is(std::string type) {
 }
 
 void Mushroom::NotifyCollision(GameObject& other) {
-	if (((other.GetComponent("Enemy") != nullptr)||(other.GetComponent("Rat")!=nullptr))&&other.box.CenterDist(associated.box)<0.5*tileSize) {
+	if (!invencibility && ((other.GetComponent("Enemy") != nullptr)||(other.GetComponent("Rat")!=nullptr))&&other.box.CenterDist(associated.box)<0.5*tileSize) {
 		hp -= 1;
 		if (hp <= 0) {
 			Camera::Unfollow();
@@ -125,6 +126,9 @@ void Mushroom::NotifyCollision(GameObject& other) {
 		}
 		if (pickup->GetType() == Pickup::SPEEDBOOST&&currentskills < maxskills) {
 			AddSkill(Skill::SPEEDBOOST);
+		}
+		if (pickup->GetType() == Pickup::DASH&&currentskills < maxskills) {
+			AddSkill(Skill::DASH);
 		}
 	}
 	return;
@@ -161,6 +165,15 @@ void Mushroom::SpeedUp() {
 void Mushroom::SlowDown() {
 	tileSpeed = tileSpeed / 2;
 	((AnimationSetter*)associated.GetComponent("AnimationSetter"))->UpdateSpeed(tileSpeed);
+}
+
+void Mushroom::Dash() {
+	((TileMover*)associated.GetComponent("TileMover"))->Dash();
+	invencibility = true;
+}
+
+void Mushroom::SetInvencibility(bool inv) {
+	invencibility = inv;
 }
 
 float Mushroom::NoiseRadius(){

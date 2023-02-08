@@ -21,11 +21,12 @@ class TileMover : public Component {
 public:
 	TileMover(GameObject& associated, float tileSize);
 	void Update(float dt);
+	void Dash();
 	void Render();
 	bool Is(std::string type);
 	void Reset();
 private:
-	enum MovementState { MOVING, RESTING };
+	enum MovementState { MOVING, RESTING, DASHING };
 	MovementState state;
 	Vec2 destination;
 	float tileSize;

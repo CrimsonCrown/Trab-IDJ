@@ -21,7 +21,7 @@
 
 class Skill : public Component{
 public:
-	enum Type{MUFFLE, SPEEDBOOST};
+	enum Type{MUFFLE, SPEEDBOOST, DASH};
 	Skill(GameObject& associated, Type st, std::weak_ptr<GameObject> player);
 	void Update(float dt);
 	void Render();

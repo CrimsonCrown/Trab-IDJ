@@ -25,6 +25,9 @@ void Skill::Update(float dt){
 				((Mushroom*)(playerpointer->GetComponent("Mushroom")))->SlowDown();
 				active = false;
 			}
+			else if (st == DASH) {
+				active = false;
+			}
 		}
 	}
 	if (coolingdown) {
@@ -55,6 +58,15 @@ void Skill::Use(){
 		else if (st == SPEEDBOOST) {
 			((Mushroom*)(playerpointer->GetComponent("Mushroom")))->SpeedUp();
 		}
+		else if (st == DASH) {
+			if (InputManager::GetInstance().IsKeyDown(SDLK_w) || 
+				InputManager::GetInstance().IsKeyDown(SDLK_s) || 
+				InputManager::GetInstance().IsKeyDown(SDLK_a) ||
+				InputManager::GetInstance().IsKeyDown(SDLK_d)) 
+					((Mushroom*)(playerpointer->GetComponent("Mushroom")))->Dash();
+			else	
+				return;
+		}
 		cdtimer.Restart();
 		drtimer.Restart();
 		active = true;
@@ -68,6 +80,9 @@ float Skill::GetCooldown(){
 	}
 	else if (st == SPEEDBOOST) {
 		return 15;
+	}
+	else if (st == DASH) {
+		return 5;
 	}
 	return 0;
 }
@@ -101,6 +116,9 @@ std::string Skill::GetSprite(){
 	}
 	else if (st == SPEEDBOOST) {
 		return "Recursos/img/Icon_Speed.png";
+	}
+	else if (st == DASH) {
+		return "Recursos/img/Icon_Dash.png";
 	}
 	return "";
 }

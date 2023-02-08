@@ -37,6 +37,8 @@ public:
 	void Amplify();
 	void SpeedUp();
 	void SlowDown();
+	void Dash();
+	void SetInvencibility(bool inv);
 	float NoiseRadius();
 	float TileSpeed();
 	Skill* GetSkill(int index);
@@ -50,6 +52,7 @@ private:
 	TileCoords initialPosition;
 	int hp;
 	std::vector<Skill::Type> oldskills;
+	bool invencibility;
 };
 
 #endif
