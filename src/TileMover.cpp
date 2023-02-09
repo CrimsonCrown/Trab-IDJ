@@ -125,7 +125,14 @@ void TileMover::Dash() {
 	if (InputManager::GetInstance().IsKeyDown(SDLK_d)) {
 		offset.x += tileSize;
 	}
-	destination=destination.Add(offset.Mul(2));
+	TileCoords coords(destination, tileSize);
+	if (NavMap::map->Legal(coords, offset)) {
+		destination=destination.Add(offset);
+		TileCoords coords2(destination, tileSize);
+		if (NavMap::map->Legal(coords2, offset)) {
+			destination=destination.Add(offset);
+		}
+	}
 	state = DASHING;
 }
 
