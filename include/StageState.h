@@ -36,6 +36,7 @@ public:
 	void LoadWalls(std::string);
 	void LoadPickups(std::string);
 	void LoadPatrols(std::string);
+	void LoadObjects(std::string);
 private:
 	std::string nextStage;
 	TileSet* tileSet;

@@ -45,9 +45,9 @@ StageState::StageState(std::string mapfile, bool oldplayer, int oldhp, std::vect
 	std::ifstream maptxt;
 	char comma;
 	int x,y,ex,ey;
-	std::string tiles,walls,pickups,enemies,next;
+	std::string tiles,walls,pickups,enemies,objects,next;
 	maptxt.open(mapfile);
-	maptxt >> x >> comma >> y >> ex >> comma >> ey >> tiles >> walls >> pickups >> enemies >> next;
+	maptxt >> x >> comma >> y >> ex >> comma >> ey >> tiles >> walls >> pickups >> enemies >> objects >> next;
 	maptxt.close();
 	nextStage = next;
 
@@ -82,12 +82,9 @@ StageState::StageState(std::string mapfile, bool oldplayer, int oldhp, std::vect
 	EndGate* newgate = new EndGate((*endgate), 64, { ex,ey });
 	endgate->AddComponent(newgate);
 	AddObject(endgate);
+	//objects
+	LoadObjects("Recursos/map/"+objects+".txt");
 	//end file
-	//bush
-	GameObject* bush = new GameObject();
-	Bush* newbush = new Bush((*bush), TileCoords(12,7), 64, 1, 1);
-	bush->AddComponent(newbush);
-	AddObject(bush);
 	//health bar
 	GameObject* hpbar=new GameObject();
 	HealthBar* newbar=new HealthBar((*hpbar), 64);
@@ -303,5 +300,26 @@ void StageState::LoadPatrols(std::string name) {
 	}
 	
 	patroltxt.close();
+	return;
+}
+
+void StageState::LoadObjects(std::string name) {
+	std::ifstream objectstxt;
+	char comma;
+	std::string objectname;
+	objectstxt.open(name);
+
+	while (objectstxt >> objectname) {
+		int x,y;
+		objectstxt >> x >> comma >> y;
+		if (objectname == "bush") {
+			//bush
+			GameObject* bush = new GameObject();
+			Bush* newbush = new Bush((*bush), TileCoords(x,y), 64, 1, 1);
+			bush->AddComponent(newbush);
+			AddObject(bush);
+		}
+	}
+	objectstxt.close();
 	return;
 }

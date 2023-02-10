@@ -4,4 +4,5 @@ tileMap1
 wallMap
 pickupMap
 patrolmap
+objectMap
 map2
