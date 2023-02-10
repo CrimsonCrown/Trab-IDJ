@@ -24,6 +24,7 @@ public:
 	void Render();
 	bool Is(std::string type);
 private:
+	std::string GetText();
 	Vec2 position;
 	int index;
 };

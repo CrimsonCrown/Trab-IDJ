@@ -55,7 +55,7 @@ void Mushroom::Start() {
 }
 
 void Mushroom::Update(float dt) {
-	if (InputManager::GetInstance().KeyPress(SDLK_1)) {
+	if (InputManager::GetInstance().KeyPress(SDLK_i)) {
 		if (currentskills >= 1) {
 			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
 			std::shared_ptr<GameObject> skilltouse = skills[0].lock();
@@ -64,7 +64,7 @@ void Mushroom::Update(float dt) {
 			}
 		}
 	}
-	if (InputManager::GetInstance().KeyPress(SDLK_2)) {
+	if (InputManager::GetInstance().KeyPress(SDLK_o)) {
 		if (currentskills >= 2) {
 			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
 			std::shared_ptr<GameObject> skilltouse = skills[1].lock();
@@ -73,7 +73,7 @@ void Mushroom::Update(float dt) {
 			}
 		}
 	}
-	if (InputManager::GetInstance().KeyPress(SDLK_3)) {
+	if (InputManager::GetInstance().KeyPress(SDLK_j)) {
 		if (currentskills >= 3) {
 			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
 			std::shared_ptr<GameObject> skilltouse = skills[2].lock();
