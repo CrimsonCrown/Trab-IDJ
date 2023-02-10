@@ -185,3 +185,74 @@ bool NavMap::At(int x, int y) {
 float NavMap::Dist(TileCoords a, TileCoords b) {
 	return sqrt(pow(b.x-a.x, 2) + pow(b.y-a.y, 2));
 }
+
+bool NavMap::Legal(TileCoords currentcoords, Vec2 offset) {
+	TileCoords sidecoords[4];
+	sidecoords[0] = { currentcoords.x, currentcoords.y - 1 };
+	sidecoords[1] = { currentcoords.x, currentcoords.y + 1 };
+	sidecoords[2] = { currentcoords.x - 1 , currentcoords.y };
+	sidecoords[3] = { currentcoords.x + 1, currentcoords.y };
+	TileCoords diagcoords[4][3];
+	diagcoords[0][0] = { currentcoords.x + 1, currentcoords.y + 1 };
+	diagcoords[0][1] = { currentcoords.x, currentcoords.y + 1 };
+	diagcoords[0][2] = { currentcoords.x + 1, currentcoords.y };
+	diagcoords[1][0] = { currentcoords.x - 1, currentcoords.y + 1 };
+	diagcoords[1][1] = { currentcoords.x, currentcoords.y + 1 };
+	diagcoords[1][2] = { currentcoords.x - 1, currentcoords.y };
+	diagcoords[2][0] = { currentcoords.x + 1, currentcoords.y - 1 };
+	diagcoords[2][1] = { currentcoords.x, currentcoords.y - 1 };
+	diagcoords[2][2] = { currentcoords.x + 1, currentcoords.y };
+	diagcoords[3][0] = { currentcoords.x - 1, currentcoords.y - 1 };
+	diagcoords[3][1] = { currentcoords.x, currentcoords.y - 1 };
+	diagcoords[3][2] = { currentcoords.x - 1, currentcoords.y };
+	bool diag;
+	int i;
+	if (offset.x == 0 || offset.y == 0) {
+		diag = false;
+		if (offset.x > 0) {
+			i = 3;
+		}
+		else if (offset.x < 0) {
+			i = 2;
+		}
+		else if (offset.y > 0) {
+			i = 1;
+		}
+		else if (offset.y < 0) {
+			i = 0;
+		}
+	}
+	else {
+		diag = true;
+		if (offset.x > 0) {
+			if (offset.y > 0) {
+				i = 0;
+			}
+			else {
+				i = 2;
+			}
+		}
+		else {
+			if (offset.y > 0) {
+				i = 1;
+			}
+			else {
+				i = 3;
+			}
+		}
+	}
+	//resolve
+	if (diag) {
+		//se não está bloqueado, está dentro dos limites
+		if (diagcoords[i][0].y >= 0 && diagcoords[i][0].y < ysize && diagcoords[i][0].x >= 0 && diagcoords[i][0].x < xsize &&
+			mapVacancy[Index(diagcoords[i][0])] == false && mapVacancy[Index(diagcoords[i][1])] == false && mapVacancy[Index(diagcoords[i][2])] == false) {
+			return true;
+		}
+	}
+	else {
+		if ((sidecoords[i].y >= 0) && (sidecoords[i].y < ysize) && (sidecoords[i].x >= 0) && (sidecoords[i].x < xsize) && (mapVacancy[Index(sidecoords[i])] == false)) {
+			return true;
+		}
+	}
+	return false;
+}

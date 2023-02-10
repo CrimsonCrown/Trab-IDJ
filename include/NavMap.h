@@ -34,6 +34,7 @@ public:
 	bool Is(std::string type);
 	void Fill(TileCoords origin, int x, int y);
 	void Path(TileCoords start, TileCoords finish, std::deque<TileCoords>& path);
+	bool Legal(TileCoords currentcoords, Vec2 offset);
 	static NavMap* map;
 private:
 	int Index(int x, int y);

@@ -3,6 +3,7 @@
 #include "AnimationSetter.h"
 #include "Noise.h"
 #include "Mushroom.h"
+#include "NavMap.h"
 
 TileMover::TileMover(GameObject& associated, float tileSize) : Component(associated) {
 	this->tileSize = tileSize;
@@ -14,6 +15,7 @@ void TileMover::Update(float dt) {
 	if (state == RESTING) {
 		Vec2 offset = { 0,0 };
 		bool moved = false;
+		bool legal = false;
 		destination = associated.box.Center();
 		if (InputManager::GetInstance().IsKeyDown(SDLK_w)) {
 			offset.y -= tileSize;
@@ -32,6 +34,12 @@ void TileMover::Update(float dt) {
 			moved = true;
 		}
 		if (moved) {
+			TileCoords coords(associated.box.Center(), tileSize);
+			if (NavMap::map->Legal(coords, offset)) {
+				legal = true;
+			}
+		}
+		if (legal) {
 			state = MOVING;
 			destination=destination.Add(offset);
 			float facingDirection=offset.Incline();
