@@ -97,6 +97,7 @@ void Game::Run(){
 	if(storedState==nullptr){
 		return;
 	}
+	//SDL_ShowCursor(SDL_DISABLE);
 	stateStack.emplace(storedState);
 	storedState=nullptr;
 	stateStack.top()->Start();

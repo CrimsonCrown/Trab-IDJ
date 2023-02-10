@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "Text.h"
 #include "Camera.h"
+#include "MenuButton.h"
 
 TitleState::TitleState(){
 	started=false;
@@ -28,6 +29,11 @@ TitleState::TitleState(){
 	text->box.y=Camera::pos.y+400;
 	text->box.x=Camera::pos.x+40;
 	AddObject(text);
+	//button
+	GameObject* button = new GameObject();
+	MenuButton* newbutton = new MenuButton((*button));
+	button->AddComponent(newbutton);
+	AddObject(button);
 	return;
 }
 
@@ -58,7 +64,8 @@ void TitleState::Update(float dt){
 	if(InputManager::GetInstance().QuitRequested()){
 		quitRequested=true;
 	}
-	if(InputManager::GetInstance().KeyPress(SDLK_SPACE)){
+	if(InputManager::GetInstance().KeyPress(SDLK_SPACE)||MenuButton::playButton){
+		MenuButton::playButton = false;
 		Game& game=Game::GetInstance();
 		game.Push(new StageState());
 	}
