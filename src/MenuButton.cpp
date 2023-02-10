@@ -1,11 +1,13 @@
 #include "MenuButton.h"
 #include "Sprite.h"
 
-bool MenuButton::playButton;
+bool MenuButton::playButton=false;
+bool MenuButton::exitButton=false;
 
-MenuButton::MenuButton(GameObject& associated, int x, int y, int sizex, int sizey) : Component(associated){
+MenuButton::MenuButton(GameObject& associated, int x, int y, int sizex, int sizey, Type bt) : Component(associated){
+	this->bt = bt;
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/choromelo.png", 2, 1, 0, 0, 1, 0, 0);
+	Sprite* newspr = new Sprite((associated), GetSprite(), 2, 1, 0, 0, 1, 0, 0);
 	newspr->SetScaleX((sizex / associated.box.w), (sizey / associated.box.h));
 	associated.AddComponent(newspr);
 	//posiciona
@@ -23,7 +25,12 @@ void MenuButton::Update(float dt){
 		}
 		if (InputManager::GetInstance().MousePress(SDL_BUTTON_LEFT)) {
 			//std::cout << "beep!\n";
-			playButton = true;
+			if (bt == PLAY) {
+				playButton = true;
+			}
+			else if (bt == EXIT) {
+				exitButton = true;
+			}
 		}
 	}
 	else {
@@ -44,4 +51,14 @@ bool MenuButton::Is(std::string type){
 		return true;
 	}
 	return false;
+}
+
+std::string MenuButton::GetSprite() {
+	if (bt == PLAY) {
+		return "Recursos/img/deertrial.png";
+	}
+	else if (bt == EXIT) {
+		return "Recursos/img/rattrial.png";
+	}
+	return "";
 }

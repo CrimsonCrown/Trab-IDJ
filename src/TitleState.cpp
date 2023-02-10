@@ -29,11 +29,16 @@ TitleState::TitleState(){
 	text->box.y=Camera::pos.y+400;
 	text->box.x=Camera::pos.x+40;
 	AddObject(text);
-	//button
-	GameObject* button = new GameObject();
-	MenuButton* newbutton = new MenuButton((*button), 800, 200, 120, 60);
-	button->AddComponent(newbutton);
-	AddObject(button);
+	//play button
+	GameObject* pbutton = new GameObject();
+	MenuButton* newpbutton = new MenuButton((*pbutton), 800, 200, 120, 60, MenuButton::Type::PLAY);
+	pbutton->AddComponent(newpbutton);
+	AddObject(pbutton);
+	//exit button
+	GameObject* ebutton = new GameObject();
+	MenuButton* newebutton = new MenuButton((*ebutton), 800, 280, 120, 60, MenuButton::Type::EXIT);
+	ebutton->AddComponent(newebutton);
+	AddObject(ebutton);
 	return;
 }
 
@@ -58,7 +63,8 @@ void TitleState::LoadAssets(){
 }
 
 void TitleState::Update(float dt){
-	if(InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
+	if(InputManager::GetInstance().KeyPress(ESCAPE_KEY) || MenuButton::exitButton){
+		MenuButton::exitButton = false;
 		quitRequested=true;
 	}
 	if(InputManager::GetInstance().QuitRequested()){

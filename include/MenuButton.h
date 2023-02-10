@@ -16,12 +16,16 @@
 
 class MenuButton : public Component{
 public:
-	MenuButton(GameObject& associated, int x, int y, int sizex, int sizey);
+	enum Type { PLAY, EXIT};
+	MenuButton(GameObject& associated, int x, int y, int sizex, int sizey, Type bt);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
 	static bool playButton;
+	static bool exitButton;
 private:
+	std::string GetSprite();
+	Type bt;
 	bool hovering;
 };
 
