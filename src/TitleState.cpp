@@ -31,7 +31,7 @@ TitleState::TitleState(){
 	AddObject(text);
 	//button
 	GameObject* button = new GameObject();
-	MenuButton* newbutton = new MenuButton((*button));
+	MenuButton* newbutton = new MenuButton((*button), 800, 200, 120, 60);
 	button->AddComponent(newbutton);
 	AddObject(button);
 	return;

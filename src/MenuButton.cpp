@@ -3,14 +3,14 @@
 
 bool MenuButton::playButton;
 
-MenuButton::MenuButton(GameObject& associated) : Component(associated){
+MenuButton::MenuButton(GameObject& associated, int x, int y, int sizex, int sizey) : Component(associated){
 	//cria sprite
 	Sprite* newspr = new Sprite((associated), "Recursos/img/choromelo.png", 2, 1, 0, 0, 1, 0, 0);
-	newspr->SetScaleX((120 / associated.box.w), (60 / associated.box.h));
+	newspr->SetScaleX((sizex / associated.box.w), (sizey / associated.box.h));
 	associated.AddComponent(newspr);
 	//posiciona
-	associated.box.x = 600;
-	associated.box.y = 300;
+	associated.box.x = x;
+	associated.box.y = y;
 	hovering = false;
 	return;
 }
