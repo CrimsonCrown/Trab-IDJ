@@ -43,7 +43,7 @@ void Pickup::NotifyCollision(GameObject& other){
 
 std::string Pickup::GetSprite() {
 	if (pt == MUFFLE) {
-		return "Recursos/img/Icon_chamariz.png";
+		return "Recursos/img/Icon_mute.png";
 	}
 	else if (pt == HEALTH) {
 		return "Recursos/img/Icon_life.png";
