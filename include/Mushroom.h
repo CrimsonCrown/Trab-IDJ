@@ -43,7 +43,10 @@ public:
 	float TileSpeed();
 	Skill* GetSkill(int index);
 	std::vector<Skill::Type> GetSkillTypes();
+	bool blocked;
 private:
+	Timer blockTimer;
+	Timer deathTimer;
 	void AddSkill(Skill::Type type);
 	std::vector<std::weak_ptr<GameObject>> skills;
 	float tileSize;

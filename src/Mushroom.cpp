@@ -36,6 +36,7 @@ Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPos
 	Place(initialPosition);
 	oldskills = skilltypes;
 	invencibility = false;
+	blocked=false;
 	return;
 }
 
@@ -55,31 +56,38 @@ void Mushroom::Start() {
 }
 
 void Mushroom::Update(float dt) {
-	if (InputManager::GetInstance().KeyPress(SDLK_i)) {
-		if (currentskills >= 1) {
-			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
-			std::shared_ptr<GameObject> skilltouse = skills[0].lock();
-			if (skilltouse != nullptr) {
-				((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+	if(!blocked){
+		if (InputManager::GetInstance().KeyPress(SDLK_i)) {
+			if (currentskills >= 1) {
+				//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
+				std::shared_ptr<GameObject> skilltouse = skills[0].lock();
+				if (skilltouse != nullptr) {
+					((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+				}
+			}
+		}
+		if (InputManager::GetInstance().KeyPress(SDLK_o)) {
+			if (currentskills >= 2) {
+				//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
+				std::shared_ptr<GameObject> skilltouse = skills[1].lock();
+				if (skilltouse != nullptr) {
+					((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+				}
+			}
+		}
+		if (InputManager::GetInstance().KeyPress(SDLK_j)) {
+			if (currentskills >= 3) {
+				//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
+				std::shared_ptr<GameObject> skilltouse = skills[2].lock();
+				if (skilltouse != nullptr) {
+					((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+				}
 			}
 		}
 	}
-	if (InputManager::GetInstance().KeyPress(SDLK_o)) {
-		if (currentskills >= 2) {
-			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
-			std::shared_ptr<GameObject> skilltouse = skills[1].lock();
-			if (skilltouse != nullptr) {
-				((Skill*)(skilltouse->GetComponent("Skill")))->Use();
-			}
-		}
-	}
-	if (InputManager::GetInstance().KeyPress(SDLK_j)) {
-		if (currentskills >= 3) {
-			//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
-			std::shared_ptr<GameObject> skilltouse = skills[2].lock();
-			if (skilltouse != nullptr) {
-				((Skill*)(skilltouse->GetComponent("Skill")))->Use();
-			}
+	else{
+		if(blockTimer.Get()>3){
+			blocked=false;
 		}
 	}
 	return;
