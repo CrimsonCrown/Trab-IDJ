@@ -262,6 +262,9 @@ void StageState::LoadPickups(std::string file) {
 		else if (name == "DASH") {
 			type = Pickup::DASH;
 		}
+		else if (name == "DECOY") {
+			type = Pickup::DECOY;
+		}
 		GameObject* pickup = new GameObject();
 		Pickup* newpickup = new Pickup((*pickup), { x,y }, type, 64);
 		pickup->AddComponent(newpickup);
@@ -281,6 +284,9 @@ void StageState::LoadPickups(std::string file) {
 		}
 		else if (name == "DASH") {
 			type = Pickup::DASH;
+		}
+		else if (name == "DECOY") {
+			type = Pickup::DECOY;
 		}
 		GameObject* pickup = new GameObject();
 		Pickup* newpickup = new Pickup((*pickup), { x,y }, type, 64);

@@ -54,5 +54,8 @@ std::string Pickup::GetSprite() {
 	else if (pt == DASH) {
 		return "Recursos/img/Icon_Dash.png";
 	}
+	else if (pt == DECOY) {
+		return "Recursos/img/Icon_chamariz.png";
+	}
 	return "";
 }

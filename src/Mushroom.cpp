@@ -130,6 +130,9 @@ void Mushroom::NotifyCollision(GameObject& other) {
 		if (pickup->GetType() == Pickup::DASH&&currentskills < maxskills) {
 			AddSkill(Skill::DASH);
 		}
+		if (pickup->GetType() == Pickup::DECOY&&currentskills < maxskills) {
+			AddSkill(Skill::DECOY);
+		}
 	}
 	return;
 }
