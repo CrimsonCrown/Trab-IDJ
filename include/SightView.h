@@ -1,9 +1,11 @@
-#ifndef VISION_INCLUDE
-#define VISION_INCLUDE
+#ifndef SIGHTVIEW_INCLUDE
+#define SIGHTVIEW_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"
+
+#define PI 3.1415926
 
 #include <iostream>
 #include <string>
@@ -15,23 +17,18 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
-#include "Minion.h"
+#include "Bullet.h"
 
-class Vision : public Component {
+class SightView : public Component{
 public:
-	Vision(GameObject& associated, float tileSize, float range, float angle);
+	SightView(GameObject& associated, std::weak_ptr<GameObject> eyeCenter, float arc, float range);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
-	void Start();
-	void Blocked();
 private:
-	Vec2 positionSeen;
-	bool waitingCollision;
-	float tileSize;
-	float range;
-	float angle;
-	bool seeing;
+	void SetNewPos();
+	std::weak_ptr<GameObject> eyeCenter;
+	float arc;
 };
 
 #endif

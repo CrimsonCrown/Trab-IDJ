@@ -1,14 +1,14 @@
 6
 
-tronco_copia
+tronco2_copiar
 0,0,2,1,11,1,
-tronco_copia
+tronco2_copiar
 0,1,1,1,1,19,
 tronco_copia
 1,19,1,1,21,1,
 tronco_copia
 21,1,1,1,1,18,
-tronco_copia
+arbusto2
 5,5,1,1,5,1,
-cabeca_veado
+cranio_veado_copiar
 13,8,1,1,1,6,
