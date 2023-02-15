@@ -1,9 +1,18 @@
-6
+arbusto2
+0,3,1,1,4,1,
+arbusto2
+3,0,1,1,1,3,
+arbusto2
+0,4,1,1,1,4,
+arbusto2
+1,7,1,1,3,1,
+arbusto2
+3,8,1,1,1,3,
+arbusto2
+4,10,1,1,11,1,
+tronco2_copiar
+12,9,2,1,1,1,
 
-tronco2_copiar
-0,0,2,1,11,1,
-tronco2_copiar
-0,1,1,1,1,19,
 tronco_copia
 1,19,1,1,21,1,
 tronco_copia

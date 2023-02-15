@@ -202,12 +202,12 @@ void StageState::Resume(){
 void StageState::LoadWalls(std::string file) {
 	std::ifstream maptxt;
 	char comma;
-	int wallAmmount;
-	maptxt.open(file);
-	maptxt >> wallAmmount;
-	int x,y,sizex,sizey,ammountx,ammounty;
-	int i;
+	int x, y, sizex, sizey, ammountx, ammounty;
 	std::string name;
+	maptxt.open(file);
+	/*int wallAmmount;
+	maptxt >> wallAmmount;
+	int i;
 	//std::cout << "trying to load walls\n";
 	for (i = 0; i < wallAmmount; i++) {
 		maptxt >> name >> x >> comma >> y >> comma >> sizex >> comma >> sizey >> comma >> ammountx >> comma >> ammounty >> comma;
@@ -220,6 +220,18 @@ void StageState::LoadWalls(std::string file) {
 				AddObject(wall);
 			}
 		}
+	}*/
+
+	while (maptxt >> name) {
+		maptxt >> x >> comma >> y >> comma >> sizex >> comma >> sizey >> comma >> ammountx >> comma >> ammounty >> comma;
+		for (int w = 0; w < ammountx; w++) {
+			for (int z = 0; z < ammounty; z++) {
+				GameObject* wall = new GameObject();
+				Wall* newwall = new Wall((*wall), { x + (w*sizex),y + (z*sizey) }, 64, sizex, sizey, "Recursos/img/" + name + ".png");
+				wall->AddComponent(newwall);
+				AddObject(wall);
+			}
+		}
 	}
 	maptxt.close();
 	return;
@@ -228,17 +240,36 @@ void StageState::LoadWalls(std::string file) {
 void StageState::LoadPickups(std::string file) {
 	std::ifstream maptxt;
 	char comma;
-	int pickAmmount;
-	maptxt.open(file);
-	maptxt >> pickAmmount;
 	int x, y;
-	int i;
 	std::string name;
 	Pickup::Type type;
+	maptxt.open(file);
+	/*maptxt >> pickAmmount;
+	int i;
 	//std::cout << "trying to load walls\n";
 	for (i = 0; i < pickAmmount; i++) {
 		maptxt >> name >> x >> comma >> y >> comma;
 		//std::cout << "trying to load " + name + " at " << x << " " << y << " sized " << sizex << " " << sizey << " in quantity " << ammountx << " " << ammounty << "\n";
+		if (name == "MUFFLE") {
+			type = Pickup::MUFFLE;
+		}
+		else if (name == "HEALTH") {
+			type = Pickup::HEALTH;
+		}
+		else if (name == "SPEEDBOOST") {
+			type = Pickup::SPEEDBOOST;
+		}
+		else if (name == "DASH") {
+			type = Pickup::DASH;
+		}
+		GameObject* pickup = new GameObject();
+		Pickup* newpickup = new Pickup((*pickup), { x,y }, type, 64);
+		pickup->AddComponent(newpickup);
+		AddObject(pickup);
+	}*/
+
+	while (maptxt >> name) {
+		maptxt >> x >> comma >> y >> comma;
 		if (name == "MUFFLE") {
 			type = Pickup::MUFFLE;
 		}

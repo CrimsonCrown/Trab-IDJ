@@ -1,5 +1,3 @@
-5
-
 HEALTH
 4,2,
 MUFFLE

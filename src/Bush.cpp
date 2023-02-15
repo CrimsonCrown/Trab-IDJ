@@ -20,7 +20,7 @@ Bush::Bush(GameObject& associated, TileCoords position, float tileSize, int size
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/arbusto1.png");
+	Sprite* newspr = new Sprite((associated), "Recursos/img/arbusto3_achatado.png");
 	newspr->SetScaleX((tileSize/associated.box.w)*sizex, (tileSize / associated.box.h)*sizey);
 	associated.AddComponent(newspr);
 	associated.box.x = position.Location(tileSize).x;
