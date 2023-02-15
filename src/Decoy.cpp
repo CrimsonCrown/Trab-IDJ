@@ -6,7 +6,8 @@
 Decoy::Decoy(GameObject& associated, float tileSize) : Component(associated){
     this->tileSize = tileSize;
     noiseRadius = 5;
-    std::string sprite = "Recursos/img/minion.png";
+    std::string spriteArray[] = {"Recursos/img/Chamariz_1.png", "Recursos/img/Chamariz_2.png", "Recursos/img/Chamariz_3.png", "Recursos/img/Chamariz_4.png"};
+    std::string sprite = spriteArray[rand() % 4];
     float lifespan = 10;
 	Sprite* newspr=new Sprite((associated), sprite, 1, 1, 1, lifespan);
     newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
