@@ -1,5 +1,5 @@
 1,5
-19,17
+26,6
 tileMap1
 wallMap
 pickupMap

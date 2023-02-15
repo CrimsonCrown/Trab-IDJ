@@ -16,7 +16,7 @@ void Camera::Update(float dt){
 	InputManager& input=InputManager::GetInstance();
 	if(focus!=nullptr){
 		pos.x=(focus->box.x-(1024/2))+focus->box.w/2;
-		pos.y=(focus->box.y-(600/2))+focus->box.h/2;
+		pos.y=(focus->box.y-(576/2))+focus->box.h/2;
 	}
 	else{
 		speed.x=0;
