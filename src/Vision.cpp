@@ -3,6 +3,7 @@
 #include "Mushroom.h"
 #include "AIModule.h"
 #include "SightRay.h"
+#include "SightView.h"
 
 Vision::Vision(GameObject& associated, float tileSize, float range, float angle) : Component(associated) {
 	this->tileSize = tileSize;
@@ -96,6 +97,15 @@ bool Vision::Is(std::string type) {
 		return true;
 	}
 	return false;
+}
+
+void Vision::Start() {
+	//visualizador
+	GameObject* sightview = new GameObject();
+	SightView* newview = new SightView((*sightview), Game::GetInstance().GetCurrentState().GetObjectPtr(&associated), angle, range*tileSize);
+	sightview->AddComponent(newview);
+	Game::GetInstance().GetCurrentState().AddObject(sightview);
+	return;
 }
 
 void Vision::Blocked(){

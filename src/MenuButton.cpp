@@ -25,10 +25,10 @@ void MenuButton::Update(float dt){
 		}
 		if (InputManager::GetInstance().MousePress(SDL_BUTTON_LEFT)) {
 			//std::cout << "beep!\n";
-			if (bt == PLAY) {
+			if (bt == PLAY || bt == PLAYENDWIN || bt == PLAYENDLOSE) {
 				playButton = true;
 			}
-			else if (bt == EXIT) {
+			else if (bt == EXIT || bt == EXITENDWIN || bt == EXITENDLOSE) {
 				exitButton = true;
 			}
 		}
@@ -55,10 +55,22 @@ bool MenuButton::Is(std::string type){
 
 std::string MenuButton::GetSprite() {
 	if (bt == PLAY) {
-		return "Recursos/img/deertrial.png";
+		return "Recursos/img/botaoJogar.png";
 	}
 	else if (bt == EXIT) {
-		return "Recursos/img/rattrial.png";
+		return "Recursos/img/botaoSair.png";
+	}
+	else if (bt == PLAYENDWIN) {
+		return "Recursos/img/botaoVitoria1.png";
+	}
+	else if (bt == EXITENDWIN) {
+		return "Recursos/img/botaoVitoria2.png";
+	}
+	else if (bt == PLAYENDLOSE) {
+		return "Recursos/img/botaoDerrota1.png";
+	}
+	else if (bt == EXITENDLOSE) {
+		return "Recursos/img/botaoDerrota2.png";
 	}
 	return "";
 }

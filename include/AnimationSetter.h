@@ -24,14 +24,18 @@ public:
 	void Render();
 	bool Is(std::string type);
 	void SetIdle();
+	void SetIdleUp();
+	void SetIdleDown();
 	void SetIdleLeft();
 	void SetIdleRight();
+	void SetRunUp();
+	void SetRunDown();
 	void SetRunLeft();
 	void SetRunRight();
 	void UpdateSpeed(float newspeed);
 private:
 	void LoadIndexes(std::string name);
-	int indexes[2][2][2];
+	int indexes[4][2][2];
 	int frames;
 	float tileSpeed;
 	int state1;

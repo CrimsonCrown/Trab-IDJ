@@ -117,11 +117,11 @@ void AIModule::ChangeDirection(float newdir) {
 		}
 		else if (facingDirection > 3 * (PI / 8) && facingDirection < 5 * (PI / 8)) {
 			//baixo
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunRight();
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunDown();
 		}
 		else if (facingDirection > 11 * (PI / 8) && facingDirection < 13 * (PI / 8)) {
 			//cima
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunUp();
 		}
 	}
 	//facingDirection = newdir;

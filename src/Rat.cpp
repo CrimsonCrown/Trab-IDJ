@@ -13,7 +13,7 @@
 Rat::Rat(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands) : Component(associated) {
 	//cria sprite
 	//Sprite* newspr = new Sprite((associated), "Recursos/img/Veado_transparente.png");
-	Sprite* newspr = new Sprite((associated), "Recursos/img/rattrial.png", 4, 2, 1, 0, 1, 0, 0);
+	Sprite* newspr = new Sprite((associated), "Recursos/img/rattrial.png", 4, 4, 1, 0, 1, 0, 0);
 	newspr->SetScaleX((tileSize / associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//AI

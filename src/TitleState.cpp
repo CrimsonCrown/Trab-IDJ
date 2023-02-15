@@ -15,12 +15,13 @@ TitleState::TitleState(){
 	popRequested=false;
 	//background
 	GameObject* bg=new GameObject();
-	Sprite* newspr=new Sprite((*bg),"Recursos/img/title.jpg");
+	Sprite* newspr=new Sprite((*bg),"Recursos/img/Tela_menu.png");
+	newspr->SetScaleX((1024 / bg->box.w), (576 / bg->box.h));
 	CameraFollower* newflwr=new CameraFollower(*bg);
 	bg->AddComponent(newspr);
 	bg->AddComponent(newflwr);
 	AddObject(bg);
-	//text
+	/*//text
 	GameObject* text=new GameObject();
 	Text* newtxt=new Text((*text),"Recursos/font/Call me maybe.ttf", 100, Text::TextStyle::SOLID, "Press Space To Start", {255,255,255,255}, 1);
 	text->AddComponent(newtxt);
@@ -28,15 +29,15 @@ TitleState::TitleState(){
 	//text->AddComponent(newflwr2);
 	text->box.y=Camera::pos.y+400;
 	text->box.x=Camera::pos.x+40;
-	AddObject(text);
+	AddObject(text);*/
 	//play button
 	GameObject* pbutton = new GameObject();
-	MenuButton* newpbutton = new MenuButton((*pbutton), 800, 200, 120, 60, MenuButton::Type::PLAY);
+	MenuButton* newpbutton = new MenuButton((*pbutton), (1124.0/1920.0)*1024.0, (450.0/1080.0)*576.0, (300.0/1920.0)*1024.0, (115.0/1080.0)*576.0, MenuButton::Type::PLAY);
 	pbutton->AddComponent(newpbutton);
 	AddObject(pbutton);
 	//exit button
 	GameObject* ebutton = new GameObject();
-	MenuButton* newebutton = new MenuButton((*ebutton), 800, 280, 120, 60, MenuButton::Type::EXIT);
+	MenuButton* newebutton = new MenuButton((*ebutton), (1124.0 / 1920.0)*1024.0, (615.0 / 1080.0)*576.0, (300.0 / 1920.0)*1024.0, (115.0 / 1080.0)*576.0, MenuButton::Type::EXIT);
 	ebutton->AddComponent(newebutton);
 	AddObject(ebutton);
 	return;
