@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Collider.h"
 #include "Mushroom.h"
+#include "Decoy.h"
 
 Skill::Skill(GameObject& associated, Type st, std::weak_ptr<GameObject> player) : Component(associated){
 	this->player = player;
@@ -26,6 +27,9 @@ void Skill::Update(float dt){
 				active = false;
 			}
 			else if (st == DASH) {
+				active = false;
+			}
+			else if (st == DECOY) {
 				active = false;
 			}
 		}
@@ -67,6 +71,13 @@ void Skill::Use(){
 			else	
 				return;
 		}
+		else if (st == DECOY) {
+			GameObject* decoy = new GameObject();
+			decoy->AddComponent(new Decoy(*decoy, 64));
+			decoy->box.x = playerpointer->box.x;
+			decoy->box.y = playerpointer->box.y;
+			Game::GetInstance().GetCurrentState().AddObject(decoy);
+		}
 		cdtimer.Restart();
 		drtimer.Restart();
 		active = true;
@@ -83,6 +94,9 @@ float Skill::GetCooldown(){
 	}
 	else if (st == DASH) {
 		return 5;
+	}
+	else if (st == DECOY) {
+		return 15;
 	}
 	return 0;
 }
@@ -107,6 +121,9 @@ float Skill::GetDuration(){
 	else if (st == SPEEDBOOST) {
 		return 5;
 	}
+	else if (st == DECOY) {
+		return 0;
+	}
 	return 0;
 }
 
@@ -119,6 +136,9 @@ std::string Skill::GetSprite(){
 	}
 	else if (st == DASH) {
 		return "Recursos/img/Icon_Dash.png";
+	}
+	else if (st == DECOY) {
+		return "Recursos/img/Icon_chamariz.png";
 	}
 	return "";
 }
