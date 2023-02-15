@@ -19,7 +19,7 @@ EndGate::EndGate(GameObject& associated, float tileSize, TileCoords initialPosit
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/saida.png", 1, 1);
+	Sprite* newspr = new Sprite((associated), "Recursos/img/Saida.png", 1, 1);
 	newspr->SetScaleX((tileSize/associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//cria alterador de sprites
