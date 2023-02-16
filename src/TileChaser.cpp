@@ -14,6 +14,7 @@ TileChaser::TileChaser(GameObject& associated, float tileSize, float tileSpeed) 
 }
 
 void TileChaser::Update(float dt) {
+	lookTimer.Update(dt);
 	if (state == RESTING) {
 		if (destinationType == SIGHT || destinationType == HEARING || destinationType == SMELL || destinationType == PATROL) {
 			if (needspath) {
@@ -22,7 +23,14 @@ void TileChaser::Update(float dt) {
 				needspath = false;
 			}
 			if (path.empty()) {
-				destinationType = LOST;
+				if (destinationType == PATROL) {
+					destinationType = LOST;
+				}
+				else {
+					destinationType = LOOKING;
+					lookedDir = 0;
+					lookTimer.Restart();
+				}
 				((AIModule*)associated.GetComponent("AIModule"))->Stop();
 				//std::cout << "no path yet\n";
 			}
@@ -34,39 +42,21 @@ void TileChaser::Update(float dt) {
 				Vec2 offset = nextPos.Center(tileSize).Sub(associated.box.Center());
 				((AIModule*)associated.GetComponent("AIModule"))->ChangeDirection(offset.Incline());
 			}
-			/*
-			bool moved = false;
-			Vec2 offset={0,0};
-			nextPos = TileCoords(associated.box.Center(), tileSize);
-			TileCoords dif = destination.Sub(nextPos);
-			//alters offset
-			if (dif.y <= -1) {
-				nextPos.y -= 1;
-				offset.y-=1;
-				moved = true;
+		}
+		else if (destinationType==LOOKING){
+			if (lookTimer.Get() >= 1) {
+				lookTimer.Restart();
+				lookedDir++;
+				if (lookedDir==1) {
+					((AIModule*)associated.GetComponent("AIModule"))->ShiftDirection(PI/2);
+				}
+				else if (lookedDir == 2) {
+					((AIModule*)associated.GetComponent("AIModule"))->ShiftDirection(PI);
+				}
+				else if (lookedDir == 3) {
+					destinationType = LOST;
+				}
 			}
-			if (dif.y >= 1) {
-				nextPos.y += 1;
-				offset.y+=1;
-				moved = true;
-			}
-			if (dif.x <= -1) {
-				nextPos.x -= 1;
-				offset.x-=1;
-				moved = true;
-			}
-			if (dif.x >= 1) {
-				nextPos.x += 1;
-				offset.x+=1;
-				moved = true;
-			}
-			if (moved) {
-				state = MOVING;
-				((AIModule*)associated.GetComponent("AIModule"))->ChangeDirection(offset.Incline());
-			}
-			else {
-				destinationType = LOST;
-			}*/
 		}
 	}
 	if (state == MOVING) {
@@ -174,7 +164,7 @@ void TileChaser::Smell(TileCoords location) {
 }
 
 void TileChaser::Route(TileCoords location) {
-	if (destinationType != SIGHT && destinationType != HEARING && destinationType != SMELL) {
+	if (destinationType != SIGHT && destinationType != HEARING && destinationType != SMELL && destinationType != LOOKING) {
 		if(destinationType == PATROL){
 			if(destination.x!=location.x||destination.y!=location.y){
 				destinationType = PATROL;

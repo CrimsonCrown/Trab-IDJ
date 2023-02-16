@@ -101,30 +101,57 @@ float AIModule::FacingDirection() {
 	return facingDirection;
 }
 
-void AIModule::ChangeDirection(float newdir) {
+void AIModule::ChangeDirection(float newdir, bool moving) {
 	facingDirection = newdir;
 	if (animations) {
 		if (facingDirection < 0) {
 			facingDirection += 2*PI;
 		}
+		else if (facingDirection > 2 * PI) {
+			facingDirection -= 2 * PI;
+		}
 		if (facingDirection > 13 * (PI / 8) || facingDirection < 3 * (PI / 8)) {
 			//direita
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunRight();
+			if (moving) {
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunRight();
+			}
+			else {
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdleRight();
+			}
 		}
 		else if (facingDirection > 5 * (PI / 8) && facingDirection < 11 * (PI / 8)) {
 			//esquerda
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+			if (moving) {
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunLeft();
+			}
+			else {
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdleLeft();
+			}
 		}
 		else if (facingDirection > 3 * (PI / 8) && facingDirection < 5 * (PI / 8)) {
 			//baixo
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunDown();
+			if (moving) {
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunDown();
+			}
+			else {
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdleDown();
+			}
 		}
 		else if (facingDirection > 11 * (PI / 8) && facingDirection < 13 * (PI / 8)) {
 			//cima
-			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunUp();
+			if (moving) {
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetRunUp();
+			}
+			else {
+				((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdleUp();
+			}
 		}
 	}
 	//facingDirection = newdir;
+}
+
+void AIModule::ShiftDirection(float newdir, bool moving) {
+	ChangeDirection(facingDirection + newdir, moving);
 }
 
 void AIModule::Stop() {

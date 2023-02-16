@@ -35,7 +35,8 @@ public:
 	void Smell(Vec2 location);
 	void Route(TileCoords location);
 	float FacingDirection();
-	void ChangeDirection(float newdir);
+	void ChangeDirection(float newdir, bool moving=true);
+	void ShiftDirection(float newdir, bool moving=false);
 	void Stop();
 private:
 	float facingDirection;

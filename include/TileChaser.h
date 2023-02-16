@@ -30,7 +30,7 @@ public:
 	void Route(TileCoords location);
 private:
 	enum MovementState { MOVING, RESTING };
-	enum PerceptionState { SIGHT, HEARING, SMELL, PATROL, LOST };
+	enum PerceptionState { SIGHT, HEARING, SMELL, LOOKING, PATROL, LOST };
 	MovementState state;
 	PerceptionState destinationType;
 	TileCoords destination;
@@ -39,6 +39,8 @@ private:
 	bool needspath;
 	float tileSize;
 	float tileSpeed;
+	int lookedDir;
+	Timer lookTimer;
 };
 
 #endif
