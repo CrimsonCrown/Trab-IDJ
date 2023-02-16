@@ -6,6 +6,7 @@
 #include "PatrolSchedule.h"
 #include "Hearing.h"
 #include "AnimationSetter.h"
+#include "HearingView.h"
 
 AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection) : Component(associated) {
 	this->tileSize = tileSize;
@@ -157,5 +158,10 @@ void AIModule::ShiftDirection(float newdir, bool moving) {
 void AIModule::Stop() {
 	if (animations) {
 		((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdle();
+	}
+}
+void AIModule::Spooked() {
+	if (hearing) {
+		((HearingView*)((Hearing*)associated.GetComponent("Hearing"))->GetViewer().lock()->GetComponent("HearingView"))->Play();
 	}
 }

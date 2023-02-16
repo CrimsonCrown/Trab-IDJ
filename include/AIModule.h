@@ -38,6 +38,7 @@ public:
 	void ChangeDirection(float newdir, bool moving=true);
 	void ShiftDirection(float newdir, bool moving=false);
 	void Stop();
+	void Spooked();
 private:
 	float facingDirection;
 	float tileSize;

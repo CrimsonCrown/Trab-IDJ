@@ -5,6 +5,7 @@
 #include "SightRay.h"
 #include "Noise.h"
 #include "Collider.h"
+#include "HearingView.h"
 
 Hearing::Hearing(GameObject& associated, float sensibility) : Component(associated) {
 	this->sensibility = sensibility;
@@ -35,4 +36,17 @@ void Hearing::NotifyCollision(GameObject& other){
 		}
 	}
 	return;
+}
+
+void Hearing::Start() {
+	//visualizador
+	GameObject* hearview = new GameObject();
+	HearingView* newview = new HearingView((*hearview), Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
+	hearview->AddComponent(newview);
+	viewer=Game::GetInstance().GetCurrentState().AddObject(hearview);
+	return;
+}
+
+std::weak_ptr<GameObject> Hearing::GetViewer() {
+	return viewer;
 }

@@ -149,6 +149,9 @@ void TileChaser::See(TileCoords location) {
 
 void TileChaser::Hear(TileCoords location) {
 	if (destinationType != SIGHT) {
+		if (destinationType != HEARING) {
+			((AIModule*)associated.GetComponent("AIModule"))->Spooked();
+		}
 		destinationType = HEARING;
 		destination = location;
 		needspath = true;
