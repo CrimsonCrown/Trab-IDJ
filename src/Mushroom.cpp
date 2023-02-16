@@ -37,6 +37,7 @@ Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPos
 	oldskills = skilltypes;
 	invencibility = false;
 	blocked=false;
+	posReset = false;
 	return;
 }
 
@@ -56,6 +57,9 @@ void Mushroom::Start() {
 }
 
 void Mushroom::Update(float dt) {
+	deathTimer.Update(dt);
+	blockTimer.Update(dt);
+	replaceTimer.Update(dt);
 	if(!blocked){
 		if (InputManager::GetInstance().KeyPress(SDLK_i)) {
 			if (currentskills >= 1) {
@@ -88,6 +92,20 @@ void Mushroom::Update(float dt) {
 	else{
 		if(blockTimer.Get()>3){
 			blocked=false;
+			invencibility = false;
+			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdleLeft();
+			((Sprite*)associated.GetComponent("Sprite"))->SetAnim(0, 0, 1);
+		}
+	}
+	if (posReset) {
+		if (replaceTimer.Get() > 2) {
+			Place(initialPosition);
+			posReset = false;
+		}
+	}
+	if (hp <= 0) {
+		if (deathTimer.Get() > 2) {
+			associated.RequestDelete();
 		}
 	}
 	return;
@@ -117,10 +135,19 @@ void Mushroom::NotifyCollision(GameObject& other) {
 			explosion->AddComponent(newsnd);
 			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
 			Game::GetInstance().GetCurrentState().AddObject(explosion);
-			associated.RequestDelete();
+			deathTimer.Restart();
+			blockTimer.Restart();
+			blocked = true;
+			invencibility = true;
+			((Sprite*)associated.GetComponent("Sprite"))->SetAnim(1, 1, 1);
 		}
 		else{
-			Place(initialPosition);
+			blocked = true;
+			blockTimer.Restart();
+			invencibility = true;
+			posReset = true;
+			replaceTimer.Restart();
+			((Sprite*)associated.GetComponent("Sprite"))->SetAnim(1, 1, 1);
 		}
 	}
 	Pickup* pickup = (Pickup*)(other.GetComponent("Pickup"));
@@ -217,4 +244,8 @@ void Mushroom::AddSkill(Skill::Type type) {
 		SkillBar::bar->AddIcon(currentskills);
 	}
 	currentskills++;
+}
+
+bool Mushroom::Blocked() {
+	return blocked;
 }

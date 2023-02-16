@@ -12,6 +12,9 @@ TileMover::TileMover(GameObject& associated, float tileSize) : Component(associa
 }
 
 void TileMover::Update(float dt) {
+	if (((Mushroom*)associated.GetComponent("Mushroom"))->Blocked()) {
+		return;
+	}
 	if (state == RESTING) {
 		Vec2 offset = { 0,0 };
 		bool moved = false;
@@ -34,9 +37,11 @@ void TileMover::Update(float dt) {
 			moved = true;
 		}
 		if (moved) {
-			TileCoords coords(associated.box.Center(), tileSize);
-			if (NavMap::map->Legal(coords, offset)) {
-				legal = true;
+			if (offset.x != 0 || offset.y != 0) {
+				TileCoords coords(associated.box.Center(), tileSize);
+				if (NavMap::map->Legal(coords, offset)) {
+					legal = true;
+				}
 			}
 		}
 		if (legal) {
