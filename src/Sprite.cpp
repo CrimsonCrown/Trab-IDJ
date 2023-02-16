@@ -36,6 +36,7 @@ Sprite::Sprite(GameObject& associated, std::string file, int frameCount, int ani
 	currentFrame=0;
 	timeElapsed=0;
 	Open(file);
+	SetFrame(firstFrame);
 	return;
 }
 

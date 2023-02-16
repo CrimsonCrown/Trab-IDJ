@@ -24,7 +24,9 @@ public:
 	bool Is(std::string type);
 	Vec2 GetOrigin();
 	float GetRadius();
+	const float duration = 0.4;
 private:
+	float dtacc;
 	Vec2 origin;
 	float radius;
 };
