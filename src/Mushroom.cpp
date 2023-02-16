@@ -35,9 +35,10 @@ Mushroom::Mushroom(GameObject& associated, float tileSize, TileCoords initialPos
 	tileSpeed = 2;
 	Place(initialPosition);
 	oldskills = skilltypes;
-	invencibility = false;
-	blocked=false;
-	posReset = false;
+	invencibility = true;
+	blocked=true;
+	posReset = true;
+	((Sprite*)associated.GetComponent("Sprite"))->SetAnim(1, 1, 1);
 	return;
 }
 
@@ -90,7 +91,7 @@ void Mushroom::Update(float dt) {
 		}
 	}
 	else{
-		if(blockTimer.Get()>3){
+		if(blockTimer.Get()>=3){
 			blocked=false;
 			invencibility = false;
 			((AnimationSetter*)associated.GetComponent("AnimationSetter"))->SetIdleLeft();
@@ -98,13 +99,20 @@ void Mushroom::Update(float dt) {
 		}
 	}
 	if (posReset) {
-		if (replaceTimer.Get() > 2) {
+		if (replaceTimer.Get() >= 2) {
 			Place(initialPosition);
 			posReset = false;
+			//sprite de volar pro inicio
+			GameObject* explosion = new GameObject();
+			Sprite* newspr = new Sprite((*explosion), "Recursos/img/Certo_Saindo_buraco.png", 4, 3, 1.0 / 5.0, 1, 1, 0, 5);
+			newspr->SetScaleX((tileSize / explosion->box.w), (tileSize / explosion->box.h));
+			explosion->AddComponent(newspr);
+			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Game::GetInstance().GetCurrentState().AddObject(explosion);
 		}
 	}
 	if (hp <= 0) {
-		if (deathTimer.Get() > 2) {
+		if (deathTimer.Get() > 1) {
 			associated.RequestDelete();
 		}
 	}
@@ -127,19 +135,18 @@ void Mushroom::NotifyCollision(GameObject& other) {
 		hp -= 1;
 		if (hp <= 0) {
 			Camera::Unfollow();
-			GameObject* explosion = new GameObject();
-			Sprite* newspr = new Sprite((*explosion), "Recursos/img/penguindeath.png", 5, 1, 0.4, 2, 1, 0, 4);
-			explosion->AddComponent(newspr);
-			Sound* newsnd = new Sound((*explosion), "Recursos/audio/boom.wav");
-			newsnd->Play();
-			explosion->AddComponent(newsnd);
-			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
-			Game::GetInstance().GetCurrentState().AddObject(explosion);
 			deathTimer.Restart();
 			blockTimer.Restart();
 			blocked = true;
 			invencibility = true;
 			((Sprite*)associated.GetComponent("Sprite"))->SetAnim(1, 1, 1);
+			//sprite de morrer
+			GameObject* explosion = new GameObject();
+			Sprite* newspr = new Sprite((*explosion), "Recursos/img/Certo_morte.png", 4, 3, 1.0 / 6.0, 2, 1, 0, 6);
+			newspr->SetScaleX((tileSize / explosion->box.w), (tileSize / explosion->box.h));
+			explosion->AddComponent(newspr);
+			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Game::GetInstance().GetCurrentState().AddObject(explosion);
 		}
 		else{
 			blocked = true;
@@ -148,7 +155,19 @@ void Mushroom::NotifyCollision(GameObject& other) {
 			posReset = true;
 			replaceTimer.Restart();
 			((Sprite*)associated.GetComponent("Sprite"))->SetAnim(1, 1, 1);
+			//sprite de tomar dano
+			GameObject* explosion = new GameObject();
+			Sprite* newspr = new Sprite((*explosion), "Recursos/img/Certo_dano.png", 4, 3, 2.0 / 11.0, 2, 1, 0, 10);
+			newspr->SetScaleX((tileSize / explosion->box.w), (tileSize / explosion->box.h));
+			explosion->AddComponent(newspr);
+			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Game::GetInstance().GetCurrentState().AddObject(explosion);
 		}
+	}
+	if ((other.GetComponent("EndGate") != nullptr) && other.box.CenterDist(associated.box) < 0.5*tileSize) {
+		blocked=true;
+		blockTimer.Restart();
+		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(1, 1, 1);
 	}
 	Pickup* pickup = (Pickup*)(other.GetComponent("Pickup"));
 	if(pickup != nullptr){

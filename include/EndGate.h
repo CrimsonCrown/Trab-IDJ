@@ -29,6 +29,8 @@ public:
 	void NotifyCollision(GameObject& other);
 	void Place(TileCoords position);
 private:
+	bool endset;
+	Timer endTimer;
 	float tileSize;
 };
 

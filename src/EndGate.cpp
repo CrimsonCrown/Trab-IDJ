@@ -26,6 +26,7 @@ EndGate::EndGate(GameObject& associated, float tileSize, TileCoords initialPosit
 	//outros atributos
 	this->tileSize = tileSize;
 	Place(initialPosition);
+	endset = false;
 	return;
 }
 
@@ -35,6 +36,12 @@ EndGate::~EndGate() {
 }
 
 void EndGate::Update(float dt) {
+	endTimer.Update(dt);
+	if (endset) {
+		if (endTimer.Get() >= 1) {
+			ending = true;
+		}
+	}
 	return;
 }
 
@@ -51,7 +58,17 @@ bool EndGate::Is(std::string type) {
 
 void EndGate::NotifyCollision(GameObject& other) {
 	if (other.GetComponent("Mushroom") != nullptr&&other.box.CenterDist(associated.box)<0.5*tileSize) {
-		ending = true;
+		if (!endset) {
+			endset = true;
+			endTimer.Restart();
+			//sprite de pular no buraco
+			GameObject* explosion = new GameObject();
+			Sprite* newspr = new Sprite((*explosion), "Recursos/img/Certo_Entrando_buraco.png", 4, 3, 1.0 / 5.0, 2, 1, 0, 4);
+			newspr->SetScaleX((tileSize / explosion->box.w), (tileSize / explosion->box.h));
+			explosion->AddComponent(newspr);
+			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Game::GetInstance().GetCurrentState().AddObject(explosion);
+		}
 	}
 	return;
 }
