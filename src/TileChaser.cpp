@@ -44,7 +44,7 @@ void TileChaser::Update(float dt) {
 			}
 		}
 		else if (destinationType==LOOKING){
-			if (lookTimer.Get() >= 1) {
+			if (lookTimer.Get() >= 0.7) {
 				lookTimer.Restart();
 				lookedDir++;
 				if (lookedDir==1) {
