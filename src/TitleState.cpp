@@ -8,6 +8,7 @@
 #include "Text.h"
 #include "Camera.h"
 #include "MenuButton.h"
+#include "TutorialState.h"
 
 TitleState::TitleState(){
 	started=false;
@@ -37,9 +38,14 @@ TitleState::TitleState(){
 	AddObject(pbutton);
 	//exit button
 	GameObject* ebutton = new GameObject();
-	MenuButton* newebutton = new MenuButton((*ebutton), (1124.0 / 1920.0)*1024.0, (615.0 / 1080.0)*576.0, (300.0 / 1920.0)*1024.0, (115.0 / 1080.0)*576.0, MenuButton::Type::EXIT);
+	MenuButton* newebutton = new MenuButton((*ebutton), (1124.0 / 1920.0)*1024.0, (780.0 / 1080.0)*576.0, (300.0 / 1920.0)*1024.0, (115.0 / 1080.0)*576.0, MenuButton::Type::EXIT);
 	ebutton->AddComponent(newebutton);
 	AddObject(ebutton);
+	//tutorial button
+	GameObject* tbutton = new GameObject();
+	MenuButton* newtbutton = new MenuButton((*tbutton), (1124.0 / 1920.0)*1024.0, (615.0 / 1080.0)*576.0, (300.0 / 1920.0)*1024.0, (115.0 / 1080.0)*576.0, MenuButton::Type::TUTORIAL);
+	tbutton->AddComponent(newtbutton);
+	AddObject(tbutton);
 	return;
 }
 
@@ -75,6 +81,11 @@ void TitleState::Update(float dt){
 		MenuButton::playButton = false;
 		Game& game=Game::GetInstance();
 		game.Push(new StageState());
+	}
+	if (MenuButton::tutorialButton) {
+		MenuButton::tutorialButton = false;
+		Game& game = Game::GetInstance();
+		game.Push(new TutorialState());
 	}
 	Camera::pos.x=0;
 	Camera::pos.y=0;

@@ -3,6 +3,9 @@
 
 bool MenuButton::playButton=false;
 bool MenuButton::exitButton=false;
+bool MenuButton::nextButton = false;
+bool MenuButton::backButton = false;
+bool MenuButton::tutorialButton = false;
 
 MenuButton::MenuButton(GameObject& associated, int x, int y, int sizex, int sizey, Type bt) : Component(associated){
 	this->bt = bt;
@@ -30,6 +33,15 @@ void MenuButton::Update(float dt){
 			}
 			else if (bt == EXIT || bt == EXITENDWIN || bt == EXITENDLOSE) {
 				exitButton = true;
+			}
+			else if (bt == TUTORIAL) {
+				tutorialButton = true;
+			}
+			else if (bt == NEXT) {
+				nextButton = true;
+			}
+			else if (bt == BACK) {
+				backButton = true;
 			}
 		}
 	}
@@ -71,6 +83,15 @@ std::string MenuButton::GetSprite() {
 	}
 	else if (bt == EXITENDLOSE) {
 		return "Recursos/img/botaoDerrota2.png";
+	}
+	else if (bt == TUTORIAL) {
+		return "Recursos/img/botaoOutros.png";
+	}
+	else if (bt == NEXT) {
+		return "Recursos/img/botaoOutros.png";
+	}
+	else if (bt == BACK) {
+		return "Recursos/img/botaoOutros.png";
 	}
 	return "";
 }
