@@ -27,7 +27,6 @@ public:
 private:
 	Vec2 origin;
 	float radius;
-	bool todie;
 };
 
 #endif

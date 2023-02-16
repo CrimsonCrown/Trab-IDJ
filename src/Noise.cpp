@@ -7,23 +7,19 @@
 Noise::Noise(GameObject& associated, Vec2 origin, float radius) : Component(associated){
 	Collider* newcol=new Collider(associated);
 	associated.AddComponent(newcol);
+	//cria sprite
+	Sprite* newspr = new Sprite((associated), "Recursos/img/Sound_complete.png", 4, 1, 0.1, 0.4, 1, 0, 3);
+	associated.AddComponent(newspr);
 	this->origin=origin;
 	this->radius=radius;
 	associated.box.w=radius*2;
 	associated.box.h=radius*2;
 	associated.box.x=origin.x-radius;
 	associated.box.y=origin.y-radius;
-	todie=false;
 	return;
 }
 
 void Noise::Update(float dt){
-	if(todie){
-		associated.RequestDelete();
-	}
-	else{
-		todie=true;
-	}
 }
 
 void Noise::Render(){
