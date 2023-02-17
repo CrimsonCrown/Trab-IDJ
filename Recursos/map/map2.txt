@@ -1,9 +1,9 @@
-1,6
-36,6
+2,6
+37,6
 tileMap2
 wallMap2
-pickupmapmaze
+pickupMap2
 patrolMap2
-objectMap
-spriteMap
+objectMap2
+spriteMap2
 END
