@@ -5,4 +5,5 @@ wallMap2
 pickupmapmaze
 patrolMap2
 objectMap
+spriteMap
 END

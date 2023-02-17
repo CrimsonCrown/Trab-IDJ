@@ -55,9 +55,9 @@ StageState::StageState(std::string mapfile, bool oldplayer, int oldhp, std::vect
 	std::ifstream maptxt;
 	char comma;
 	int x,y,ex,ey;
-	std::string tiles,walls,pickups,enemies,objects,next;
+	std::string tiles,walls,pickups,enemies,objects,sprites,next;
 	maptxt.open(mapfile);
-	maptxt >> x >> comma >> y >> ex >> comma >> ey >> tiles >> walls >> pickups >> enemies >> objects >> next;
+	maptxt >> x >> comma >> y >> ex >> comma >> ey >> tiles >> walls >> pickups >> enemies >> objects >> sprites >> next;
 	maptxt.close();
 	nextStage = next;
 
@@ -94,6 +94,8 @@ StageState::StageState(std::string mapfile, bool oldplayer, int oldhp, std::vect
 	}
 	//objects
 	LoadObjects("Recursos/map/"+objects+".txt");
+	//sprites
+	LoadSprites("Recursos/map/" + sprites + ".txt");
 	//end file
 	//health bar
 	GameObject* hpbar=new GameObject();
@@ -368,5 +370,31 @@ void StageState::LoadObjects(std::string name) {
 		}
 	}
 	objectstxt.close();
+	return;
+}
+
+void StageState::LoadSprites(std::string file) {
+	std::ifstream maptxt;
+	char comma;
+	int x, y, sizex, sizey, ammountx, ammounty;
+	std::string name;
+	maptxt.open(file);
+
+	while (maptxt >> name) {
+		maptxt >> x >> comma >> y >> comma >> sizex >> comma >> sizey >> comma >> ammountx >> comma >> ammounty >> comma;
+		for (int w = 0; w < ammountx; w++) {
+			for (int z = 0; z < ammounty; z++) {
+				//cria sprite
+				GameObject* sprite = new GameObject();
+				Sprite* newspr = new Sprite((*sprite), "Recursos/img/" + name + ".png", 1, 1, 1000, 0, 1, 0, 0);
+				newspr->SetScaleX((sizex*64 / sprite->box.w), (sizey*64 / sprite->box.h));
+				sprite->box.x = (x*64) + (w*sizex*64);
+				sprite->box.y = (y*64) + (z*sizey*64);
+				sprite->AddComponent(newspr);
+				AddObject(sprite);
+			}
+		}
+	}
+	maptxt.close();
 	return;
 }

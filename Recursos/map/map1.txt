@@ -5,4 +5,5 @@ wallMap
 pickupMap
 patrolmap
 objectMap
+spriteMap
 map2
