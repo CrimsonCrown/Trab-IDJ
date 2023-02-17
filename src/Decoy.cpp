@@ -17,9 +17,9 @@ Decoy::Decoy(GameObject& associated, float tileSize) : Component(associated){
 
 void Decoy::Update(float dt){
     timer.Update(dt);
-    if (timer.Get() >= 1.5) {    
+    if (timer.Get() >= 2) {    
         GameObject* noise=new GameObject();
-        Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*noiseRadius);
+        Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*noiseRadius, "Recursos/audio/Chamariz_bom.mp3");
         noise->AddComponent(newnoise);
         Game::GetInstance().GetCurrentState().AddObject(noise);
         timer.Restart();

@@ -1,15 +1,20 @@
 #include "Noise.h"
 #include "Collider.h"
 #include "Game.h"
+#include "Mushroom.h"
 
 #define PI 3.1415926
 
-Noise::Noise(GameObject& associated, Vec2 origin, float radius) : Component(associated){
+Noise::Noise(GameObject& associated, Vec2 origin, float radius, std::string soundfile) : Component(associated){
 	Collider* newcol=new Collider(associated);
 	associated.AddComponent(newcol);
 	//cria sprite
 	Sprite* newspr = new Sprite((associated), "Recursos/img/Sound_complete.png", 4, 1, duration/3.0, duration, 1, 1, 3);
 	associated.AddComponent(newspr);
+	//cria som
+	Sound* newsnd = new Sound((associated), soundfile);
+	newsnd->Play();
+	associated.AddComponent(newsnd);
 	dtacc = 0;
 	this->origin=origin;
 	this->radius=radius;

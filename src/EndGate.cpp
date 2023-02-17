@@ -63,10 +63,13 @@ void EndGate::NotifyCollision(GameObject& other) {
 			endTimer.Restart();
 			//sprite de pular no buraco
 			GameObject* explosion = new GameObject();
-			Sprite* newspr = new Sprite((*explosion), "Recursos/img/Certo_Entrando_buraco.png", 4, 3, 1.0 / 5.0, 2, 1, 0, 4);
+			Sprite* newspr = new Sprite((*explosion), "Recursos/img/Certo_Entrando_buraco.png", 4, 3, 1.0 / 5.0, 2, 1, 0, 5);
 			newspr->SetScaleX((tileSize / explosion->box.w), (tileSize / explosion->box.h));
 			explosion->AddComponent(newspr);
 			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Sound* newsnd = new Sound((*explosion), "Recursos/audio/entrando_no_buraco.mp3");
+			newsnd->Play(0);
+			explosion->AddComponent(newsnd);
 			Game::GetInstance().GetCurrentState().AddObject(explosion);
 		}
 	}

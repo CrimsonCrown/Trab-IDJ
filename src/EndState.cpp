@@ -42,8 +42,7 @@ EndState::EndState(){
 		ebutton->AddComponent(newebutton);
 		AddObject(ebutton);
 		//music
-		backgroundMusic.Open("Recursos/audio/endStateWin.ogg");
-		backgroundMusic.Play();
+		backgroundMusic.Open("Recursos/audio/Vitoria.mp3");
 	}
 	else{
 		//background
@@ -74,8 +73,7 @@ EndState::EndState(){
 		ebutton->AddComponent(newebutton);
 		AddObject(ebutton);
 		//music
-		backgroundMusic.Open("Recursos/audio/endStateLose.ogg");
-		backgroundMusic.Play();
+		backgroundMusic.Open("Recursos/audio/Derrota.mp3");
 	}
 	return;
 }
@@ -124,6 +122,7 @@ void EndState::Render(){
 }
 
 void EndState::Start(){
+	backgroundMusic.Play(1);
 	LoadAssets();
 	StartArray();
 	started=true;

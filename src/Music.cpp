@@ -39,6 +39,6 @@ bool Music::IsOpen(){
 }
 
 Music::~Music(){
-	Stop();
+	Stop(0);
 	return;
 }

@@ -31,6 +31,9 @@ public:
 	void Pause();
 	void Resume();
 private:
+	Music music;
+	bool playing;
+	bool stage;
 };
 
 #endif

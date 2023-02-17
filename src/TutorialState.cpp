@@ -41,9 +41,6 @@ TutorialState::TutorialState(int page){
 	MenuButton* newebutton = new MenuButton((*ebutton), (200.0 / 1920.0)*1024.0, (200.0 / 1080.0)*576.0, (420.0 / 1920.0)*1024.0, (150.0 / 1080.0)*576.0, MenuButton::Type::EXIT);
 	ebutton->AddComponent(newebutton);
 	AddObject(ebutton);
-	//music
-	//backgroundMusic.Open("Recursos/audio/endStateWin.ogg");
-	//backgroundMusic.Play();
 	return;
 }
 

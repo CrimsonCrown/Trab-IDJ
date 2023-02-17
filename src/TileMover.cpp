@@ -86,8 +86,15 @@ void TileMover::Update(float dt) {
 		if (associated.box.Center().DistTo(destination) == 0) {
 			state = RESTING;
 			//faz barulho
+			std::string soundfile;
+			if (Mushroom::player->TileSpeed() > 2) {
+				soundfile = "Recursos/audio/correndo_pra_cacete.mp3";
+			}
+			else {
+				soundfile = "Recursos/audio/walk-sound-fungo-bungos.mp3";
+			}
 			GameObject* noise=new GameObject();
-			Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*Mushroom::player->NoiseRadius());
+			Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*Mushroom::player->NoiseRadius(), soundfile);
 			noise->AddComponent(newnoise);
 			Game::GetInstance().GetCurrentState().AddObject(noise);
 		}
@@ -108,7 +115,7 @@ void TileMover::Update(float dt) {
 			Mushroom::player->SetInvencibility(false);
 			//faz barulho alto
 			GameObject* noise=new GameObject();
-			Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*Mushroom::player->NoiseRadius() * 2);
+			Noise* newnoise=new Noise((*noise), associated.box.Center(), tileSize*Mushroom::player->NoiseRadius() * 2, "Recursos/audio/correndo_pra_cacete.mp3");
 			noise->AddComponent(newnoise);
 			Game::GetInstance().GetCurrentState().AddObject(noise);
 		}

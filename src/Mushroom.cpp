@@ -146,6 +146,9 @@ void Mushroom::NotifyCollision(GameObject& other) {
 			newspr->SetScaleX((tileSize / explosion->box.w), (tileSize / explosion->box.h));
 			explosion->AddComponent(newspr);
 			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Sound* newsnd = new Sound((*explosion), "Recursos/audio/hit-cogumelo.wav");
+			newsnd->Play(0);
+			explosion->AddComponent(newsnd);
 			Game::GetInstance().GetCurrentState().AddObject(explosion);
 		}
 		else{
@@ -161,6 +164,9 @@ void Mushroom::NotifyCollision(GameObject& other) {
 			newspr->SetScaleX((tileSize / explosion->box.w), (tileSize / explosion->box.h));
 			explosion->AddComponent(newspr);
 			explosion->box = explosion->box.Add(associated.box.Center().Sub(explosion->box.Center()));
+			Sound* newsnd = new Sound((*explosion), "Recursos/audio/hit-cogumelo.wav");
+			newsnd->Play(0);
+			explosion->AddComponent(newsnd);
 			Game::GetInstance().GetCurrentState().AddObject(explosion);
 		}
 	}
@@ -168,6 +174,7 @@ void Mushroom::NotifyCollision(GameObject& other) {
 		blocked=true;
 		blockTimer.Restart();
 		((Sprite*)associated.GetComponent("Sprite"))->SetAnim(1, 1, 1);
+		invencibility = true;
 	}
 	Pickup* pickup = (Pickup*)(other.GetComponent("Pickup"));
 	if(pickup != nullptr){

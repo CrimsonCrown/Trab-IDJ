@@ -34,7 +34,17 @@ StageState::StageState(std::string mapfile, bool oldplayer, int oldhp, std::vect
 	bg->AddComponent(newspr);
 	AddObject(bg);
 	//music
-	music.Open("Recursos/audio/stageState.ogg");
+	music.Open("Recursos/audio/Tema_durante_o_jogo.mp3");
+	//barulho inicial
+	GameObject* bgin = new GameObject();
+	//cria som
+	Sound* newsnd = new Sound((*bgin), "Recursos/audio/cervo-grito-inicio.mp3");
+	newsnd->Play(0);
+	bgin->AddComponent(newsnd);
+	newsnd = new Sound((*bgin), "Recursos/audio/ambiente-som-maluco.mp3");
+	newsnd->Play(-1);
+	bgin->AddComponent(newsnd);
+	AddObject(bgin);
 	//navigation
 	GameObject* navigation = new GameObject();
 	NavMap* newnavmap = new NavMap((*navigation),64,100,100);
@@ -56,6 +66,11 @@ StageState::StageState(std::string mapfile, bool oldplayer, int oldhp, std::vect
 	TileMap* mapping=new TileMap((*map),"Recursos/map/"+tiles+".txt", tileSet);
 	map->AddComponent(mapping);
 	AddObject(map);
+	//end gate
+	GameObject* endgate = new GameObject();
+	EndGate* newgate = new EndGate((*endgate), 64, { ex,ey });
+	endgate->AddComponent(newgate);
+	AddObject(endgate);
 	//walls
 	LoadWalls("Recursos/map/"+walls+".txt");
 	//pickup
@@ -77,11 +92,6 @@ StageState::StageState(std::string mapfile, bool oldplayer, int oldhp, std::vect
 		Camera::Follow(shroom);
 		AddObject(shroom);
 	}
-	//end gate
-	GameObject* endgate = new GameObject();
-	EndGate* newgate = new EndGate((*endgate), 64, { ex,ey });
-	endgate->AddComponent(newgate);
-	AddObject(endgate);
 	//objects
 	LoadObjects("Recursos/map/"+objects+".txt");
 	//end file

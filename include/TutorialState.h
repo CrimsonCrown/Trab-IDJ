@@ -34,7 +34,6 @@ public:
 private:
 	int page;
 	std::string GetSprite();
-	Music backgroundMusic;
 };
 
 #endif

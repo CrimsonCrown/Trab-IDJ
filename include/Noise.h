@@ -18,7 +18,7 @@
 
 class Noise : public Component{
 public:
-	Noise(GameObject& associated, Vec2 origin, float radius);
+	Noise(GameObject& associated, Vec2 origin, float radius, std::string soundfile= "Recursos/audio/walk-sound-fungo-bungos.mp3");
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);

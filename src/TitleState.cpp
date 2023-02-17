@@ -22,6 +22,9 @@ TitleState::TitleState(){
 	bg->AddComponent(newspr);
 	bg->AddComponent(newflwr);
 	AddObject(bg);
+	//music
+	music.Open("Recursos/audio/Menu.mp3");
+	playing = false;
 	/*//text
 	GameObject* text=new GameObject();
 	Text* newtxt=new Text((*text),"Recursos/font/Call me maybe.ttf", 100, Text::TextStyle::SOLID, "Press Space To Start", {255,255,255,255}, 1);
@@ -79,13 +82,17 @@ void TitleState::Update(float dt){
 	}
 	if(InputManager::GetInstance().KeyPress(SDLK_SPACE)||MenuButton::playButton){
 		MenuButton::playButton = false;
+		music.Stop(0);
+		playing = false;
 		Game& game=Game::GetInstance();
 		game.Push(new StageState());
+		stage = true;
 	}
 	if (MenuButton::tutorialButton) {
 		MenuButton::tutorialButton = false;
 		Game& game = Game::GetInstance();
 		game.Push(new TutorialState());
+		stage = false;
 	}
 	Camera::pos.x=0;
 	Camera::pos.y=0;
@@ -99,6 +106,8 @@ void TitleState::Render(){
 }
 
 void TitleState::Start(){
+	music.Play();
+	playing = true;
 	LoadAssets();
 	StartArray();
 	started=true;
@@ -106,9 +115,17 @@ void TitleState::Start(){
 }
 
 void TitleState::Pause(){
+	if (playing&&stage) {
+		music.Stop(0);
+		playing = false;
+	}
 	return;
 }
 
 void TitleState::Resume(){
+	if (!playing) {
+		music.Play();
+		playing = true;
+	}
 	return;
 }
