@@ -25,20 +25,20 @@ TutorialState::TutorialState(int page){
 	//next button
 	if (page < maxpages) {
 		GameObject* nbutton = new GameObject();
-		MenuButton* newnbutton = new MenuButton((*nbutton), (1200.0 / 1920.0)*1024.0, (730.0 / 1080.0)*576.0, (420.0 / 1920.0)*1024.0, (150.0 / 1080.0)*576.0, MenuButton::Type::NEXT);
+		MenuButton* newnbutton = new MenuButton((*nbutton), (7437.0 / 8000.0)*1024.0, (2000.0 / 4500.0)*576.0, (500.0 / 8000.0)*1024.0, (500.0 / 4500.0)*576.0, MenuButton::Type::NEXT);
 		nbutton->AddComponent(newnbutton);
 		AddObject(nbutton);
 	}
 	//back button
 	if (page > 1) {
 		GameObject* bbutton = new GameObject();
-		MenuButton* newbbutton = new MenuButton((*bbutton), (200.0 / 1920.0)*1024.0, (730.0 / 1080.0)*576.0, (420.0 / 1920.0)*1024.0, (150.0 / 1080.0)*576.0, MenuButton::Type::BACK);
+		MenuButton* newbbutton = new MenuButton((*bbutton), (63.0 / 8000.0)*1024.0, (2000.0 / 4500.0)*576.0, (500.0 / 8000.0)*1024.0, (500.0 / 4500.0)*576.0, MenuButton::Type::BACK);
 		bbutton->AddComponent(newbbutton);
 		AddObject(bbutton);
 	}
 	//exit button
 	GameObject* ebutton = new GameObject();
-	MenuButton* newebutton = new MenuButton((*ebutton), (200.0 / 1920.0)*1024.0, (200.0 / 1080.0)*576.0, (420.0 / 1920.0)*1024.0, (150.0 / 1080.0)*576.0, MenuButton::Type::EXIT);
+	MenuButton* newebutton = new MenuButton((*ebutton), (150.0 / 8000.0)*1024.0, (100.0 / 4500.0)*576.0, (325.0 / 8000.0)*1024.0, (325.0 / 4500.0)*576.0, MenuButton::Type::EXITTUTORIAL);
 	ebutton->AddComponent(newebutton);
 	AddObject(ebutton);
 	return;
@@ -112,14 +112,8 @@ void TutorialState::Resume(){
 
 
 std::string TutorialState::GetSprite() {
-	if (page==1) {
-		return "Recursos/img/win.jpg";
-	}
-	if (page == 2) {
-		return "Recursos/img/title.jpg";
-	}
-	if (page == 3) {
-		return "Recursos/img/lose.jpg";
-	}
-	return "";
+	/*if (page==1) {
+		return "Recursos/img/T1.png";
+	}*/
+	return "Recursos/img/T"+std::to_string(page)+".png";
 }

@@ -11,7 +11,6 @@ SightView::SightView(GameObject& associated, std::weak_ptr<GameObject> eyeCenter
 		imagefile = "Recursos/img/120arc.png";
 	}
 	else {
-		std::cout << arcSize << "\n";
 		imagefile = "Recursos/img/90arc.png";
 	}
 	Sprite* newspr=new Sprite((associated),imagefile);

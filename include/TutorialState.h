@@ -30,7 +30,7 @@ public:
 	void Start();
 	void Pause();
 	void Resume();
-	static const int maxpages = 3;
+	static const int maxpages = 6;
 private:
 	int page;
 	std::string GetSprite();

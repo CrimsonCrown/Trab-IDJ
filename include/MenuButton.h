@@ -16,7 +16,7 @@
 
 class MenuButton : public Component{
 public:
-	enum Type { PLAY, PLAYENDWIN, PLAYENDLOSE, EXIT, EXITENDWIN, EXITENDLOSE, TUTORIAL, NEXT, BACK};
+	enum Type { PLAY, PLAYENDWIN, PLAYENDLOSE, EXIT, EXITENDWIN, EXITENDLOSE, EXITTUTORIAL, TUTORIAL, NEXT, BACK};
 	MenuButton(GameObject& associated, int x, int y, int sizex, int sizey, Type bt);
 	void Update(float dt);
 	void Render();
