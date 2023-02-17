@@ -17,10 +17,12 @@ Vision::Vision(GameObject& associated, float tileSize, float range, float angle)
 void Vision::Update(float dt) {
 	Vec2 dif = Mushroom::player->Position().Sub(associated.box.Center());
 	seeing=false;
-	if (waitingCollision && !Mushroom::player->Blocked()) {
+	if (waitingCollision) {
 		waitingCollision=false;
-		((AIModule*)associated.GetComponent("AIModule"))->See(positionSeen);
-		seeing=true;
+		if (!Mushroom::player->Blocked()) {
+			((AIModule*)associated.GetComponent("AIModule"))->See(positionSeen);
+			seeing = true;
+		}
 	}
 	if (dif.Magnitude() <= (range*tileSize)) {
 		float direction = ((AIModule*)associated.GetComponent("AIModule"))->FacingDirection();
