@@ -4,18 +4,24 @@
 #include "Mushroom.h"
 #include "TileChaser.h"
 #include "PatrolSchedule.h"
+#include "VisionPatrol.h"
+#include "VisionChaser.h"
 #include "Hearing.h"
 #include "AnimationSetter.h"
 #include "HearingView.h"
+#include "Screamer.h"
 
 AIModule::AIModule(GameObject& associated, float tileSize, float facingDirection) : Component(associated) {
 	this->tileSize = tileSize;
 	this->facingDirection = facingDirection;
 	vision = false;
 	chaser = false;
+	visionChaser = false;
 	patrol = false;
+	visionPatrol = false;
 	hearing = false;
 	animations = false;
+	screamer = false;
 	return;
 }
 
@@ -50,10 +56,34 @@ void AIModule::AddChaser(float tileSpeed) {
 	}
 }
 
+void AIModule::AddVisionChaser(float tileSpeed, float range) {
+	if (visionChaser == false) {
+		visionChaser = true;
+		VisionChaser* newchaser = new VisionChaser((associated), tileSize, tileSpeed, range);
+		associated.AddComponent(newchaser);
+	}
+}
+
+void AIModule::AddScreamer(float noiseRadius) {
+	if (screamer == false) {
+		screamer = true;
+		Screamer* newscreamer = new Screamer(associated, noiseRadius);
+		associated.AddComponent(newscreamer);
+	}
+}
+
 void AIModule::AddPatrol(std::vector<PatrolCommand> commands) {
 	if (patrol == false) {
 		patrol = true;
 		PatrolSchedule* newpatrol = new PatrolSchedule((associated), tileSize, commands);
+		associated.AddComponent(newpatrol);
+	}
+}
+
+void AIModule::AddVisionPatrol(std::vector<AngleCommand> commands) {
+	if (visionPatrol == false) {
+		visionPatrol = true;
+		VisionPatrol* newpatrol = new VisionPatrol(associated, tileSize, commands);
 		associated.AddComponent(newpatrol);
 	}
 }
@@ -78,6 +108,12 @@ void AIModule::See(Vec2 location) {
 	if (chaser == true) {
 		((TileChaser*)associated.GetComponent("TileChaser"))->See(TileCoords(location, tileSize));
 	}
+	else if (visionChaser == true) {
+		((VisionChaser*)associated.GetComponent("VisionChaser"))->See(associated.box.Center().Incline(location));
+		if (screamer == true) {
+			((Screamer*)associated.GetComponent("Screamer"))->CreateNoise(location);
+		}
+	}
 }
 
 void AIModule::Hear(Vec2 location) {
@@ -95,6 +131,11 @@ void AIModule::Smell(Vec2 location) {
 void AIModule::Route(TileCoords location) {
 	if (chaser == true) {
 		((TileChaser*)associated.GetComponent("TileChaser"))->Route(location);
+	}
+}
+void AIModule::SeeRoute(float angle) {
+	if (visionPatrol == true) {
+		((VisionChaser*)associated.GetComponent("VisionChaser"))->SeeRoute(angle);
 	}
 }
 

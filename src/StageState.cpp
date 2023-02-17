@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "Enemy.h"
 #include "Rat.h"
+#include "Owl.h"
 #include "HealthBar.h"
 #include "NavMap.h"
 #include "Wall.h"
@@ -299,6 +300,7 @@ void StageState::LoadPickups(std::string file) {
 
 void StageState::LoadPatrols(std::string name) {
 	std::vector<PatrolCommand> commands;
+	std::vector<AngleCommand> angleCommands;
 	std::ifstream patroltxt;
 	char comma;
 	int patrolAmmount;
@@ -310,12 +312,25 @@ void StageState::LoadPatrols(std::string name) {
 		int x,y;
 		float waittime;
 		PatrolCommand cx;
+		AngleCommand ac;
+		Vec2 center;
 		int i;
 		for (i = 0; i < patrolAmmount; i++) {
 			patroltxt >> x >> comma >> y >> comma >> waittime;
 			cx.location = {x, y};
 			cx.waitTime = waittime;
 			commands.push_back(cx); 
+			
+			if (patrolname == "owl") {
+				if (i == 0) { // Primeiro é sempre a posição inicial da coruja
+					center = Vec2(x, y);
+				}
+				else {
+					ac.angle = Vec2(x, y).Incline();
+					ac.waitTime = waittime;
+					angleCommands.push_back(ac);
+				}
+			}
 		}
 		if (patrolname == "enemy") {
 			GameObject* enemy = new GameObject();
@@ -332,6 +347,14 @@ void StageState::LoadPatrols(std::string name) {
 			enemy->box.x = commands.front().location.x * 64;
 			enemy->box.y = commands.front().location.y * 64;
 			AddObject(enemy);
+		}
+		if (patrolname == "owl") {
+			GameObject* owl = new GameObject();
+			Owl* newowl = new Owl((*owl), 64, angleCommands);
+			owl->AddComponent(newowl);
+			owl->box.x = center.x;
+			owl->box.y = center.y;
+			AddObject(owl);
 		}
 		commands.clear();
 	}

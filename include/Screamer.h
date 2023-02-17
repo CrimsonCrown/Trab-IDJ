@@ -1,5 +1,5 @@
-#ifndef OWL_INCLUDE
-#define OWL_INCLUDE
+#ifndef SCREAMER_INCLUDE
+#define SCREAMER_INCLUDE
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
@@ -15,18 +15,17 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Sprite.h"
-#include "PatrolSchedule.h"
-#include "VisionChaser.h"
-#include "VisionPatrol.h"
 
-class Owl : public Component {
+class Screamer : public Component{
 public:
-	Owl(GameObject& associated, float tileSize, std::vector<AngleCommand> commands);
-	void Start();
+	Screamer(GameObject& associated, float noiseRadius);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
+    void CreateNoise(Vec2 position);
 private:
+	bool seeing;
+    float noiseRadius;
 };
 
 #endif

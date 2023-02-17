@@ -2,9 +2,10 @@
 #include "Game.h"
 #include "Mushroom.h"
 #include "AIModule.h"
+#include "VisionChaser.h"
 #include <fstream>
 
-VisionPatrol::VisionPatrol(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands) : Component(associated) {
+VisionPatrol::VisionPatrol(GameObject& associated, float tileSize, std::vector<AngleCommand> commands) : Component(associated) {
 	this->tileSize=tileSize;
 	this->commands = commands;
 	maxCommands = commands.size();
@@ -26,13 +27,12 @@ void VisionPatrol::Update(float dt) {
 		}
 	}
 	if(!there) {
-		//if (associated.box.Center().x == commands[currentCommand].location.x && associated.box.Center().y == commands[currentCommand].location.y) {
-		if ((abs(associated.box.Center().x - commands[currentCommand].location.Center(tileSize).x) <(tileSize*0.1) ) && (abs(associated.box.Center().y - commands[currentCommand].location.Center(tileSize).y)<(tileSize*0.1))) {
+		if (((AIModule* )associated.GetComponent("AIModule"))->FacingDirection() - commands[currentCommand].angle < 0.1) {
 			there = true;
 			timeElapsed.Restart();
 		}
 		else {
-			((AIModule*)associated.GetComponent("AIModule"))->Route(commands[currentCommand].location);
+			((AIModule*)associated.GetComponent("AIModule"))->SeeRoute(commands[currentCommand].angle);
 		}
 	}
 }
@@ -44,11 +44,10 @@ void VisionPatrol::Render() {
 	SDL_Point* points=(SDL_Point*)malloc(np*sizeof(SDL_Point));
 
 	for (int i = 0; i < maxCommands; i++) {
-		point = commands[i].location.Center(tileSize).Sub(Camera::pos);
+		point = associated.box.Center().Add(Vec2(1,1).Rotate(commands[currentCommand].angle).Mul(64*3)).Sub(Camera::pos);
 		points[i] = { (int)point.x, (int)point.y };
 
 	}
-	point = commands[0].location.Center(tileSize).Sub(Camera::pos);
 	points[maxCommands] = { (int)point.x, (int)point.y };
 
 	/*point = associated.box.Center().Add(Vec2(tileSize*range,0).Rotate(direction)).Sub(Camera::pos);

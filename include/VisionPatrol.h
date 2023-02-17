@@ -17,16 +17,20 @@
 #include "Sprite.h"
 #include "Minion.h"
 #include "TileCoords.h"
-#include "PatrolSchedule.h"
+class AngleCommand {
+public:
+	float angle;
+	float waitTime;
+};
 
 class VisionPatrol : public Component {
 public:
-	VisionPatrol(GameObject& associated, float tileSize, std::vector<PatrolCommand> commands);
+	VisionPatrol(GameObject& associated, float tileSize, std::vector<AngleCommand> commands);
 	void Update(float dt);
 	void Render();
 	bool Is(std::string type);
 private:
-	std::vector<PatrolCommand> commands;
+	std::vector<AngleCommand> commands;
 	int maxCommands;
 	int currentCommand;
 	Timer timeElapsed;
