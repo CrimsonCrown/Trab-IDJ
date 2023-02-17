@@ -13,7 +13,7 @@ SkillBar::SkillBar(GameObject& associated) : Component(associated) {
 	CameraFollower* newflwr=new CameraFollower(associated,origin.x,origin.y);
 	associated.AddComponent(newflwr);
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/minion.png");
+	Sprite* newspr = new Sprite((associated), "Recursos/img/Fundo.png");
 	newspr->SetRepeats(Mushroom::maxskills);
 	newspr->SetScaleX((64/associated.box.w), (64 / associated.box.h));
 	associated.AddComponent(newspr);

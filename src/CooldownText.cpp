@@ -19,7 +19,7 @@ CooldownText::CooldownText(GameObject& associated, Vec2 position, int index) : C
 	CameraFollower* newflwr = new CameraFollower(associated, position.x, position.y);
 	associated.AddComponent(newflwr);
 	//cria text
-	Text* newtxt = new Text((associated), "Recursos/font/AsapCondensed-BoldItalic.ttf", 30, Text::TextStyle::SOLID, "", { 255,255,255,255 });
+	Text* newtxt = new Text((associated), "Recursos/font/AsapCondensed-BoldItalic.ttf", 15, Text::TextStyle::SOLID, "", { 255,255,255,255 });
 	associated.AddComponent(newtxt);
 	return;
 }
