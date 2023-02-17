@@ -10,7 +10,7 @@
 
 Owl::Owl(GameObject& associated, float tileSize, std::vector<AngleCommand> commands) : Component(associated) {
 	//cria sprite
-	Sprite* newspr = new Sprite((associated), "Recursos/img/coruja.png", 4, 4, 1, 0, 1, 0, 0);
+	Sprite* newspr = new Sprite((associated), "Recursos/img/coruja.png", 4, 1, 1, 0, 1, 0, 0);
 	newspr->SetScaleX((tileSize / associated.box.w), (tileSize / associated.box.h));
 	associated.AddComponent(newspr);
 	//AI
@@ -18,7 +18,7 @@ Owl::Owl(GameObject& associated, float tileSize, std::vector<AngleCommand> comma
 	newai->AddVision(1.1, (PI/2));
 	newai->AddVisionPatrol(commands);
 	newai->AddVisionChaser(1.2, 3*tileSize);
-	newai->AddAnimations(2, "Recursos/animations/keyframes_coruja_copiar.txt");
+	newai->AddAnimations(2, "Recursos/animations/owlanims.txt");
 	associated.AddComponent(newai);
 	Collider* newcol = new Collider((associated));
 	associated.AddComponent(newcol);

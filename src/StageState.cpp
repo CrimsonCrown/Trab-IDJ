@@ -352,8 +352,8 @@ void StageState::LoadPatrols(std::string name) {
 			GameObject* owl = new GameObject();
 			Owl* newowl = new Owl((*owl), 64, angleCommands);
 			owl->AddComponent(newowl);
-			owl->box.x = center.x;
-			owl->box.y = center.y;
+			owl->box.x = center.x * 64;
+			owl->box.y = center.y * 64;
 			AddObject(owl);
 		}
 		commands.clear();
