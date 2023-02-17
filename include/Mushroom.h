@@ -31,7 +31,7 @@ public:
 	Vec2 Position();
 	void Place(TileCoords position);
 	int GetHp();
-	static const int maxskills=3;
+	static const int maxskills=5;
 	int currentskills;
 	void Muffle();
 	void Amplify();

@@ -89,6 +89,24 @@ void Mushroom::Update(float dt) {
 				}
 			}
 		}
+		if (InputManager::GetInstance().KeyPress(SDLK_k)) {
+			if (currentskills >= 4) {
+				//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
+				std::shared_ptr<GameObject> skilltouse = skills[3].lock();
+				if (skilltouse != nullptr) {
+					((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+				}
+			}
+		}
+		if (InputManager::GetInstance().KeyPress(SDLK_l)) {
+			if (currentskills >= 5) {
+				//((Skill*)(skills[0].lock()->GetComponent("Skill")))->Use();
+				std::shared_ptr<GameObject> skilltouse = skills[5].lock();
+				if (skilltouse != nullptr) {
+					((Skill*)(skilltouse->GetComponent("Skill")))->Use();
+				}
+			}
+		}
 	}
 	else{
 		if(blockTimer.Get()>=3){
