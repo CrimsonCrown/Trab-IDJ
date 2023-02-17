@@ -3,13 +3,16 @@
 #include "Collider.h"
 #include "AIModule.h"
 
+#define PI 3.1415926
+
 SightView::SightView(GameObject& associated, std::weak_ptr<GameObject> eyeCenter, float arcSize, float range) : Component(associated){
 	std::string imagefile;
-	if (arcSize == (PI / 3) * 2) {
+	if (arcSize - (PI / 3.0) * 2.0 < 0.1 && arcSize - (PI / 3.0) * 2.0 > -0.1) {
 		imagefile = "Recursos/img/120arc.png";
 	}
 	else {
-		imagefile = "Recursos/img/120arc.png";
+		std::cout << arcSize << "\n";
+		imagefile = "Recursos/img/90arc.png";
 	}
 	Sprite* newspr=new Sprite((associated),imagefile);
 	float scalebalance = (range / associated.box.w);

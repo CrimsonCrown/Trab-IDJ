@@ -17,7 +17,7 @@ Vision::Vision(GameObject& associated, float tileSize, float range, float angle)
 void Vision::Update(float dt) {
 	Vec2 dif = Mushroom::player->Position().Sub(associated.box.Center());
 	seeing=false;
-	if(waitingCollision){
+	if (waitingCollision && !Mushroom::player->Blocked()) {
 		waitingCollision=false;
 		((AIModule*)associated.GetComponent("AIModule"))->See(positionSeen);
 		seeing=true;
